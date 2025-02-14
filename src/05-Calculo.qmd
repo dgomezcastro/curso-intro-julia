@@ -1,0 +1,207 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Paquetes de cálculo científico"
+author: "David Gómez-Castro"
+format:
+  clean-revealjs:
+    output-file: 05-slides.html
+---
+
+:::{.hidden}
+```{julia}
+using Pkg
+Pkg.activate(".")
+```
+:::
+
+# [SciML](https://docs.sciml.ai/Overview/stable/)
+
+ SciML is the combination of scientific computing techniques with machine learning
+
+![](Material/sciml.svg)
+
+
+## [Ecuaciones Diferenciales](https://docs.sciml.ai/DiffEqDocs/stable/)
+
+[Resolución de EDOs](https://docs.sciml.ai/DiffEqDocs/stable/getting_started/)
+
+```{julia}
+using DifferentialEquations
+f(u,p,t) = 1.01*u
+u0 = 1/2
+tspan = (0.0,1.0)
+prob = ODEProblem(f,u0,tspan)
+sol = solve(prob, Tsit5(), reltol=1e-8, abstol=1e-8)
+
+using Plots
+plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
+     xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
+plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
+```
+
+## [ModelingToolkit.jl](https://docs.sciml.ai/ModelingToolkit/stable/)
+
+> ModelingToolkit.jl is a modeling language for high-performance symbolic-numeric computation in scientific computing and scientific machine learning. It then mixes ideas from symbolic computational algebra systems with causal and acausal equation-based modeling frameworks to give an extendable and parallel modeling system. It allows for users to give a high-level description of a model for symbolic preprocessing to analyze and enhance the model. Automatic symbolic transformations, such as index reduction of differential-algebraic equations, make it possible to solve equations that are impossible to solve with a purely numeric-based technique.
+
+## `ModelingToolkit.jl` una capa más sobre DifferentialEquations
+
+```{julia}
+using ModelingToolkit: t_nounits as t, D_nounits as D
+
+@mtkmodel FOL begin
+    @parameters begin
+        τ = 3.0 # parameters
+    end
+    @variables begin
+        x(t) = 0.0 # dependent variables
+    end
+    @equations begin
+        D(x) ~ (1 - x) / τ
+    end
+end
+
+using OrdinaryDiffEq
+@mtkbuild fol = FOL()
+prob = ODEProblem(fol, [], (0.0, 10.0), [])
+sol = solve(prob)
+
+using Plots
+plot(sol)
+```
+
+--- 
+
+[Vídeo con un ejemplo industrial](https://www.youtube.com/watch?v=ChwKqrH8OQU)
+
+## [JumpProcesses.jl](https://docs.sciml.ai/JumpProcesses/stable/)
+
+## [FeNICS.jl](https://docs.sciml.ai/FEniCS/stable/)
+
+> FEniCS.jl is a wrapper for the FEniCS library for finite element discretizations of PDEs. This wrapper includes three parts:
+
+> Installation and direct access to FEniCS via a Conda installation. Alternatively one may use their current FEniCS installation.
+A low-level development API and provides some functionality to make directly dealing with the library a little bit easier, but still requires knowledge of FEniCS itself. Interfaces have been provided for the main functions and their attributes, and instructions to add further ones can be found here.
+A high-level API for usage with DifferentialEquations. An example can be seen solving the heat equation with high order adaptive timestepping.
+
+# Ecuaciones en Derivadas Parciales
+
+## [Gridap.jl](https://github.com/gridap/Gridap.jl)
+
+> Gridap provides a set of tools for the grid-based approximation of partial differential equations (PDEs) written in the Julia programming language. The main motivation behind the development of this library is to provide an easy-to-use framework for the development of complex PDE solvers in a dynamically typed style without sacrificing the performance of statically typed languages. The library currently supports linear and nonlinear PDE systems for scalar and vector fields, single and multi-field problems, conforming and nonconforming finite element discretizations, on structured and unstructured meshes of simplices and hexahedra.
+
+It has a very reach [library of worked examples](https://gridap.github.io/Tutorials/dev/pages/t001_poisson/)
+
+
+## [JuliaFEM](http://www.juliafem.org/JuliaFEM.jl/stable/)
+
+The JuliaFEM project develops open-source software for reliable, scalable, distributed Finite Element Method.
+
+
+# Optimización: [JuMP.jl](https://jump.dev/JuMP.jl/stable/)
+
+> JuMP is a domain-specific modeling language for mathematical optimization embedded in Julia. It currently supports a number of open-source and commercial solvers for a variety of problem classes, including linear, mixed-integer, second-order conic, semidefinite, and nonlinear programming.
+
+> JuMP is a package for Julia. From Julia, JuMP is installed by using the built-in package manager.
+
+```{julia} 
+#| eval: false 
+import Pkg
+Pkg.add("JuMP")
+```
+
+> You also need to include a Julia package which provides an appropriate solver. One such solver is HiGHS.Optimizer, which is provided by the HiGHS.jl package.
+
+```{julia} 
+#| eval: false 
+import Pkg
+Pkg.add("HiGHS")
+```
+
+## [Ejemplo](https://jump.dev/JuMP.jl/stable/tutorials/getting_started/getting_started_with_JuMP/#Step-by-step)
+
+## Limitaciones y alternativas
+
+> Even if your problem is differentiable, if it is unconstrained there is limited benefit (and downsides in the form of more overhead) to using JuMP over tools which are only concerned with function minimization.
+
+## Otras opciones
+
+* [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl)
+* [Optimization.jl](https://optimization.sciml.ai/stable/)
+* [NLopt.jl](https://github.com/JuliaOpt/NLopt.jl)
+
+# Cálculo simbólico
+
+## [Symbolics.jl](https://symbolics.juliasymbolics.org/dev/)
+
+```{julia}
+#| output-location: column
+using Symbolics
+@variables x y
+```
+
+. . .
+
+```{julia}
+#| output-location: column
+z = x^2 + y
+```
+
+. . .
+
+```{julia}
+#| output-location: column
+simplify(2x + 2y)
+```
+
+### Derivadas
+
+```{julia}
+#| output-location: column
+@variables t g(t)
+Dt = Differential(t)
+```
+
+. . .
+
+```{julia}
+expression = expand_derivatives(Dt(t*g))
+```
+
+. . .
+
+```{julia}
+expr2 = substitute(expression, Dict([g => t]))
+```
+
+. . .
+
+```{julia}
+expand_derivatives( expr2 )
+```
+
+### Limitaciones
+
+There is a list available of [known missing features](https://github.com/JuliaSymbolics/Symbolics.jl/issues/59).
+
+## [SymPy.jl](http://sympy.org/)
+
+> SymPy is a Python library for symbolic mathematics.
+
+This package is a wrapper using PyCall
+
+> With the excellent PyCall package of julia, one has access to the many features of the SymPy library from within a Julia session.
+
+It requires Python to run in the background. To install it sometimes it is needed to make a few 
+```{julia}
+#| eval: false 
+using Pkg
+Pkg.add("Conda") #  if needed
+using Conda
+Conda.update()
+```
+
+> The only point to this package is that using PyCall to access SymPy is somewhat cumbersome.
+
+
+
+## [Symbolics.jl vs Sympy.jl](https://symbolics.juliasymbolics.org/dev/comparison/)

@@ -1,0 +1,13 @@
+{
+    "editor.wrappingIndent": "same",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "notebook.formatOnSave.enabled": true,
+    "[julia]": {
+        "notebook.defaultFormatter": "julialang.language-julia",
+        "editor.defaultFormatter": "julialang.language-julia"
+    },
+    "[quarto]": {
+        "editor.defaultFormatter": "quarto.quarto",
+    }
+}

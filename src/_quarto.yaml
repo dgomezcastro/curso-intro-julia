@@ -1,0 +1,83 @@
+title: "Aggregation-diffusion equations with non-linear mobility"
+subtitle: "Seminar, NTNU, Trondheim"
+date:  19 February 2025
+author: 
+  - name: "David Gómez-Castro"
+    orcid: 0000-0001-8360-3250
+    email: https://gomezcastro.xyz
+    affiliation: "Universidad Autónoma de Madrid - ICMAT" # </br> ![](_theme/uam.svg){height=1cm}"
+
+editor:
+  render-on-save: true
+
+
+callout-icon: false
+callout-appearance: simple
+
+format-links: false
+
+filters: 
+  - ./_theme/remove-pause.lua
+  - ./_theme/appendix.lua
+
+format:
+  # html: 
+  #   output-file: index.html
+  #   embed-resources: true
+  #   strip-comments: true
+  #   toc: true
+  #   toc-depth: 1
+  #   css: [./_theme/theorem.css]
+  #   appendix-style: none
+    
+  clean-revealjs: 
+    footer: "*Curso de introducción a `julia`*. David Gómez-Castro (UAM)"
+    # logo: 
+    controls: false
+    navigation-mode: linear
+    #controls-layout: edges
+    progress: true
+    slide-number: true
+
+    theme: _theme/theme_david.scss
+    css: [./_theme/theorem.css, ./_theme/tables.css]
+
+    toc: true
+    toc-depth: 1
+    incremental: false
+    strip-comments: true
+    html-math-method: mathjax #either "mathjax" or "katex"
+    embed-resources: true
+    chalkboard: false # Not compatible with embed-resources
+    footnotes-hover: true
+
+    # To pause aligned equations \class{fragment}{(x+1)(x+1)}  https://github.com/quarto-dev/quarto-cli/discussions/3224
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+
+    include-after: |
+      <script type="text/javascript">
+        Reveal.on('ready', event => {
+          if (event.indexh === 0) {
+            // document.querySelector("div.has-logo > img.slide-logo").style.display = "none";
+            document.querySelector("div.footer").style.display = "none"
+          }
+        });
+        Reveal.addEventListener('slidechanged', (event) => {
+          if (event.indexh === 0) {
+            // Reveal.configure({ slideNumber: null });
+            // document.querySelector("div.has-logo > img.slide-logo").style.display = "none";
+            document.querySelector("div.footer").style.display = "none"
+          }
+        });
+      </script>
+
+
+execute:
+  echo: true
+jupyter: julia-1.11
+csl: _theme/harvard-imperial-college-london-david.csl
+
+project:
+  render:
+    - "*.qmd"
+  post-render: _post-render.py

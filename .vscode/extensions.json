@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "julialang.language-julia",
+        "bungcip.better-toml",
+    ],
+    "unwantedRecommendations": [
+        "singularitti.vscode-julia-formatter",
+    ]
+}

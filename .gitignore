@@ -1,0 +1,5 @@
+/.quarto/
+*_files
+tmp.gif
+*/Manifest.toml
+*/.DS_Store

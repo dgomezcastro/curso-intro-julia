@@ -1,0 +1,819 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Algunos conceptos básicos"
+author: "David Gómez-Castro"
+
+format:
+  clean-revealjs:
+    output-file: 02-slides.html
+---
+
+:::{.hidden}
+```{julia}
+using Pkg
+Pkg.activate(".")
+```
+:::
+
+# Variables
+
+Para crear una variable, le asignamos un valor. Julia detecta por defecto elemento introducido. 
+
+Podemos añadir enteros, reales, o vectores de manera sencilla
+
+```{julia}
+a = 1
+```
+
+. . .
+
+```{julia}
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+b = 1.0
+```
+
+. . .
+
+```{julia}
+@show typeof(b);
+```
+
+---
+
+Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo float más corto
+
+```{julia}
+b2 = Float32(1.0)
+@show b2, typeof(b2);
+```
+
+. . .
+
+Hay que ser cuidado con los valores máximos
+
+```{julia}
+@show typemax(Int64);
+```
+
+. . .
+
+El tipo `Float` incluye `Inf`, de modo que
+
+```{julia}
+@show typemax(Float64);
+```
+
+. . .
+
+Pero tenemos una opción elegante para comprobar que
+
+```{julia}
+@show prevfloat(typemax(Float64));
+```
+
+---
+
+Y con algunos compartamiento inesperados como `integer overflow`
+
+```{julia}
+@show typemax(Int64)
+@show typemax(Int64) + 1;
+```
+
+. . .
+
+Para evitarlo se puede usar el tipo `BigInt`, que no tiene máximo
+
+Muy útil, por ejemplo, para
+
+```{julia}
+#| scrolled: true
+@show factorial(BigInt(30));
+```
+
+. . .
+
+Si preguntamos quien es el máximo, tendremos un error
+
+```{julia}
+#| error: true
+@show typemax(BigInt);
+```
+
+---
+
+De forma similar existe el tipo `BigFloat` de números arbitrariamente grandes. Es necesario tener cuidado pues estos números son muy pesados de almacenar.
+
+```{julia}
+a = big(1.0)
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+@show typemax(BigFloat)
+@show prevfloat(typemax(BigFloat));
+```
+
+# Lógica
+
+Podemos hacer comprobaciones lógicas sencillas
+
+```{julia}
+a = 1; b = 2;
+a == b
+```
+
+```{julia}
+
+@show a < b, a <= b, a != b;
+```
+
+## If/then/else
+
+```{julia}
+#| eval: false
+if x ≤ 1 
+    x 
+else 
+    x+1 
+end
+```
+
+. . .
+
+La sintaxis `if/then/else` tiene una sintaxis abreviada
+```{julia}
+#| eval: false
+g(n) = x ≤ 1 ? x : x+1
+```
+
+. . .
+
+```{julia}
+#| eval: false
+if x ≤ 1 
+    x 
+elseif x ≤ 2 
+    x+1 
+else 
+    x + 2
+end
+```
+
+# Bucles
+
+En Julia podemos crear bucles de tipo `for` y `while`. 
+
+La sintaxis `1:3` corresponde al vector `[1,2,3]`
+
+```{julia}
+
+for i=1:3
+    @show i
+end
+```
+
+```{julia}
+i=1
+while i<=3
+    @show i
+    i = i+1;
+end
+```
+
+---
+
+Y hay algunos comportamientos avanzados
+
+```{julia}
+
+x = [4.0,5.1,6.0]
+
+for (index, value) in enumerate(x)
+    
+    display("El valor de x en el índice $index es $value")
+    
+end
+```
+
+
+# Vectores y cadenas de texto
+
+## Vectores y cadenas de texto
+
+Lidiamos también con `strings` (cadenas de cateres)
+
+```{julia}
+#| scrolled: true
+
+palabra = "hola"
+@show typeof(palabra);
+```
+
+. . .
+
+Añadimos también vectores
+
+```{julia}
+#| scrolled: true
+
+c = [2.1,3.2]
+```
+
+. . .
+
+Y accedemos a la componentes
+
+```{julia}
+
+c[2]
+```
+
+. . .
+
+Esta sintaxis también funciona con `strings`
+
+```{julia}
+#| scrolled: true
+
+palabra[3]
+```
+
+Nótese que el vector sabe qué tipo de elementos contiene
+
+---
+
+Podemos introducir vectores 
+```{julia}
+#| output-location: column
+[1, 2]
+```
+
+y matrices
+
+```{julia}
+#| output-location: column
+A = [1 2; 3 4]
+```
+
+. . .
+
+No se deben confundir vectores con matrices fila
+
+```{julia}
+#| output-location: column
+[1 2]
+```
+
+y matrices columna
+
+```{julia}
+#| output-location: column
+reshape([1,2],2,1)
+```
+
+## Vectores
+
+En Julia los vectores son, por defecto, columnas
+
+```{julia}
+A*c
+```
+
+. . .
+
+```{julia}
+
+c'*A
+```
+
+. . .
+
+Y multiplicar en sentido contrario producirá un error
+
+```{julia}
+#| error: true
+c*A
+```
+
+## Concatenación
+
+A diferencia de en C, se puede añadir elementos a un vector
+
+```{julia}
+
+a = [1,2]
+append!(a,3)
+```
+
+. . .
+
+En este caso la notación es más correcta que, por ejemplo, la notación de MATLAB `a = [a,1]`
+
+. . .
+
+Usando esta notación en Julia obtenemos lo que hemos pedimos:
+
+```{julia}
+
+a = [1,2]
+a = [a,1]
+```
+
+En Julia, un vector puede contener elementos de varios tipos
+
+--- 
+
+Se pueden concatenar vectores con `;`
+
+```{julia}
+v = [1, 2]
+[v;v]
+```
+
+. . .
+
+Nótese la diferencia con
+
+```{julia}
+v = [1 2]
+[v;v]
+```
+
+---
+
+Para concatenar vectores y matrices podemos usar `hcat` y `vcat`
+
+```{julia}
+A = [1 2; 3 4]
+@show hcat(A, A)
+@show [A A];
+```
+
+Esta sintaxis es equivalente a `[A A]`
+
+```{julia}
+vcat(A, A)
+@show [A; A]
+```
+
+## Asignaciones de vectores
+
+Recordamos que en C, o en MATLAB, el siguiente código 
+```
+int a = 1
+int b = a
+a = 2
+```
+Se queda en estado `a=2` y `b=1`
+
+---
+
+En Julia (y en Python) también es así asignaciones completas tanto en escalares
+
+```{julia}
+a = 1
+b = a
+a = 2
+@show a,b;
+```
+. . .
+
+como en vectores
+
+```{julia}
+a = [1, 1]
+b = a
+a = [2, 1]
+@show a, b;
+```
+
+---
+
+Pero si modificamos una componente
+
+```{julia}
+a = [1, 1]
+b = a
+a[1] = 2
+@show a, b;
+```
+
+. . .
+
+Esto se llama "pass-by-sharing". Es el comportamiento por defecto de las funciones en Julia. [Apéndice](#Apéndice.-Mutabilidad-en-Julia)
+
+. . .
+
+Si queremos evitarlo debemos usar la opción `copy`
+
+```{julia}
+a = [1.0, 1.0]
+b = copy(a)
+a[1] = 2.0
+@show a, b;
+```
+
+--- 
+
+## Asignación puntual de vectores 
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c = a
+@show b;
+```
+
+Primero compartimos b en c, y luego a en c. 
+
+. . .
+
+La notación `.=` asigna puntualmente:
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c .= a
+@show b;
+```
+
+---
+
+## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
+
+Hecha una primera introducción, es recomendable revisar la documentación de Julia
+
+## [Tipos abstractos y herencia](https://docs.julialang.org/en/v1/manual/types/)
+
+## Polimorfismo
+
+Imaginemos que definimos
+```{julia}
+f(x::Real) = x + 1
+f(x::Integer) = x + 2;
+```
+
+Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
+
+. . .
+
+Lo natural es elegir la clase "más estricta". 
+```{julia}
+f(2)
+```
+
+A esto se lo conoce como *polimorfismo*. 
+[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
+
+# Funciones
+
+Podemos hacer funciones escalares
+
+```{julia}
+a = 2.0;
+a^2
+```
+
+. . .
+
+
+```{julia}
+@show sqrt(a), exp(a), sin(a);
+```
+
+---
+
+Y todas estas funciones se pueden aplicar puntualmente a vectores o matrices, indicando que la operación es puntual
+
+```{julia}
+v = [1, 2];
+v .^ 2
+```
+. . .
+
+```{julia}
+@show sqrt.(v) , exp.(v) , sin.(v) ;
+
+```
+
+---
+
+El usuario puede también definir funciones. 
+
+. . .
+
+Bien de la manera convencional
+
+```{julia}
+function suma(x,y)
+    x+y
+end
+
+suma(1,2)
+```
+
+. . .
+
+O en línea
+
+```{julia}
+suma(x,y) = x+y
+
+suma(1,2)
+```
+
+---
+
+Como es natural, esta función no se comportará de manera natural si le pasamos texto
+
+```{julia}
+#| error: true
+suma("hola, ", "majo")
+```
+
+. . .
+
+Sin embargo, podemos hacer la función comportarse distinto según el tipo de entradas que tenga. 
+Por ejemplo, es "natural" que `suma` concatene cadenas de texto
+
+```{julia}
+#| error: true
+suma(x::String,y::String) = x * y
+suma("aquí ", "estoy")
+```
+
+. . .
+
+Pero sigue haciendo lo que debe con números
+
+```{julia}
+suma(1,2)
+```
+
+. . .
+
+Volveremos sobre esta idea más adelante.
+
+## Parámetros opcionales
+
+```{julia}
+function g(x ; n=0 , m=1)
+    if n==0
+        return x
+    else
+        return x+m
+    end
+end 
+@show g(1)
+@show g(1;n=1)
+@show g(1;n=1,m=2)
+```
+
+Hay que ser cuidadoso con los argumentos de funciones. 
+
+# Mutabilidad en Julia
+
+De acuerdo con la documentación de Julia:
+
+> Julia function arguments follow a convention sometimes called "pass-by-sharing", which means that values are not copied when they are passed to functions. Function arguments themselves act as new variable bindings (new locations that can refer to values), but the values they refer to are identical to the passed values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages. 
+
+---
+
+Las variables de tipo `Float` e `Int` no cambian dentro de funciones
+
+```{julia}
+function AumentarUno(a) 
+    a += 1.0;
+    return a
+end
+a = 2.0
+display("Primero a = $a.")
+display("Calculamos AumentarUno(a) = $(AumentarUno(a))")
+display("Ahora a = $a")
+```
+
+. . .
+
+Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones no afecta a su valor exterior
+
+---
+
+Los vectores y matrices, sin embargo, son `mutable`. 
+
+. . .
+
+Veamos en este ejemplo
+
+```{julia}
+#| output-location: column
+function AumentarUnoVectorial(v) 
+    v = v .+ 1;
+    return v
+end;
+
+v = [1,2];
+
+@show v
+@show AumentarUnoVectorial(v)
+@show v;
+```
+
+. . . 
+
+El motivo de esto es que los vectores y matrices suelen ser estructuradas pesadas, y no es recomendable copiarlas por defecto.
+
+--- 
+
+
+La convención es añadir `!` al final de la función si modifica su argumento. 
+
+. . .
+
+Así, el nombre correcto de la función es
+`AumentarUnoVectorial!`
+
+. . .
+
+Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a la función. Por ejemplo
+
+. . .
+
+```{julia}
+#| output-location: column
+function AumentarUnoVectorial!(v) 
+    v .= v .+ 1;
+    return v
+end;
+```
+
+. . .
+
+```{julia}
+#| output-location: column
+v = [1,2];
+@show v
+@show AumentarUnoVectorial!(v)
+@show v;
+```
+
+. . .
+
+```{julia}
+v = [1,2];
+@show v
+@show AumentarUnoVectorial!(copy(v))
+@show v;
+```
+
+---
+
+# Ejemplo. La sucesión de Fibonacci
+
+## Formulación iterativa
+
+$$
+    a_0 = 1, \qquad \qquad  a_1 = 1, \qquad \qquad a_{n} = a_{n-1} + a_{n-2}.
+$$
+
+## Con append!
+```{julia}
+Fib = [1,1]
+N = 25
+for i=1:N
+    append!(Fib, Fib[end] + Fib[end-1]);
+end 
+Fib
+```
+
+## Con pre-alocación
+```{julia}
+#| output-location: column-fragment
+N = 5;
+Fib = Vector{Int}(undef, N)
+Fib[1] = 1
+Fib[2] = 1
+for n=3:N
+    Fib[n] = Fib[n-1] + Fib[n-2];
+end 
+display(Fib)
+```
+
+## Formulación recursive
+
+```{julia}
+function fib(n::Integer) 
+    if n ≤ 2 
+        return 1
+    else 
+        return fib(n-1) + fib(n-2)
+    end 
+end
+@show fib(5);
+```
+
+. . . 
+
+Formulación abreviada
+```{julia}
+fib(n::Integer) = n ≤ 2 ? one(n) : fib(n-1) + fib(n-2)
+@show fib(5);
+```
+
+<!--
+
+Además, es preferible hacer sin asignar valores 
+
+```{julia}
+#| code-fold: true
+NCases = 10:20
+NTests = 100
+RelativeTimeLost = zeros(length(NCases))
+for (case,n) in enumerate(NCases)
+    for test=1:NTests
+        time1 = @elapsed test = zeros(2^n);
+        time2 = @elapsed test = Vector{Int}(undef, 2^n);
+        RelativeTimeLost[case] += 1/NTests * time1/time2;
+    end
+end
+
+using Plots
+plot(NCases,RelativeTimeLost,xlabel="Vector de 2^n elementos \n ",
+        ylabel="\n Tiempo fijando 0 / Tiempo sin fijar 0 ",
+        label="")
+```
+. . .
+
+(no es posible en MATLAB ver [documentación](https://www.mathworks.com/help/matlab/matlab_prog/preallocating-arrays.html) )
+
+-->
+
+# Metaprogramación y macros
+
+## Legado de Lisp
+
+> The strongest legacy of Lisp in the Julia language is its metaprogramming support. Like Lisp, Julia represents its own code as a data structure of the language itself. Since code is represented by objects that can be created and manipulated from within the language, it is possible for a program to transform and generate its own code. This allows sophisticated code generation without extra build steps, and also allows true Lisp-style macros operating at the level of abstract syntax trees. In contrast, preprocessor "macro" systems, like that of C and C++, perform textual manipulation and substitution before any actual parsing or interpretation occurs. Because all data types and code in Julia are represented by Julia data structures, powerful reflection capabilities are available to explore the internals of a program and its types just like any other data.
+
+## La vida de un string
+
+```{julia}
+prog = "1 + 1"
+
+ex1 = Meta.parse(prog)
+```
+
+```{julia}
+typeof(ex1)
+```
+
+```{julia}
+eval(ex1)
+```
+
+--- 
+
+```{julia}
+ex1.head
+```
+
+```{julia}
+ex1.args
+```
+
+```{julia}
+ex2 = Expr(:call, :+, 1, 1)
+ex1 == ex2
+```
+
+## Macros
+
+```{julia}
+macro sayhello()
+    return :(println("Hello, world!"))
+end
+```
+
+```{julia}
+@sayhello()
+```
+
+```{julia}
+macro sayhello(name)
+    return :(println("Hello, ", $name))
+end
+```
+
+```{julia}
+@sayhello("human")
+```
+
+# FIN

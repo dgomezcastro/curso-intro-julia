@@ -1,0 +1,84 @@
+---
+title: "Entrega para evaluación del curso Compumates Julia 2022-2023"
+format:
+    pdf: 
+        toc: false
+        number-sections: false
+        colorlinks: true
+jupyter: julia-1.8
+
+execute:
+    eval: false
+---
+
+### Ejercicio 1. Cargar en memoria los vectores y matrices siguientes
+$$
+    v = \begin{pmatrix} 1 \\ 2 \\ 3 \\ \vdots \\ N \end{pmatrix} 
+    \qquad 
+    A =  \begin{pmatrix} 2 & -1 & 0 \\ -1 & 2 & 1 \\ \\ &&  \ddots \\ \\ &&& -1 &2 \end{pmatrix} \in \mathcal M_{N} (\mathbb Z)
+$$
+Tomar, en ambos casos, $N = 150$.
+
+### Ejercicio 2. 
+Guardar $A$ y $b$ en un archivo y volverlos a cargar
+
+### Ejercicio 3. Uso del paquete `LinealAlgebra.jl`
+
+#### a. Escribir la función que resuelve $U x = b$ y responde a la sintaxis
+```{julia}
+function solve(U::UpperTriangular, b::Vector)
+    # . . .
+    return x
+end
+```
+
+#### b. Escribir la función que resuelve $L x = b$ y responde a la sintaxis
+```{julia}
+function solve(L::UnitLowerTriangular, b::Vector)
+    # . . .
+    return x
+end
+```
+
+#### c. 
+
+Obtener la factorización $LU$ de la matriz 
+$$
+    A = 
+\begin{pmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 10 \\
+\end{pmatrix}
+$$
+y resolver el sistema $A x = b$ donde $b = (1,2,3)^t$.
+
+### Ejercicio 4. 
+Utilizar los paquetes `LinealAlgebra.jl` y `Symbolics.jl` para calcular el polinomio característico de la matriz
+$$
+    A = 
+\begin{pmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9 \\
+\end{pmatrix}
+$$
+mediante la definición $\det(A - x I)$
+
+### Ejercicio 5. 
+Utilizar el paquete `Random.jl` para calcular una realización del paseo aleatorio 
+$$
+    X_0 = 0, \qquad P(X_{n+1} = i \pm 1 | X_n = i) = \frac 1 2
+$$
+donde $n = 0, ... , 500$.
+
+### Ejercicio 6. 
+Utilizar el paquete `Plots.jl` para representar la realización anterior.
+Poner un título a la gráfica y etiquetas en los ejes.
+
+### Ejercicio 7. 
+Utilizar algún paquete de optimización numérica para calcular el mínimo de la función
+$$
+    f(x,y) = 2xy + e^x
+$$
+sobre el disco $x^2 + y^2 \le 1$.

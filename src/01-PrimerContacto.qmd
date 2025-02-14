@@ -1,0 +1,357 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "¿Por qué? y ¿cómo?"
+
+format:
+  clean-revealjs:
+    output-file: 01-slides.html
+---
+
+```{julia}
+#| echo: false
+using Pkg
+Pkg.activate(".")
+using Plots
+default(size=(600,400), 
+    leg=true, 
+    linewidth=2, 
+    xlegendfont=font(14),
+    xtickfont=font(14), 
+    ytickfont=font(14), 
+    guidefont=font(14), 
+    legendfont=font(14), 
+    titlefont=font(18) )
+```
+
+# Instalación
+
+```
+curl -fsSL https://install.julialang.org | sh
+```
+[Documentación](https://julialang.org/downloads/)
+
+# Primera ejecución
+
+Al lanzar julia por primera vez veremos algo así:
+
+![](Material/first-run.png)
+
+## Uso básico
+
+Variables 
+```{julia}
+a = 2
+```
+
+. . .
+
+Bucles básicos
+```{julia}
+for i=1:2
+  display(i^2)
+end
+```
+
+. . .
+
+Vectores
+```{julia}
+x = [1, 2]
+```
+
+## Paquetes
+
+La mayor parte de las funcionalidades de Julia se añaden en paquetes. 
+
+. . .
+
+Por ejemplo, para representar funciones debemos el paquete `Plots`
+
+. . .
+
+Para usar un paquete, debemos instalarlo primero
+
+```{julia} 
+#| eval: false
+using Pkg 
+Pkg.add("Plots")
+```
+
+## Plots
+
+```{julia} 
+using Plots 
+
+x = [1,2,3,4,5]
+y = [1,4,9,16,25]
+
+plot(x,y)
+```
+
+## Leer scripts
+
+Los scripts de Julia son archivos `.jl`
+
+. . . 
+
+```{julia filename="MiCodigo.jl"}
+#| eval: false
+a = 1
+a = a+1
+display("a=$a")
+```
+. . .
+
+Ejecutamos en terminal de Unix (si julia está bien en el path)
+
+```
+$ julia MiCodigo.jl
+"a=2"
+```
+
+. . . 
+
+O desde dentro de julia
+
+```
+julia> include("MiCodigo.jl")
+"a=2"
+```
+
+# IDEs
+
+## [Visual Studio Code](https://code.visualstudio.com)
+
+Para desarrollar código podemos usar [Visual Studio Code con Julia](https://www.julia-vscode.org). 
+
+## Jupyter 
+
+También podemos utilizar libretas [Jupyter](https://jupyter.org/install)
+
+Es una interfaz web para facilitar el uso de Julia, creada originalmente para Python.
+
+![](Material/jupyterpreview.png)
+
+## Instalar Jupyter
+
+1. Instalar Python3
+
+. . . 
+
+2. Usar pip (el instalador que viene con python) para instalar Jupyter. En terminal:
+```{terminal}
+$ pip install notebook
+```
+
+. . . 
+
+3. Debemos conectar Julia y Jupyter con el paquete `IJulia`.
+En Julia:
+
+```{julia filename="MiCodigo.jl"}
+#| eval: false
+using Pkg
+Pkg.add("IJulia")
+```
+
+. . .
+
+4. Lanzar Jupyter. En Windows click. En Linux/macos
+
+```{terminal}
+$ jupyter notebook
+```
+
+. . .
+
+Ocasionalmente Jupyter puede no detectar Julia (especialmente después de actualizaciones). Ejecutar en Julia
+
+```{julia}
+#| eval: false
+
+using IJulia
+installkernel("Julia")
+``` 
+
+# ¿Por qué julia?
+
+## ¿Por qué Julia?
+
+Artículo [*why we created Julia*](https://julialang.org/blog/2012/02/why-we-created-julia/)
+
+- Es **código abierto**:
+
+  todo está alojado en GitHub
+
+. . .
+
+- Es **reproducible**: 
+
+  permite controlar todas las versiones de todos los paquetes
+
+. . .
+
+- Es **dinámica**: 
+
+  utiliza tipos dinámicos, y la sintaxis es muy sencilla. 
+
+. . .
+
+- Es **componible**: 
+
+  *multiple distach*
+
+## Julia es rápido ([JIT](https://en.wikipedia.org/wiki/Just-in-time_compilation))
+
+![](Material/benchmarks.svg){height=.75}
+
+Eje vertical (tiempo del lenguaje) / (tiempo de ejecución en C)
+
+[https://julialang.org/benchmarks/](https://julialang.org/benchmarks/)
+
+## Comparación con MATLAB
+
+La sintaxis para vectores y matrices veremos que es muy sencilla. 
+
+```{julia}
+#| output-location: fragment
+A = [1 2 3; 4 5 6]
+```
+
+. . .
+
+```{julia}
+#| output-location: fragment
+@show A[1,:];
+```
+
+. . .
+
+| Función                 | Julia     | MATLAB    | 
+|:------------------------|:------    |:----------|
+| Leer vector             | `x[i]`    |`x(i)`     |
+| Leer fila de matriz     | `A[i,:]`  |`A(i,:)`   |
+| Resolver sistema lineal | `A\b`     |`A\b`      |
+
+: Comparación de sintaxis vectorial
+
+. . .
+
+En [comparación con Python](https://pythonguides.com/python-numpy-matrix/)
+
+# Paquetes
+
+## ¿Qué son?
+
+Las funcionalidades avanzadas se cargan con paquetes (Plots, ...)
+
+. . .
+
+Los paquetes están alojados en GitHub, donde suelen contar con amplia documentación: ejemplo [Plots.jl](https://github.com/JuliaPlots/Plots.jl)
+
+. . .
+
+Para instalarlos basta utilizamos el paquete `Pkg.jl` de la siguiente forma
+
+```{julia}
+#| eval: false
+#| 
+using Pkg; Pkg.add("Plots")
+```
+
+. . .
+
+Para cargar el paquete Plots
+```{julia}
+using Plots
+```
+
+## Sintaxis natural, el paquete Plots
+
+```{julia}
+#| output-location: column-fragment
+plot(x->exp(x))
+```
+
+. . .
+
+```{julia}
+#| output-location: column-fragment
+x = 1:5
+y = exp.(x)
+
+using Plots
+plot(x,y) 
+```
+
+## La magia de los macros
+
+```{julia}
+#| output-location: column-fragment
+
+@gif for n=1:20
+  plot(x->sin(n*x))
+end
+```
+
+## La magia del código genérico
+
+```{julia}
+#| echo: true
+#| output-location: column-fragment
+
+g = 9.79 # Gravitational constant
+L = 1.00 # Length of pendulum
+
+u₀    = [0 , π/60 ] # Initial speed and angle
+tspan = (0.0, 6.3) # Time span
+
+# Define the problem
+function pendulum(du,u,p,t)
+  θ = u[1]
+  dθ = u[2] 
+  du[1] = dθ
+  du[2] = -(g/L)*θ
+end
+
+# Pass to solver
+using DifferentialEquations
+prob = ODEProblem(pendulum, u₀, tspan) 
+sol  = solve(prob,Tsit5(), reltol = 1e-6)
+
+# Plot
+using Plots
+plot(sol.t,first.(sol.u),label="\\theta")
+```
+
+---
+
+```{julia}
+#| echo: true
+#| output-location: column-fragment
+using Measurements 
+g = 9.79 ± 0.02 # Gravitational constant
+L = 1.00 ± 0.01 # Length of pendulum
+
+u₀    = [0 ± 0.0 , π/60 ± 0.01 ] # Initial speed and angle
+tspan = (0.0, 6.3) # Time span
+
+# Define the problem
+function pendulum(du,u,p,t)
+  θ = u[1]
+  dθ = u[2] 
+  du[1] = dθ
+  du[2] = -(g/L)*θ
+end
+
+# Pass to solver
+using DifferentialEquations
+prob = ODEProblem(pendulum, u₀, tspan) 
+sol  = solve(prob,Tsit5(), reltol = 1e-6)
+
+# Plot
+using Plots
+plot(sol.t,first.(sol.u),label="\\theta")
+```
+
+*Tomado de [The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)
