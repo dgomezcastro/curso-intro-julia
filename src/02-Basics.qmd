@@ -8,12 +8,7 @@ format:
     output-file: 02-slides.html
 ---
 
-:::{.hidden}
-```{julia}
-using Pkg
-Pkg.activate(".")
-```
-:::
+{{< include _theme/activate.qmd >}}
 
 # Variables
 
@@ -50,6 +45,13 @@ Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo flo
 ```{julia}
 b2 = Float32(1.0)
 @show b2, typeof(b2);
+```
+
+. . .
+
+```{julia}
+b3::Float32 = 1.0
+@show b3, typeof(b3);
 ```
 
 . . .
@@ -455,25 +457,6 @@ Hecha una primera introducción, es recomendable revisar la documentación de Ju
 
 ## [Tipos abstractos y herencia](https://docs.julialang.org/en/v1/manual/types/)
 
-## Polimorfismo
-
-Imaginemos que definimos
-```{julia}
-f(x::Real) = x + 1
-f(x::Integer) = x + 2;
-```
-
-Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
-
-. . .
-
-Lo natural es elegir la clase "más estricta". 
-```{julia}
-f(2)
-```
-
-A esto se lo conoce como *polimorfismo*. 
-[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
 
 # Funciones
 
@@ -532,54 +515,43 @@ suma(x,y) = x+y
 suma(1,2)
 ```
 
----
-
-Como es natural, esta función no se comportará de manera natural si le pasamos texto
+## Parámetros opcionales (y valores por defecto)
 
 ```{julia}
-#| error: true
-suma("hola, ", "majo")
-```
-
-. . .
-
-Sin embargo, podemos hacer la función comportarse distinto según el tipo de entradas que tenga. 
-Por ejemplo, es "natural" que `suma` concatene cadenas de texto
-
-```{julia}
-#| error: true
-suma(x::String,y::String) = x * y
-suma("aquí ", "estoy")
-```
-
-. . .
-
-Pero sigue haciendo lo que debe con números
-
-```{julia}
-suma(1,2)
-```
-
-. . .
-
-Volveremos sobre esta idea más adelante.
-
-## Parámetros opcionales
-
-```{julia}
-function g(x ; n=0 , m=1)
+function g(x ; n , m=1)
     if n==0
         return x
     else
         return x+m
     end
 end 
-@show g(1)
+@show g(1,n=1)
 @show g(1;n=1)
-@show g(1;n=1,m=2)
+@show g(1,n=1,m=2)
+@show g(1;n=1,m=2);
 ```
 
-Hay que ser cuidadoso con los argumentos de funciones. 
+## *Multiple dispatch*
+
+Imaginemos que definimos
+```{julia}
+f(x::Real) = x + 1
+f(x::Integer) = x + 2;
+```
+
+Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
+
+. . .
+
+Lo natural es elegir la clase "más restrictiva". 
+```{julia}
+f(2)
+```
+
+A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en todas las variables, hablamos de *multiple dispatch*.
+
+[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
+
 
 # Mutabilidad en Julia
 
@@ -593,7 +565,7 @@ Las variables de tipo `Float` e `Int` no cambian dentro de funciones
 
 ```{julia}
 function AumentarUno(a) 
-    a += 1.0;
+    a += 1.0
     return a
 end
 a = 2.0
@@ -617,7 +589,7 @@ Veamos en este ejemplo
 ```{julia}
 #| output-location: column
 function AumentarUnoVectorial(v) 
-    v = v .+ 1;
+    v = v .+ 1
     return v
 end;
 
@@ -651,7 +623,7 @@ Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a 
 ```{julia}
 #| output-location: column
 function AumentarUnoVectorial!(v) 
-    v .= v .+ 1;
+    v .= v .+ 1
     return v
 end;
 ```
@@ -660,7 +632,7 @@ end;
 
 ```{julia}
 #| output-location: column
-v = [1,2];
+v = [1,2]
 @show v
 @show AumentarUnoVectorial!(v)
 @show v;
@@ -669,7 +641,7 @@ v = [1,2];
 . . .
 
 ```{julia}
-v = [1,2];
+v = [1,2]
 @show v
 @show AumentarUnoVectorial!(copy(v))
 @show v;

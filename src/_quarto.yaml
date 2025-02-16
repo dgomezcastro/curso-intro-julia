@@ -1,6 +1,6 @@
 title: "Aggregation-diffusion equations with non-linear mobility"
 subtitle: "Seminar, NTNU, Trondheim"
-date:  19 February 2025
+date:  Marzo 2025
 author: 
   - name: "David Gómez-Castro"
     orcid: 0000-0001-8360-3250
@@ -45,6 +45,7 @@ format:
     toc: true
     toc-depth: 1
     incremental: false
+    output-location: column-fragment
     strip-comments: true
     html-math-method: mathjax #either "mathjax" or "katex"
     embed-resources: true

@@ -7,21 +7,7 @@ format:
     output-file: 01-slides.html
 ---
 
-```{julia}
-#| echo: false
-using Pkg
-Pkg.activate(".")
-using Plots
-default(size=(600,400), 
-    leg=true, 
-    linewidth=2, 
-    xlegendfont=font(14),
-    xtickfont=font(14), 
-    ytickfont=font(14), 
-    guidefont=font(14), 
-    legendfont=font(14), 
-    titlefont=font(18) )
-```
+{{< include _theme/activate.qmd >}}
 
 # Instalación
 
@@ -40,6 +26,7 @@ Al lanzar julia por primera vez veremos algo así:
 
 Variables 
 ```{julia}
+#| output-location: column-fragment
 a = 2
 ```
 
@@ -47,8 +34,9 @@ a = 2
 
 Bucles básicos
 ```{julia}
-for i=1:2
-  display(i^2)
+#| output-location: column-fragment
+for i = 1:2
+    display(i^2)
 end
 ```
 
@@ -56,6 +44,7 @@ end
 
 Vectores
 ```{julia}
+#| output-location: column-fragment
 x = [1, 2]
 ```
 
@@ -73,19 +62,22 @@ Para usar un paquete, debemos instalarlo primero
 
 ```{julia} 
 #| eval: false
-using Pkg 
+#| output-location: column-fragment
+using Pkg
 Pkg.add("Plots")
 ```
 
 ## Plots
 
 ```{julia} 
-using Plots 
+#| output-location: column-fragment
 
-x = [1,2,3,4,5]
-y = [1,4,9,16,25]
+using Plots
 
-plot(x,y)
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plot(x, y)
 ```
 
 ## Leer scripts
@@ -97,7 +89,7 @@ Los scripts de Julia son archivos `.jl`
 ```{julia filename="MiCodigo.jl"}
 #| eval: false
 a = 1
-a = a+1
+a = a + 1
 display("a=$a")
 ```
 . . .
@@ -132,7 +124,7 @@ Es una interfaz web para facilitar el uso de Julia, creada originalmente para Py
 
 ![](Material/jupyterpreview.png)
 
-## Instalar Jupyter
+<!-- ## Instalar Jupyter
 
 1. Instalar Python3
 
@@ -171,7 +163,8 @@ Ocasionalmente Jupyter puede no detectar Julia (especialmente después de actual
 
 using IJulia
 installkernel("Julia")
-``` 
+```
+-->
 
 # ¿Por qué julia?
 
@@ -214,24 +207,27 @@ Eje vertical (tiempo del lenguaje) / (tiempo de ejecución en C)
 La sintaxis para vectores y matrices veremos que es muy sencilla. 
 
 ```{julia}
-#| output-location: fragment
+#| output-location: column-fragment
+
 A = [1 2 3; 4 5 6]
 ```
 
 . . .
 
 ```{julia}
-#| output-location: fragment
-@show A[1,:];
+#| output-location: column-fragment
+
+@show A[1, :];
 ```
 
 . . .
 
-| Función                 | Julia     | MATLAB    | 
-|:------------------------|:------    |:----------|
-| Leer vector             | `x[i]`    |`x(i)`     |
-| Leer fila de matriz     | `A[i,:]`  |`A(i,:)`   |
-| Resolver sistema lineal | `A\b`     |`A\b`      |
+| Función                 | Julia     | MATLAB        | 
+|:------------------------|:------    |:----------    |
+| Leer vector             | `x[i]`    |`x(i)`         |
+| Leer fila de matriz     | `A[i,:]`  |`A(i,:)`       |
+| Resolver sistema lineal | `A\b`     |`A\b`          |
+| Funciones               | `f(x)=x^2`|`f = @(x) x^2` |
 
 : Comparación de sintaxis vectorial
 
@@ -256,7 +252,8 @@ Para instalarlos basta utilizamos el paquete `Pkg.jl` de la siguiente forma
 ```{julia}
 #| eval: false
 #| 
-using Pkg; Pkg.add("Plots")
+using Pkg;
+Pkg.add("Plots");
 ```
 
 . . .
@@ -266,14 +263,16 @@ Para cargar el paquete Plots
 using Plots
 ```
 
-## Sintaxis natural, el paquete Plots
+---
 
 ```{julia}
 #| output-location: column-fragment
-plot(x->exp(x))
+
+using Plots
+plot(x -> exp(x))
 ```
 
-. . .
+---
 
 ```{julia}
 #| output-location: column-fragment
@@ -281,7 +280,7 @@ x = 1:5
 y = exp.(x)
 
 using Plots
-plot(x,y) 
+plot(x, y)
 ```
 
 ## La magia de los macros
@@ -289,12 +288,14 @@ plot(x,y)
 ```{julia}
 #| output-location: column-fragment
 
-@gif for n=1:20
-  plot(x->sin(n*x))
+@gif for n = 1:20
+    plot(x -> sin(n * x))
 end
 ```
 
 ## La magia del código genérico
+
+Para resolver una EDO podemos usar sintaxis similar a `ode45`
 
 ```{julia}
 #| echo: true
@@ -303,55 +304,57 @@ end
 g = 9.79 # Gravitational constant
 L = 1.00 # Length of pendulum
 
-u₀    = [0 , π/60 ] # Initial speed and angle
+u₀ = [0, π / 60] # Initial speed and angle
 tspan = (0.0, 6.3) # Time span
 
 # Define the problem
-function pendulum(du,u,p,t)
-  θ = u[1]
-  dθ = u[2] 
-  du[1] = dθ
-  du[2] = -(g/L)*θ
+function pendulum(du, u, p, t)
+    θ = u[1]
+    dθ = u[2]
+    du[1] = dθ
+    du[2] = -(g / L) * θ
 end
 
 # Pass to solver
 using DifferentialEquations
-prob = ODEProblem(pendulum, u₀, tspan) 
-sol  = solve(prob,Tsit5(), reltol = 1e-6)
+prob = ODEProblem(pendulum, u₀, tspan)
+sol = solve(prob, Tsit5(), reltol=1e-6)
 
 # Plot
 using Plots
-plot(sol.t,first.(sol.u),label="\\theta")
+plot(sol.t, first.(sol.u), label="\\theta")
 ```
 
 ---
 
+Sin modificar la librería `DifferentialEquations` podemos extenderla a otros "tipos de datos"
+
 ```{julia}
 #| echo: true
 #| output-location: column-fragment
-using Measurements 
+using Measurements
 g = 9.79 ± 0.02 # Gravitational constant
 L = 1.00 ± 0.01 # Length of pendulum
 
-u₀    = [0 ± 0.0 , π/60 ± 0.01 ] # Initial speed and angle
+u₀ = [0 ± 0.0, π / 60 ± 0.01] # Initial speed and angle
 tspan = (0.0, 6.3) # Time span
 
 # Define the problem
-function pendulum(du,u,p,t)
-  θ = u[1]
-  dθ = u[2] 
-  du[1] = dθ
-  du[2] = -(g/L)*θ
+function pendulum(du, u, p, t)
+    θ = u[1]
+    dθ = u[2]
+    du[1] = dθ
+    du[2] = -(g / L) * θ
 end
 
 # Pass to solver
 using DifferentialEquations
-prob = ODEProblem(pendulum, u₀, tspan) 
-sol  = solve(prob,Tsit5(), reltol = 1e-6)
+prob = ODEProblem(pendulum, u₀, tspan)
+sol = solve(prob, Tsit5(), reltol=1e-6)
 
 # Plot
 using Plots
-plot(sol.t,first.(sol.u),label="\\theta")
+plot(sol.t, first.(sol.u), label="\\theta")
 ```
 
 *Tomado de [The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)

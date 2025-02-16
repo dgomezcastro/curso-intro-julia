@@ -3,3 +3,5 @@
 tmp.gif
 */Manifest.toml
 */.DS_Store
+*.quarto_ipynb
+.DS_Store

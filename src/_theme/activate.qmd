@@ -1,0 +1,20 @@
+```{julia}
+#| echo: false
+#| warning: false
+#| output: false
+using Pkg
+Pkg.activate(".")
+using Revise
+using Plots
+default(size=(600, 400),
+    leg=true,
+    linewidth=2,
+    xlegendfont=font(14),
+    xtickfont=font(14),
+    ytickfont=font(14),
+    guidefont=font(14),
+    legendfont=font(14),
+    titlefont=font(18),
+    fmt="image/svg+xml", # https://github.com/quarto-dev/quarto-cli/issues/6806
+)
+```
