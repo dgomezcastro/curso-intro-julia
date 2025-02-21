@@ -135,7 +135,6 @@ Pkg.add("HiGHS")
 ## [Symbolics.jl](https://symbolics.juliasymbolics.org/dev/)
 
 ```{julia}
-#| output-location: column
 using Symbolics
 @variables x y
 ```
@@ -143,21 +142,18 @@ using Symbolics
 . . .
 
 ```{julia}
-#| output-location: column
 z = x^2 + y
 ```
 
 . . .
 
 ```{julia}
-#| output-location: column
 simplify(2x + 2y)
 ```
 
 ### Derivadas
 
 ```{julia}
-#| output-location: column
 @variables x g(x)
 Dt = Differential(x)
 ```

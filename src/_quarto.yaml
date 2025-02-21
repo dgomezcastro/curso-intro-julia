@@ -21,14 +21,15 @@ filters:
   - ./_theme/appendix.lua
 
 format:
-  # html: 
-  #   output-file: index.html
-  #   embed-resources: true
-  #   strip-comments: true
-  #   toc: true
-  #   toc-depth: 1
-  #   css: [./_theme/theorem.css]
-  #   appendix-style: none
+  html: 
+    output-file: index.html
+    embed-resources: true
+    strip-comments: true
+    toc: true
+    toc-title: "Contenido"
+    toc-depth: 1
+    css: [./_theme/theorem.css]
+    appendix-style: none
     
   clean-revealjs: 
     footer: "*Curso de introducción a `julia`*. David Gómez-Castro (UAM)"
@@ -43,6 +44,7 @@ format:
     css: [./_theme/theorem.css, ./_theme/tables.css]
 
     toc: true
+    toc-title: "Contenido"
     toc-depth: 1
     incremental: false
     output-location: column-fragment

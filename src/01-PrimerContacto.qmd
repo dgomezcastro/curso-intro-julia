@@ -3,168 +3,13 @@ title: "![Julia](Material/Julia.svg)"
 subtitle: "¿Por qué? y ¿cómo?"
 
 format:
-  clean-revealjs:
-    output-file: 01-diapositivas.html
+    html: 
+        output-file: 01-PrimerContacto-apuntes.html
+    clean-revealjs:
+        output-file: 01-PrimerContacto-diapositivas.html
 ---
 
 {{< include _theme/activate.qmd >}}
-
-# Instalación
-
-```
-curl -fsSL https://install.julialang.org | sh
-```
-[Documentación](https://julialang.org/downloads/)
-
-# Primera ejecución
-
-Al lanzar julia por primera vez veremos algo así:
-
-![](Material/first-run.png)
-
-## Uso básico
-
-Variables 
-```{julia}
-#| output-location: column-fragment
-a = 2
-```
-
-. . .
-
-Bucles básicos
-```{julia}
-#| output-location: column-fragment
-for i = 1:2
-    display(i^2)
-end
-```
-
-. . .
-
-Vectores
-```{julia}
-#| output-location: column-fragment
-x = [1, 2]
-```
-
-## Paquetes
-
-La mayor parte de las funcionalidades de Julia se añaden en paquetes. 
-
-. . .
-
-Por ejemplo, para representar funciones debemos el paquete `Plots`
-
-. . .
-
-Para usar un paquete, debemos instalarlo primero
-
-```{julia} 
-#| eval: false
-#| output-location: column-fragment
-using Pkg
-Pkg.add("Plots")
-```
-
-## Plots
-
-```{julia} 
-#| output-location: column-fragment
-
-using Plots
-
-x = [1, 2, 3, 4, 5]
-y = [1, 4, 9, 16, 25]
-
-plot(x, y)
-```
-
-## Leer scripts
-
-Los scripts de Julia son archivos `.jl`
-
-. . . 
-
-```{julia filename="MiCodigo.jl"}
-#| eval: false
-a = 1
-a = a + 1
-display("a=$a")
-```
-. . .
-
-Ejecutamos en terminal de Unix (si julia está bien en el path)
-
-```
-$ julia MiCodigo.jl
-"a=2"
-```
-
-. . . 
-
-O desde dentro de julia
-
-```
-julia> include("MiCodigo.jl")
-"a=2"
-```
-
-# IDEs
-
-## [Visual Studio Code](https://code.visualstudio.com)
-
-Para desarrollar código podemos usar [Visual Studio Code con Julia](https://www.julia-vscode.org). 
-
-## Jupyter 
-
-También podemos utilizar libretas [Jupyter](https://jupyter.org/install)
-
-Es una interfaz web para facilitar el uso de Julia, creada originalmente para Python.
-
-![](Material/jupyterpreview.png)
-
-<!-- ## Instalar Jupyter
-
-1. Instalar Python3
-
-. . . 
-
-2. Usar pip (el instalador que viene con python) para instalar Jupyter. En terminal:
-```{terminal}
-$ pip install notebook
-```
-
-. . . 
-
-3. Debemos conectar Julia y Jupyter con el paquete `IJulia`.
-En Julia:
-
-```{julia filename="MiCodigo.jl"}
-#| eval: false
-using Pkg
-Pkg.add("IJulia")
-```
-
-. . .
-
-4. Lanzar Jupyter. En Windows click. En Linux/macos
-
-```{terminal}
-$ jupyter notebook
-```
-
-. . .
-
-Ocasionalmente Jupyter puede no detectar Julia (especialmente después de actualizaciones). Ejecutar en Julia
-
-```{julia}
-#| eval: false
-
-using IJulia
-installkernel("Julia")
-```
--->
 
 # ¿Por qué julia?
 
@@ -207,7 +52,6 @@ Eje vertical (tiempo del lenguaje) / (tiempo de ejecución en C)
 La sintaxis para vectores y matrices veremos que es muy sencilla. 
 
 ```{julia}
-#| output-location: column-fragment
 
 A = [1 2 3; 4 5 6]
 ```
@@ -215,7 +59,6 @@ A = [1 2 3; 4 5 6]
 . . .
 
 ```{julia}
-#| output-location: column-fragment
 
 @show A[1, :];
 ```
@@ -235,6 +78,150 @@ A = [1 2 3; 4 5 6]
 
 En [comparación con Python](https://pythonguides.com/python-numpy-matrix/)
 
+# Instalación
+
+```{bash}
+curl -fsSL https://install.julialang.org | sh
+```
+
+[Documentación](https://julialang.org/downloads/)
+
+**Primera ejecución**
+
+Al lanzar julia por primera vez veremos algo así:
+
+![](Material/first-run.png)
+
+## Uso básico
+
+Variables 
+```{julia}
+x = 2
+```
+
+. . .
+
+Vectores
+```{julia}
+x = [1, 2]
+```
+
+. . .
+
+Matrices 
+```{julia}
+A = [1 2]
+B = [1 2; 3 4]
+```
+
+---
+
+Lógica
+```{julia}
+if x == 1
+    println("x es uno. Está solito.")
+elseif x == 2
+    println("x es dos. Mejor en pareja.")
+else
+    println("x es $x. ¡Qué decir!")
+end
+```
+
+. . .
+
+Bucles básicos
+```{julia}
+for i = 1:2
+    println(i^2)
+end
+```
+
+## Scripts
+
+Los scripts de Julia son archivos `.jl`
+
+. . . 
+
+```{julia filename="MiCodigo.jl"}
+#| eval: false
+a = 1
+a = a + 1
+println("a=$a")
+```
+. . .
+
+Ejecutamos en terminal de Unix (si julia está bien en el path)
+
+```{bash}
+$ julia MiCodigo.jl
+"a=2"
+```
+
+. . . 
+
+O desde dentro de julia
+
+```{bash}
+julia> include("MiCodigo.jl")
+"a=2"
+```
+
+# IDEs
+
+## [Visual Studio Code](https://code.visualstudio.com)
+
+Para desarrollar código podemos usar [Visual Studio Code con Julia](https://www.julia-vscode.org). 
+
+## Jupyter 
+
+También podemos utilizar libretas [Jupyter](https://jupyter.org/install)
+
+Es una interfaz web basada en libretas para facilitar el uso de Julia, creada originalmente para Python.
+
+![](Material/jupyterpreview.png)
+
+<!-- ## Instalar Jupyter
+
+1. Instalar Python3
+
+. . . 
+
+2. Usar pip (el instalador que viene con python) para instalar Jupyter. En terminal:
+```{bash}
+$ pip install notebook
+```
+
+. . . 
+
+3. Debemos conectar Julia y Jupyter con el paquete `IJulia`.
+En Julia:
+
+```{julia filename="MiCodigo.jl"}
+#| eval: false
+using Pkg
+Pkg.add("IJulia")
+```
+
+. . .
+
+4. Lanzar Jupyter. En Windows click. En Linux/macos
+
+```{bash}
+$ jupyter notebook
+```
+
+. . .
+
+Ocasionalmente Jupyter puede no detectar Julia (especialmente después de actualizaciones). Ejecutar en Julia
+
+```{julia}
+#| eval: false
+
+using IJulia
+installkernel("Julia")
+```
+-->
+
 # Paquetes
 
 ## ¿Qué son?
@@ -247,27 +234,24 @@ Los paquetes están alojados en GitHub, donde suelen contar con amplia documenta
 
 . . .
 
-Para instalarlos basta utilizamos el paquete `Pkg.jl` de la siguiente forma
-
+Para usar un paquete debemos cargarlo, por ejemplo,
 ```{julia}
-#| eval: false
-#| 
-using Pkg;
-Pkg.add("Plots");
+using Plots
 ```
 
 . . .
 
-Para cargar el paquete Plots
+Los paquetes deben añadidos en el entorno actual. Para añadirlos basta utilizamos el paquete `Pkg.jl` de la siguiente forma
+
 ```{julia}
-using Plots
+#| eval: false
+using Pkg;
+Pkg.add("Plots");
 ```
 
 ---
 
 ```{julia}
-#| output-location: column-fragment
-
 using Plots
 plot(x -> exp(x))
 ```
@@ -275,7 +259,6 @@ plot(x -> exp(x))
 ---
 
 ```{julia}
-#| output-location: column-fragment
 x = 1:5
 y = exp.(x)
 
@@ -286,7 +269,6 @@ plot(x, y)
 ## La magia de los macros
 
 ```{julia}
-#| output-location: column-fragment
 
 @gif for n = 1:20
     plot(x -> sin(n * x))
@@ -299,8 +281,6 @@ Para resolver una EDO podemos usar sintaxis similar a `ode45`
 
 ```{julia}
 #| echo: true
-#| output-location: column-fragment
-
 g = 9.79 # Gravitational constant
 L = 1.00 # Length of pendulum
 
@@ -325,13 +305,14 @@ using Plots
 plot(sol.t, first.(sol.u), label="\\theta")
 ```
 
+*Tomado de [The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)
+
 ---
 
 Sin modificar la librería `DifferentialEquations` podemos extenderla a otros "tipos de datos"
 
 ```{julia}
 #| echo: true
-#| output-location: column-fragment
 using Measurements
 g = 9.79 ± 0.02 # Gravitational constant
 L = 1.00 ± 0.01 # Length of pendulum

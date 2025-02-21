@@ -112,7 +112,6 @@ Data manipulation, storage, and I/O in Julia
 --- 
 
 ```{julia}
-#| output-location: column
 using DataFrames
 DataFrame()
 ```
@@ -120,14 +119,12 @@ DataFrame()
 . . .
 
 ```{julia}
-#| output-location: column
 DataFrame(A=1:3, B=5:7, fixed=1)
 ```
 
 . . .
 
 ```{julia}
-#| output-location: column
 DataFrame("customer age" => [15, 20, 25],
                  "first name" => ["Rohit", "Rahul", "Akshat"])
 ```
@@ -135,7 +132,6 @@ DataFrame("customer age" => [15, 20, 25],
 . . .
 
 ```{julia}
-#| output-location: column
 dict = Dict("customer age" => [15, 20, 25],
                    "first name" => ["Rohit", "Rahul", "Akshat"])
 ```
@@ -159,14 +155,12 @@ Es parte de `Standard Library`
 ## Operaciones básicas
 
 ```{julia}
-#| output-location: column
 
 using LinearAlgebra
 A = [1 2 3; 4 1 6; 7 8 1]
 ```
 
 ```{julia}
-#| output-location: column
 
 @show tr(A)
 @show det(A)
@@ -178,7 +172,6 @@ inv(A)
 
 La sintaxis para sistemas es la habitual
 ```{julia}
-#| output-location: column
 b = [1,2,3]
 A \ b 
 ```
@@ -188,7 +181,6 @@ A \ b
 
 Y las descomposiciones
 ```{julia}
-#| output-location: column
 
 eigvals(A) 
 ```
@@ -197,14 +189,12 @@ eigvals(A)
 
 [LU](LinearAlgebra.lu) permite exportar L, U y vector de permutaciones, o matriz de permutaciones
 ```{julia}
-#| output-location: column
 
 lu(A)
 ```
 
 [SVD](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.svd)
 ```{julia}
-#| output-location: column
 
 svd(A)
 ```
@@ -229,7 +219,6 @@ svd(A)
 --- 
 
 ```{julia}
-#| output-location: column
 A = UnitUpperTriangular( [ 1 2 3 ; 1 2 3 ; 1 2 3 ] )
 ```
 
