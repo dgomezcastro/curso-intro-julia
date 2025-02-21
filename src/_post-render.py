@@ -3,7 +3,7 @@ import shutil
 
 src_folder = "."
 
-types = ["slides", "html"]
+types = ["diapositivas", "apuntes"]
 
 for type in types:
     dest_folder = os.path.join("..", f"{type}")

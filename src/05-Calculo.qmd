@@ -4,7 +4,7 @@ subtitle: "Paquetes de cálculo científico"
 author: "David Gómez-Castro"
 format:
   clean-revealjs:
-    output-file: 05-slides.html
+    output-file: 05-diapositivas.html
 ---
 
 :::{.hidden}
@@ -45,7 +45,8 @@ plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
 
 ## `ModelingToolkit.jl` una capa más sobre DifferentialEquations
 
-```{julia}
+```{julia} 
+using ModelingToolkit
 using ModelingToolkit: t_nounits as t, D_nounits as D
 
 @mtkmodel FOL begin
@@ -157,20 +158,20 @@ simplify(2x + 2y)
 
 ```{julia}
 #| output-location: column
-@variables t g(t)
-Dt = Differential(t)
+@variables x g(x)
+Dt = Differential(x)
 ```
 
 . . .
 
 ```{julia}
-expression = expand_derivatives(Dt(t*g))
+expression = expand_derivatives(Dt(x*g))
 ```
 
 . . .
 
 ```{julia}
-expr2 = substitute(expression, Dict([g => t]))
+expr2 = substitute(expression, Dict([g => x]))
 ```
 
 . . .

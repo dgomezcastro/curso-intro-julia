@@ -5,7 +5,7 @@ author: "David Gómez-Castro"
 
 format:
   clean-revealjs:
-    output-file: 03-slides.html
+    output-file: 03-diapositivas.html
 ---
 
 :::{.hidden}

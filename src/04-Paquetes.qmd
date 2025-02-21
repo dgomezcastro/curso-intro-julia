@@ -4,7 +4,7 @@ subtitle: "Algunos paquetes útiles"
 author: "David Gómez-Castro"
 format:
   clean-revealjs:
-    output-file: 04-slides.html
+    output-file: 04-diapositivas.html
 ---
 
 :::{.hidden}

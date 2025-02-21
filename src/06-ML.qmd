@@ -4,7 +4,7 @@ subtitle: "Redes neuronales"
 author: "David Gómez-Castro"
 format:
   clean-revealjs:
-    output-file: 06-slides.html
+    output-file: 06-diapositivas.html
 ---
 
 :::{.hidden}

@@ -4,7 +4,7 @@ subtitle: "¿Por qué? y ¿cómo?"
 
 format:
   clean-revealjs:
-    output-file: 01-slides.html
+    output-file: 01-diapositivas.html
 ---
 
 {{< include _theme/activate.qmd >}}
