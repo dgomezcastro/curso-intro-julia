@@ -305,7 +305,7 @@ using Plots
 plot(sol.t, first.(sol.u), label="\\theta")
 ```
 
-*Tomado de [The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)
+Tomado de *[The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)*
 
 ---
 
@@ -338,4 +338,4 @@ using Plots
 plot(sol.t, first.(sol.u), label="\\theta")
 ```
 
-*Tomado de [The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)
+Tomado de *[The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)*
