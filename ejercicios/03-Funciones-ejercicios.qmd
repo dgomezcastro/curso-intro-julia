@@ -11,9 +11,7 @@ Creamos una estructura para polinomios de coeficientes reales.
 
 Basta con almacenar los coeficientes
 
-
 ```{julia}
-#|eval: false
 struct Poly
     coeff::Vector{Float64} # [a₀, a₁,... , aₙ]
 end
@@ -21,19 +19,27 @@ end
 
 ## Multiple dispatch. Funciones sobre polinomios
 
+Vamos a extender la funciones `iszero` y `+`. Para ello, creamos primero la función `degree`
+
 ```{julia}
 function degree(P::Poly)
-    degree = length(P.coeff) - 1
+    k = length(P.coeff)
+    while k ≥ 1 && iszero(P.coeff[k])
+        k = k - 1
+    end
+    return k - 1
 end
 ```
+
+Esto funciona para algunos polinomios, pero no para otros. Para esto 
 
 Vamos a hacer una función `iszero` para polinomios
 
 ```{julia}
-import Base: iszero 
+import Base: iszero, isequal
 
 function iszero(P::Poly)
-    return iszero(sum(abs.(P.coeff)))
+    return (degree(P) < 0)
 end
 ``` 
 
@@ -43,12 +49,20 @@ end
 #| code-line-numbers: "1-2|2-7|8-12|"
 
 import Base: +
-function +(a::Poly,b::Poly)
-    da = degree(a); db=degree(b)
-    return Poly( 
-        [a.coeff; zeros(max(db-da,0))] 
-        + [b.coeff; zeros(max(da-db,0))]
+function +(a::Poly, b::Poly)
+    if degree(a) < 0
+        return b
+    elseif degree(b) < 0
+        return a
+    else
+        da = degree(a)
+        db = degree(b)
+        return Poly(
+            [a.coeff[1:da+1]; zeros(max(db - da, 0))]
+            +
+            [b.coeff[1:db+1]; zeros(max(da - db, 0))]
         )
+    end
 end
 ```
 . . .
@@ -61,99 +75,31 @@ print("P+P = ", P+P)
 ## Haciéndolo bonito
 
 ```{julia}
-function lead(P::Poly)
-    if degree(P) < 0 
-        return 0
-    else 
-        return P.coeff[degree(P)+1]
-    end
-end
-``` 
-
-```{julia}
 function Base.show(io::IO,P::Poly) 
-    if degree(P) < 0
+    degreeP = degree(P)
+    if degreeP < 0
         text = "0"
     else
         text = "$(P.coeff[1])"
-        for n = 2:degree(P) + 1
+        for n = 2:degreeP + 1
             text = text * " + $(P.coeff[n])" * "x^$(n-1)"
         end
     end
     print(text)
+    return nothing
 end;
 ```
 
 ```{julia}
-print(P)
-```
-
-## Multiple dispatch 
-
-Vamos a hacer una función `iszero` para polinomios
-
-```{julia}
-import Base: iszero 
-
-function iszero(P::Poly)
-    return iszero(sum(abs.(P.coeff)))
-end
-``` 
-
----
-
-```{julia}
-#| code-line-numbers: "1-2|2-7|8-12|"
-
-import Base: +
-function +(a::Poly,b::Poly)
-    da = degree(a); db=degree(b)
-    return Poly( 
-        [a.coeff; zeros(max(db-da,0))] 
-        + [b.coeff; zeros(max(da-db,0))]
-        )
-end
-```
-. . .
-
-```{julia}
 P = Poly([0,1,2])
-print("P+P = ", P+P)
+print(P)
 ```
 
 ## Otras operaciones
 
 ```{julia}
-struct Poly
-    coeff::Vector{Float64} # [a₀, a₁,... , aₙ]
-    
-    # Constructor strips zeros before leading term
-    function Poly(v)
-        iNonZero = length(v);
-            
-        while (iNonZero >= 1) && iszero(v[iNonZero])
-            iNonZero = iNonZero - 1;
-        end
-        new(v[1:iNonZero]);
-    end
-end
-```
-
-```{julia}
-function lead(P::Poly)
-    if degree(P) < 0 
-        return 0
-    else 
-        return P.coeff[degree(P)+1]
-    end
-end
-``` 
-
-. . .
-
-```{julia}
 P = Poly([0,1,0])
-print("degree(P) = ", degree(P), ", lead(P) = ", lead(P))
+print("degree(P) = ", degree(P))
 ```
 
 ```{julia}
@@ -175,17 +121,27 @@ end
 
 ```{julia}
 
-import Base: -
-function -(a::Poly,b::Poly)
-    return a + Poly([-1])*b
+import Base: -, ==
+function -(a::Poly, b::Poly)
+    return a + Poly([-1]) * b
+end
+
+function ==(P::Poly, Q::Poly)
+    return iszero(P - Q)
 end
 ```
 
-. . .
+Ahora ya podemos usar 
+```{julia}
+using Test
+```
+
+---
 
 ```{julia}
-P = Poly([0,1,2])
-print("P*P = ", P*P, " P-P = ", P-P)
+P = Poly([0, 1, 2])
+@test P * P == Poly([0.0, 0.0, 1.0, 4.0, 4.0])
+@test P - P == Poly([0.0])
 ```
 
 # El algoritmo de Euclides
@@ -196,22 +152,20 @@ print("P*P = ", P*P, " P-P = ", P-P)
 ## Para números enteros
 
 ```{julia} 
-function gcd(a,b)
+function gcd(a, b)
     if iszero(b)
-        print(a, ", ")
         return a
     else
-        print(mod(a, b), ", ")
-        return gcd(b, mod(a, b))
+        return gcd(b, a % b)
     end
 end
 
-gcd(30,15)
+@test gcd(30, 15) == 15
 ``` 
 
 ## Extensión a polinomios
 
-Podemos extender `gcd` a cualquier lugar con `iszero` y `mod`. 
+Podemos extender `gcd` a cualquier lugar con `iszero` y `%`. 
 
 . . .
 
@@ -225,34 +179,45 @@ Creamos una estructura para polinomios de coeficientes reales.
 
 Basta con almacenar los coeficientes.
 
-## Añadiendo `mod` a `Poly`
+## Añadiendo `%` a `Poly`
 
 ```{julia}
-import Base: mod
-function mod(a::Poly,b::Poly)
-    
-    if degree(a) < 0 # El polinomio de grado negativo es el 0
+import Base: %
+function %(a::Poly, b::Poly)
+    if degree(a) < 0 # a = 0
         error("¡No dividas por 0!")
     end
 
-    r = a             # En cada paso a = b × q + r
-    
-    while degree(r) ≥ degree(b) 
-        s = Poly([ zeros(degree(r)-degree(b)) ; lead(r)/lead(b) ])
-        r = r - s*b
+    r = a             # En cada paso a = b * q + r
+
+    while degree(r) ≥ degree(b)
+        s = Poly([zeros(degree(r) - degree(b)); lead(r) / lead(b)])
+        r = r - s * b
     end
-    
+
     return r
+end
+```
+
+Se puede usar la siguiente función auxiliar
+```{julia}
+function lead(P::Poly)
+    if degree(P) < 0
+        return 0.0
+    else
+        return P.coeff[degree(P)+1]
+    end
 end
 ``` 
 
 . . .
 
 ```{julia}
-Q = Poly([-3,1])
-P = Q*Q*Q + Poly([2])
+R = Poly([2])
+Q = Poly([-3, 1])
+P = Q * Q * Q + R
 
-print("mod(P,Q) = ",mod(P, Q))
+@test P % Q == R
 ```
 
 ## Grand finale
@@ -262,8 +227,8 @@ Lanzamos la función gcd ¡que nunca oyó hablar de polinomios! Y obtenemos
 . . .
 
 ```{julia} 
-Q = Poly([-3,1])
-P = Q*Q*Q
+Q = Poly([-3, 1])
+P = Q * Q * Q
 
-print("gcd(P,Q)=",gcd(P,Q))
+@test gcd(P, Q) == Q
 ```

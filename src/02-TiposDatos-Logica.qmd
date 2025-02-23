@@ -534,6 +534,8 @@ point = Point(1,2)
 @show point.a;
 ```
 
+<!-- TODO: Constructores-->
+
 ## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
 
 Hecha una primera introducción, es recomendable revisar la documentación de Julia
