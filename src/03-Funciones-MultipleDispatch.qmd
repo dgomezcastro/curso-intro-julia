@@ -1,0 +1,488 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Funciones. Multiple dispatch"
+author: "David Gómez-Castro"
+
+format:
+  clean-revealjs:
+    output-file: 03-diapositivas.html
+---
+
+:::{.hidden}
+```{julia}
+using Pkg
+Pkg.activate(".")
+```
+:::
+
+
+# Funciones
+
+La mayoría de funciones numéricas "habituales" viene por defecto en `julia`
+
+```{julia}
+a = 2.0;
+a^2
+```
+
+. . .
+
+
+```{julia}
+@show sqrt(a), exp(a), sin(a);
+```
+
+---
+
+Y todas estas funciones se pueden aplicar puntualmente a vectores o matrices, indicando que la operación es puntual
+
+```{julia}
+v = [1, 2];
+v .^ 2
+```
+. . .
+
+```{julia}
+@show sqrt.(v), exp.(v), sin.(v);
+
+```
+
+---
+
+El usuario puede también definir funciones. 
+
+. . .
+
+Bien de la manera convencional
+
+```{julia}
+function suma(x, y)
+    x + y
+end
+
+suma(1, 2)
+```
+
+. . .
+
+O en línea
+
+```{julia}
+suma2(x, y) = x + y
+
+suma2(1, 2)
+```
+
+## Parámetros opcionales (y valores por defecto)
+
+```{julia}
+function g(x; n, m=1)
+    if n == 0
+        return x
+    else
+        return x + m
+    end
+end
+@show g(1, n=1)
+@show g(1; n=1)
+@show g(1, n=1, m=2)
+@show g(1; n=1, m=2);
+```
+
+## Especificar el tipo esperado
+
+Para evitar sorpresas, podemos escribir el tipo de entrada (concreto o abstracto) en una función
+```{julia} 
+function f(x::Real)
+    return x^2
+end
+@show f(1.0)
+@show f(2)
+```
+
+. . .
+
+```{julia}
+#| error: true
+f("hola")
+```
+
+## *Multiple dispatch*
+
+Imaginemos que definimos
+```{julia}
+f(x::Real) = x + 1
+f(x::Integer) = x + 2;
+```
+
+Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
+
+. . .
+
+Lo natural es elegir la clase "más restrictiva". 
+```{julia}
+f(2)
+```
+
+A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en todas las variables, hablamos de *multiple dispatch*.
+
+[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
+
+
+# Mutabilidad en Julia
+
+De acuerdo con la documentación de Julia:
+
+> Julia function arguments follow a convention sometimes called "pass-by-sharing", which means that values are not copied when they are passed to functions. Function arguments themselves act as new variable bindings (new locations that can refer to values), but the values they refer to are identical to the passed values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages. 
+
+---
+
+Las variables de tipo `Float` e `Int` no cambian dentro de funciones
+
+```{julia}
+function AumentarUno(a)
+    a += 1.0
+    return a
+end
+a = 2.0
+display("Primero a = $a.")
+display("Calculamos AumentarUno(a) = $(AumentarUno(a))")
+display("Ahora a = $a")
+```
+
+. . .
+
+Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones no afecta a su valor exterior
+
+---
+
+Los vectores y matrices, sin embargo, son `mutable`. 
+
+. . .
+
+Veamos en este ejemplo
+
+```{julia}
+function AumentarUnoVectorial(v)
+    v = v .+ 1
+    return v
+end;
+
+v = [1, 2];
+
+@show v
+@show AumentarUnoVectorial(v)
+@show v;
+```
+
+. . . 
+
+El motivo de esto es que los vectores y matrices suelen ser estructuradas pesadas, y no es recomendable copiarlas por defecto.
+
+--- 
+
+
+La convención es añadir `!` al final de la función si modifica su argumento. 
+
+. . .
+
+Así, el nombre correcto de la función es
+`AumentarUnoVectorial!`
+
+. . .
+
+Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a la función. Por ejemplo
+
+. . .
+
+```{julia}
+function AumentarUnoVectorial!(v)
+    v .= v .+ 1
+    return v
+end;
+```
+
+. . .
+
+```{julia}
+v = [1, 2]
+@show v
+@show AumentarUnoVectorial!(v)
+@show v;
+```
+
+. . .
+
+```{julia}
+v = [1, 2]
+@show v
+@show AumentarUnoVectorial!(copy(v))
+@show v;
+```
+
+# `DiferentialEquations.jl` + `Measurements.jl`
+<!-- TO DO -->
+
+# Diferenciación automática
+
+## Números duales
+
+Al hacer un desarrollo de Taylor
+$$f(x+\delta) = f(x) + f'(x) \delta + \delta^2 \left( \frac{f''(x)}{2} + ... \right)$$
+Para entender la derivada querríamos poder "tirar" los términos superiores
+
+Sea $\varepsilon$ un elemento formal no-nulo tal que $\varepsilon^2=0$.
+
+Podemos construir los números duales $a + b \varepsilon$ con $a,b \in \mathbb R$ y $\varepsilon \notin \mathbb R$.
+
+Ejemplo tomado de [Video de Youtube del Prof Alan Edelman (MIT)](https://www.youtube.com/watch?v=vAp6nUMrKYg)
+
+## Estructuras en Julia
+
+Creamos una estructura de pares $(a,b)$ y la nombramos Dual 
+
+```{julia}
+struct Dual <: Number
+    f::Tuple{Float64,Float64}
+end
+```
+
+El constructor se genera de manera automática
+
+. . .
+
+```{julia}
+Dual((1.0, 2.1))
+``` 
+
+. . .
+
+Extendemos las funciones suma y resta a este tipo de elementos
+
+```{julia}
+import Base: +, -
++(x::Dual, y::Dual) = Dual(x.f .+ y.f);
+-(x::Dual, y::Dual) = Dual(x.f .- y.f);
+```
+
+. . .
+
+Y lo probamos
+```{julia}
+a = Dual((1.0, 2.0))
+a + a
+```
+
+---
+
+Bajo la premisa $\varepsilon^2 = 0$, para multiplicar:
+$$(a+b\varepsilon)(c+d\varepsilon) = ac + (bc + ad)\varepsilon + bd \varepsilon^2 = ac + (bc + ad)\varepsilon.$$
+
+. . .
+
+Para dividir hay un truco sencillo
+$$
+    \frac{a+b\varepsilon}{c+d\varepsilon} = \frac{(a+b\varepsilon)(c-d\varepsilon)}{(c+d\varepsilon)(c-d\varepsilon)} = \frac{(a+b\varepsilon)(c-d\varepsilon)}{c^2-d^2 \varepsilon^2}
+    = \frac{(a+b\varepsilon)(c-d\varepsilon)}{c^2}
+$$
+
+. . .
+
+Finalmente
+$$
+    \frac{a+b\varepsilon}{c+d\varepsilon} = \frac{a}{c} + \frac{bc - ad}{c^2} \varepsilon
+$$
+
+. . .
+
+Nótese si $f(x) = a + bx, g(x) = c + dx$ entonces $\frac{d}{dx} \frac{f}{g} = \frac{bc - ad}{c^2}$.
+
+. . .
+
+```{julia}
+import Base: *, /
+*(x::Dual, y::Dual) = Dual((x.f[1] * y.f[1], x.f[1] * y.f[2] + x.f[2] * y.f[1]))
+/(x::Dual, y::Dual) = Dual((
+    x.f[1] / y.f[1],
+    (x.f[2] * y.f[1] - x.f[1] * y.f[2]) / (y.f[1]^2)
+));
+```
+
+## Pinceladas de Álgebra
+
+Recordamos el conjunto de números complejos $\mathbb C$ es 
+
+$a + b i$ donde $i \notin \mathbb R$
+
+y coincide con 
+
+$$
+    \mathbb R[x] / \langle x^2 + 1 \rangle 
+$$
+
+. . .
+
+Del mismo modo, $a + b \varepsilon$ donde $\varepsilon \notin \mathbb R$ y $\varepsilon^2 = 0$ es lo mismo que
+
+. . .
+
+$$
+    \mathbb R[x] / \langle x^2 \rangle 
+$$
+
+## Un poco de maquillaje
+
+. . .
+
+Para verlo bonito
+
+```{julia}
+Base.show(io::IO, x::Dual) = print(io, x.f[1], " + ", x.f[2], " ε")
+```
+
+. . .
+
+```{julia}
+a
+```
+
+---
+
+Definimos una variable llamada $\varepsilon$
+
+```{julia}
+ϵ = Dual((0, 1))
+```
+
+. . .
+
+Añadimos una función de convertir, por defecto
+
+```{julia}
+#| scrolled: true
+import Base: convert
+convert(::Type{Dual}, x::Real) = Dual((x, zero(x)));
+```
+
+. . .
+
+Por último, tenemos que explicar a Julia que si intenta sumar un real y un dual, hay que "promocionar" el real a dual
+
+```{julia}
+import Base: promote_rule
+promote_rule(::Type{Dual}, ::Type{<:Number}) = Dual;
+```
+
+Vemos que esto ya nos permite interoperar con `Float` y `Dual`
+
+```{julia}
+#| scrolled: true
+1.0 / (1.0 + ϵ)
+```
+
+## Cálculo formal de derivadas
+
+Con la construcción que hemos hecho, si f es una función racional
+$$
+    g(x + \varepsilon) = g(x) + g'(x) \varepsilon
+$$
+
+```{julia}
+#| scrolled: true
+D(g, x) = (g(x + ϵ)).f[2];
+```
+
+. . .
+
+Utilizando estos números duales, muchas funciones se pueden derivar de esta forma.
+
+Por ejemplo, tomemos la raíz cuadrada con la formula babilonia 
+
+```{julia}
+function sqrtBab(x; N=10)
+    t = (1 + x) / 2
+    for i = 2:N
+        t = (t + x / t) / 2
+    end
+    return t
+end
+
+sqrtBab(1.35) - sqrt(1.35)
+```
+
+. . .
+
+Y si aplicamos números duales tenemos que coincide con la derivada simbólica
+
+```{julia}
+#| scrolled: true
+Dsqrt(x) = 0.5 / √x
+Dsqrt(1.35) - D(sqrtBab, 1.35)
+```
+
+## Nativos en Julia
+
+Los números duales están implementados en el paquete [`DualNumbers.jl`](https://github.com/JuliaDiff/DualNumbers.jl)
+
+Hablaremos más adelante del paquete `ForwardDiff.jl`
+
+# Metaprogramación y macros
+
+## Legado de Lisp
+
+> The strongest legacy of Lisp in the Julia language is its metaprogramming support. Like Lisp, Julia represents its own code as a data structure of the language itself. Since code is represented by objects that can be created and manipulated from within the language, it is possible for a program to transform and generate its own code. This allows sophisticated code generation without extra build steps, and also allows true Lisp-style macros operating at the level of abstract syntax trees. In contrast, preprocessor "macro" systems, like that of C and C++, perform textual manipulation and substitution before any actual parsing or interpretation occurs. Because all data types and code in Julia are represented by Julia data structures, powerful reflection capabilities are available to explore the internals of a program and its types just like any other data.
+
+## La vida de un string
+
+```{julia}
+prog = "1 + 1"
+
+ex1 = Meta.parse(prog)
+```
+
+```{julia}
+typeof(ex1)
+```
+
+```{julia}
+eval(ex1)
+```
+
+--- 
+
+```{julia}
+ex1.head
+```
+
+```{julia}
+ex1.args
+```
+
+```{julia}
+ex2 = Expr(:call, :+, 1, 1)
+ex1 == ex2
+```
+
+## Macros
+
+```{julia}
+macro sayhello()
+    return :(println("Hello, world!"))
+end
+```
+
+```{julia}
+@sayhello()
+```
+
+```{julia}
+macro sayhello(name)
+    return :(println("Hello, ", $name))
+end
+```
+
+```{julia}
+@sayhello("human")
+```
+
+# FIN

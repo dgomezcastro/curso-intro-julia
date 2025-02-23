@@ -44,14 +44,14 @@ b = 1.0
 
 Si hacemos comparación sencilla obtendremos que son iguales
 ```{julia}
-a == b 
+a == b
 ```
 
 . . .
 
 Pero la comparación con tipo revela que no
 ```{julia}
-a === b 
+a === b
 ```
 
 ---
@@ -162,7 +162,8 @@ Incluso podemos usar emojis (aunque esto es claramente poco recomendable)
 Podemos hacer comprobaciones lógicas sencillas
 
 ```{julia}
-a = 1; b = 2;
+a = 1;
+b = 2;
 a == b
 ```
 
@@ -175,10 +176,10 @@ a == b
 
 ```{julia}
 #| eval: false
-if x ≤ 1 
-    x 
-else 
-    x+1 
+if x ≤ 1
+    x
+else
+    x + 1
 end
 ```
 
@@ -187,18 +188,18 @@ end
 La sintaxis `if/then/else` tiene una sintaxis abreviada
 ```{julia}
 #| eval: false
-g(n) = x ≤ 1 ? x : x+1
+g(n) = x ≤ 1 ? x : x + 1
 ```
 
 . . .
 
 ```{julia}
 #| eval: false
-if x ≤ 1 
-    x 
-elseif x ≤ 2 
-    x+1 
-else 
+if x ≤ 1
+    x
+elseif x ≤ 2
+    x + 1
+else
     x + 2
 end
 ```
@@ -211,16 +212,16 @@ La sintaxis `1:3` corresponde al vector `[1,2,3]`
 
 ```{julia}
 
-for i=1:3
+for i = 1:3
     @show i
 end
 ```
 
 ```{julia}
-i=1
-while i<=3
+i = 1
+while i <= 3
     @show i
-    i = i+1;
+    i = i + 1
 end
 ```
 
@@ -229,13 +230,9 @@ end
 Y hay algunos comportamientos avanzados
 
 ```{julia}
-
-x = [4.0,5.1,6.0]
-
+x = [4.0, 5.1, 6.0]
 for (index, value) in enumerate(x)
-    
     display("El valor de x en el índice $index es $value")
-    
 end
 ```
 
@@ -256,7 +253,7 @@ palabra = "hola"
 Añadimos también vectores
 
 ```{julia}
-c = [2.1,3.2]
+c = [2.1, 3.2]
 ```
 
 . . .
@@ -301,7 +298,7 @@ No se deben confundir vectores con matrices fila
 y matrices columna
 
 ```{julia}
-reshape([1,2],2,1)
+reshape([1, 2], 2, 1)
 ```
 
 ---
@@ -309,14 +306,14 @@ reshape([1,2],2,1)
 En Julia los vectores son, por defecto, columnas
 
 ```{julia}
-A*c
+A * c
 ```
 
 . . .
 
 ```{julia}
 
-c'*A
+c' * A
 ```
 
 . . .
@@ -325,7 +322,7 @@ Y multiplicar en sentido contrario producirá un error
 
 ```{julia}
 #| error: true
-c*A
+c * A
 ```
 
 ## Concatenación
@@ -334,8 +331,8 @@ A diferencia de en C, se puede añadir elementos a un vector
 
 ```{julia}
 
-a = [1,2]
-append!(a,3)
+a = [1, 2]
+append!(a, 3)
 ```
 
 . . .
@@ -348,8 +345,8 @@ Usando esta notación en Julia obtenemos lo que hemos pedimos:
 
 ```{julia}
 
-a = [1,2]
-a = [a,1]
+a = [1, 2]
+a = [a, 1]
 ```
 
 En Julia, un vector puede contener elementos de varios tipos
@@ -360,7 +357,7 @@ Se pueden concatenar vectores con `;`
 
 ```{julia}
 v = [1, 2]
-[v;v]
+[v; v]
 ```
 
 . . .
@@ -369,7 +366,7 @@ Nótese la diferencia con
 
 ```{julia}
 v = [1 2]
-[v;v]
+[v; v]
 ```
 
 ---
@@ -407,7 +404,7 @@ En Julia (y en Python) también es así asignaciones completas tanto en escalare
 a = 1
 b = a
 a = 2
-@show a,b;
+@show a, b;
 ```
 . . .
 
@@ -479,6 +476,17 @@ Una forma muy cómoda de generar algunos vectores es mediante *list comprehensio
 [i^2 for i in 1:3]
 ```
 
+## Inicialización de vectores
+
+```{julia}
+using BenchmarkTools
+N = 1_000_000
+@btime u = zeros(N)
+@btime v = Vector{Float64}(undef, N);
+```
+
+# Otros tipos de datos
+
 ## Diccionarios
 
 ```{julia}
@@ -532,211 +540,6 @@ Hecha una primera introducción, es recomendable revisar la documentación de Ju
 
 ## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
 
-
-# Funciones
-
-La mayoría de funciones numéricas "habituales" viene por defecto en `julia`
-
-```{julia}
-a = 2.0;
-a^2
-```
-
-. . .
-
-
-```{julia}
-@show sqrt(a), exp(a), sin(a);
-```
-
----
-
-Y todas estas funciones se pueden aplicar puntualmente a vectores o matrices, indicando que la operación es puntual
-
-```{julia}
-v = [1, 2];
-v .^ 2
-```
-. . .
-
-```{julia}
-@show sqrt.(v) , exp.(v) , sin.(v) ;
-
-```
-
----
-
-El usuario puede también definir funciones. 
-
-. . .
-
-Bien de la manera convencional
-
-```{julia}
-function suma(x,y)
-    x+y
-end
-
-suma(1,2)
-```
-
-. . .
-
-O en línea
-
-```{julia}
-suma2(x,y) = x+y
-
-suma2(1,2)
-```
-
-## Parámetros opcionales (y valores por defecto)
-
-```{julia}
-function g(x ; n , m=1)
-    if n==0
-        return x
-    else
-        return x+m
-    end
-end 
-@show g(1,n=1)
-@show g(1;n=1)
-@show g(1,n=1,m=2)
-@show g(1;n=1,m=2);
-```
-
-## Especificar el tipo esperado
-
-Para evitar sorpresas, podemos escribir el tipo de entrada (concreto o abstracto) en una función
-```{julia} 
-function f(x::Real)
-    return x^2 
-end
-@show f(1.0)
-@show f(2)
-```
-
-. . .
-
-```{julia}
-#| error: true
-f("hola")
-```
-
-## *Multiple dispatch*
-
-Imaginemos que definimos
-```{julia}
-f(x::Real) = x + 1
-f(x::Integer) = x + 2;
-```
-
-Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
-
-. . .
-
-Lo natural es elegir la clase "más restrictiva". 
-```{julia}
-f(2)
-```
-
-A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en todas las variables, hablamos de *multiple dispatch*.
-
-[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
-
-
-# Mutabilidad en Julia
-
-De acuerdo con la documentación de Julia:
-
-> Julia function arguments follow a convention sometimes called "pass-by-sharing", which means that values are not copied when they are passed to functions. Function arguments themselves act as new variable bindings (new locations that can refer to values), but the values they refer to are identical to the passed values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages. 
-
----
-
-Las variables de tipo `Float` e `Int` no cambian dentro de funciones
-
-```{julia}
-function AumentarUno(a) 
-    a += 1.0
-    return a
-end
-a = 2.0
-display("Primero a = $a.")
-display("Calculamos AumentarUno(a) = $(AumentarUno(a))")
-display("Ahora a = $a")
-```
-
-. . .
-
-Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones no afecta a su valor exterior
-
----
-
-Los vectores y matrices, sin embargo, son `mutable`. 
-
-. . .
-
-Veamos en este ejemplo
-
-```{julia}
-function AumentarUnoVectorial(v) 
-    v = v .+ 1
-    return v
-end;
-
-v = [1,2];
-
-@show v
-@show AumentarUnoVectorial(v)
-@show v;
-```
-
-. . . 
-
-El motivo de esto es que los vectores y matrices suelen ser estructuradas pesadas, y no es recomendable copiarlas por defecto.
-
---- 
-
-
-La convención es añadir `!` al final de la función si modifica su argumento. 
-
-. . .
-
-Así, el nombre correcto de la función es
-`AumentarUnoVectorial!`
-
-. . .
-
-Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a la función. Por ejemplo
-
-. . .
-
-```{julia}
-function AumentarUnoVectorial!(v) 
-    v .= v .+ 1
-    return v
-end;
-```
-
-. . .
-
-```{julia}
-v = [1,2]
-@show v
-@show AumentarUnoVectorial!(v)
-@show v;
-```
-
-. . .
-
-```{julia}
-v = [1,2]
-@show v
-@show AumentarUnoVectorial!(copy(v))
-@show v;
-```
-
 ---
 
 # Ejemplo. La sucesión de Fibonacci
@@ -769,7 +572,7 @@ end
 display(Fib)
 ```
 
-## Formulación recursive
+## Formulación recursiva
 
 ```{julia}
 function fib(n::Integer) 
@@ -818,63 +621,3 @@ plot(NCases,RelativeTimeLost,xlabel="Vector de 2^n elementos \n ",
 
 -->
 
-# Metaprogramación y macros
-
-## Legado de Lisp
-
-> The strongest legacy of Lisp in the Julia language is its metaprogramming support. Like Lisp, Julia represents its own code as a data structure of the language itself. Since code is represented by objects that can be created and manipulated from within the language, it is possible for a program to transform and generate its own code. This allows sophisticated code generation without extra build steps, and also allows true Lisp-style macros operating at the level of abstract syntax trees. In contrast, preprocessor "macro" systems, like that of C and C++, perform textual manipulation and substitution before any actual parsing or interpretation occurs. Because all data types and code in Julia are represented by Julia data structures, powerful reflection capabilities are available to explore the internals of a program and its types just like any other data.
-
-## La vida de un string
-
-```{julia}
-prog = "1 + 1"
-
-ex1 = Meta.parse(prog)
-```
-
-```{julia}
-typeof(ex1)
-```
-
-```{julia}
-eval(ex1)
-```
-
---- 
-
-```{julia}
-ex1.head
-```
-
-```{julia}
-ex1.args
-```
-
-```{julia}
-ex2 = Expr(:call, :+, 1, 1)
-ex1 == ex2
-```
-
-## Macros
-
-```{julia}
-macro sayhello()
-    return :(println("Hello, world!"))
-end
-```
-
-```{julia}
-@sayhello()
-```
-
-```{julia}
-macro sayhello(name)
-    return :(println("Hello, ", $name))
-end
-```
-
-```{julia}
-@sayhello("human")
-```
-
-# FIN
