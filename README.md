@@ -12,6 +12,6 @@ Estructura del curso:
 
 04. Paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
-05. 
+05. Paquetes de `julia` para matemáticas
 
 06. Programación eficiente con `julia`

@@ -1,0 +1,61 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Redes neuronales"
+author: "David Gómez-Castro"
+format:
+  clean-revealjs:
+    output-file: 06-diapositivas.html
+---
+
+:::{.hidden}
+```{julia}
+using Pkg
+Pkg.activate(".")
+```
+:::
+
+
+# Cálculo paralelo
+
+En este curso no haremos hincapié en las capacidades y técnicas de Julia para hacer cálculo en paralelo. 
+
+Para el cálculo paralelo en CPU se cuenta con `Distributed` en la Standard Library. Véase este [Tutorial](https://docs.julialang.org/en/v1/manual/distributed-computing/).
+
+Para cálculo paralelo en GPU hay un conjunto de paquetes llamados [JuliaGPU](https://github.com/JuliaGPU): [Cuda.jl](https://cuda.juliagpu.org/stable/), AMDGPU.jl, Metal.jl, OpenCL.jl, ...
+
+## Threads
+
+```{julia}
+@show nthreads()
+```
+
+Si queremos fijar 20 hilo, podemos iniciar `julia` con `--threads 20`.
+
+En Linux/MacOS podemos fijar el número de threads en .bashrc/.zshrc fijando 
+
+```{bash}
+export JULIA_NUM_THREADS=4
+```
+
+. . .
+
+Hecho esto podemos ejecutar bucles en paralelo
+
+```{julia}
+using Base.Threads
+N = 20
+a = Vector{Float64}(undef, N)
+@threads for i=1:N
+  a[i] = i^2
+end 
+```
+
+<!--TODO More on threads-->
+
+## Distributed
+
+[](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560)
+
+<!--TODO GPUArrays  CUDA, AMDGPU, OneAPI, or Metal. y similar-->
+
+# Views

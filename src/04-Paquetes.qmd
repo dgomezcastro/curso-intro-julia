@@ -14,65 +14,23 @@ Pkg.activate(".")
 ```
 :::
 
-# [Plots.jl](https://docs.juliaplots.org/latest/)
+# Paquetes
 
-## [Tutorial básico](https://docs.juliaplots.org/latest/tutorial/)
+## El paquete `Pkg.jl`
 
-## Creando animaciones 
+## Entornos
 
-```{julia}
-#| eval: false
+## Crear un entorno
 
-using Plots 
-anim = @animate for n=1:20
-    plot( x-> sin(n*x) , label="")
-end;
+## Actualizar un entorno
 
-gif(anim, "animation.gif",  fps = 30)
+## Crear un paquete
 
-mp4(anim, "video.mp4",  fps = 30)
-```
+# Algunos paquetes útiles para programación general
 
---- 
-
-En un notebook se puede hacer
-```{julia}
-using Plots
-@gif for n=1:20
-    plot( x-> sin(n*x) , label="" )
-end
-```
-
-## Pintando polígonos
-
-```{julia}
-x,y =  [0.0, 0.5, 1.0],  [0.0, 1.0, 0.0]
-plot(x[[1:end;1]] , y[[1:end; 1]], fill = 0)
-```
-
-## Otras librerías de representación
-
-- [PyPlot.jl](https://github.com/JuliaPy/PyPlot.jl)
-
-- [Makie.jl](https://github.com/MakieOrg/Makie.jl)
-
-# Input Output (IO) 
+## Input Output (IO) 
 
 Hay múltiples paquetes dentro de [`JuliaIO`](https://github.com/JuliaIO)
-
-## Dictionarios
-
-Para sacar datos a un archivo, es habitual crear un `Dictionary`
-```{julia}
-dict = Dict("mivariable" => 1, "b" => 2, "unvector" => [1,2,3], 1=>"mi variable aquí")
-```
-
-. . .
-
-Se puede acceder al contenido como si fuese un vector
-```{julia}
-@show dict["unvector"]
-```
 
 ## Variables de fecha y hora
 
@@ -148,153 +106,6 @@ dict = Dict("customer age" => [15, 20, 25],
 
 [RData.jl](https://github.com/JuliaData/RData.jl)
 
-# LinearAlgebra.jl 
-
-Es parte de `Standard Library`
-
-## Operaciones básicas
-
-```{julia}
-
-using LinearAlgebra
-A = [1 2 3; 4 1 6; 7 8 1]
-```
-
-```{julia}
-
-@show tr(A)
-@show det(A)
-println("inv(A) = ")
-inv(A)
-```
-
-. . .
-
-La sintaxis para sistemas es la habitual
-```{julia}
-b = [1,2,3]
-A \ b 
-```
-
-. . .
-
-
-Y las descomposiciones
-```{julia}
-
-eigvals(A) 
-```
-
-## Factorizaciones {.scrollable}
-
-[LU](LinearAlgebra.lu) permite exportar L, U y vector de permutaciones, o matriz de permutaciones
-```{julia}
-
-lu(A)
-```
-
-[SVD](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.svd)
-```{julia}
-
-svd(A)
-```
-
-## Matrices especiales 
-
-| Type | 	Description | 
-|------|-----------------
-|Symmetric|	Symmetric matrix|
-|Hermitian|	Hermitian matrix|
-|UpperTriangular|	Upper triangular matrix|
-|UnitUpperTriangular|	Upper triangular matrix with unit diagonal|
-|LowerTriangular|	Lower triangular matrix|
-|UnitLowerTriangular|	Lower triangular matrix with unit diagonal|
-|UpperHessenberg|	Upper Hessenberg matrix|
-|Tridiagonal|	Tridiagonal matrix|
-|SymTridiagonal|	Symmetric tridiagonal matrix|
-|Bidiagonal|	Upper/lower bidiagonal matrix|
-|Diagonal|	Diagonal matrix|
-|UniformScaling|	Uniform scaling operator|
-
---- 
-
-```{julia}
-A = UnitUpperTriangular( [ 1 2 3 ; 1 2 3 ; 1 2 3 ] )
-```
-
-[Más sobre matrices especiales](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#Special-matrices)
-
-# Estadística y teoría de la medida
-
-[Random.jl](https://docs.julialang.org/en/v1/stdlib/Random/) es parte de `Standard Library`
-
-```{julia}
-using Random 
-@show rand()
-@show rand( (-1,2) )
-@show rand(5:10);
-```
-
-. . .
-
-[Statistics.jl](https://docs.julialang.org/en/v1/stdlib/Statistics/) es parte de Standard Library.
-
-. . .
-
-Es reseñable la familia [JuliaStats](https://juliastats.org/): DataFrames, Distributions, HypothesisTests, TimeSeries, ... 
-
-## [Distributions.jl](https://juliastats.org/Distributions.jl/stable/)
-
-The Distributions package provides a large collection of probabilistic distributions and related functions. Particularly, Distributions implements:
-
-* Sampling from distributions
-* Moments (e.g mean, variance, skewness, and kurtosis), entropy, and other properties
-* Probability density/mass functions (pdf) and their logarithm (logpdf)
-* Moment-generating functions and characteristic functions
-* Maximum likelihood estimation
-* Distribution composition and derived distributions (Cartesian product of distributions, truncated distributions, censored distributions)
-
---- 
-
-```{julia}
-using Random, Distributions
-d = Normal()
-d + 1.0
-```
-
-```{julia}
-@show mean(d)
-@show rand(d, 3)
-```
-
-```{julia}
-x = [0, 0.4, -0.4] 
-fit(Normal, x)
-```
-
-
-Ver también [MeasureTheory.jl](https://cscherrer.github.io/MeasureTheory.jl/stable/)
-
-
-## [Turing.jl](https://turinglang.org/dev/docs/using-turing/)
-
-> Turing is a general-purpose probabilistic programming language for robust, efficient Bayesian inference and decision making. Current features include:
-
-|   * General-purpose probabilistic programming with an intuitive modelling interface;
-|   * Robust, efficient Hamiltonian Monte Carlo (HMC) sampling for differentiable posterior distributions;
-|   * Particle MCMC sampling for complex posterior distributions involving discrete variables and stochastic control flow; and
-|   * Compositional inference via Gibbs sampling that combines particle MCMC, HMC and random-walk MH (RWMH).
-
-[Un ejemplo sencillo](https://turinglang.org/dev/docs/using-turing/quick-start)
-
-# Cálculo paralelo
-
-En este curso no haremos hincapié en las capacidades y técnicas de Julia para hacer cálculo en paralelo. 
-
-Para el cálculo paralelo en CPU se cuenta con `Distributed` en la Standard Library. Véase este [Tutorial](https://docs.julialang.org/en/v1/manual/distributed-computing/).
-
-Para cálculo paralelo en GPU hay un conjunto de paquetes llamados [JuliaGPU](https://github.com/JuliaGPU): [Cuda.jl](https://cuda.juliagpu.org/stable/), AMDGPU.jl, Metal.jl, OpenCL.jl, ...
-
 # Barras de progreso con [ProgressMeter](https://github.com/timholy/ProgressMeter.jl)
 
 ```{julia}
@@ -305,17 +116,9 @@ using ProgressMeter
 end
 ```
 
-. . .
+# `BenchmarkTools.jl`
 
-```{julia}
-using Distributed
-using ProgressMeter
-
-@showprogress @distributed for i in 1:10
-    sleep(0.1)
-end
-
-```
+<!--TODO-->
 
 # [DrWatson.jl](https://juliadynamics.github.io/DrWatson.jl/dev/)
 

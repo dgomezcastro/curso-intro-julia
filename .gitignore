@@ -5,3 +5,4 @@ tmp.gif
 */.DS_Store
 *.quarto_ipynb
 .DS_Store
+src/.gitignore
