@@ -1,2 +1,54 @@
+- Cargar la sucesión de Fibonacci en un vector
+# Ejemplo. La sucesión de Fibonacci
+
+## Formulación iterativa
+
+$$
+    a_0 = 1, \qquad \qquad  a_1 = 1, \qquad \qquad a_{n} = a_{n-1} + a_{n-2}.
+$$
+
+## Con append!
+```{julia}
+Fib = [1, 1]
+N = 25
+for i = 1:N
+    append!(Fib, Fib[end] + Fib[end-1])
+end
+Fib
+```
+
+## Con pre-alocación
+```{julia}
+N = 5;
+Fib = Vector{Int}(undef, N)
+Fib[1] = 1
+Fib[2] = 1
+for n = 3:N
+    Fib[n] = Fib[n-1] + Fib[n-2]
+end
+display(Fib)
+```
+
+## Formulación recursiva
+
+```{julia}
+function fib(n::Integer)
+    if n ≤ 2
+        return 1
+    else
+        return fib(n - 1) + fib(n - 2)
+    end
+end
+@show fib(5);
+```
+
+. . . 
+
+Formulación abreviada
+```{julia}
+fib(n::Integer) = n ≤ 2 ? one(n) : fib(n - 1) + fib(n - 2)
+@show fib(5);
+```
+
 - `LinearAlgebra.jl`
 - Crear la matriz del Laplaciano. Bucles, etc...

@@ -525,16 +525,70 @@ a[1] = 3
 Podemos definir un nuevo tipo de datos
 ```{julia}
 struct Point
-    a::Float64
-    b::Float64
+    x::Float64
+    y::Float64
 end
 
 point = Point(1,2)
 @show point 
-@show point.a;
+@show point.x;
 ```
 
-<!-- TODO: Constructores-->
+---
+
+Los `structs` se construyen automáticamente cuando se llaman. El constructor es una función que toma por parámetros los elementos. Pero esto puede ser confuso. 
+
+A veces es preferible hacer un constructor a medida, por ejemplo pasando los parámetros como optativos con valores por defecto
+```{julia}
+struct Point3d
+    x::Float64
+    y::Float64
+    z::Float64
+    function Point3d(;x, y, z=0)
+        return new(x,y,z)
+    end
+end
+
+@show Point3d(x=1,y=2)
+@show Point3d(x=1,y=2,z=3);
+```
+
+. . .
+
+Al especificar un nuevo constructor se elimina el constructor por defecto
+```{julia} 
+#| error: true
+Point3d(1,2,3)
+```
+
+. . . 
+
+Pueden definirse múltiples constructores.
+
+# Tipos paramétricos
+
+Hasta ahora no hemos prestado atención a la información entre `{ }`. Por ejemplo
+```{julia}
+v = [1,2]
+```
+
+Es `Vector{Int64}`. La información entre paréntesis nos habla del tipo de datos en interior. 
+
+. . . 
+
+Podemos extender `Point` con un tipo paramétrico, que se elegirá automáticamente el tipo
+
+```{julia}
+struct NewPoint{T}
+    x::T
+    y::T
+end
+
+point = NewPoint(1,2)
+@show point 
+```
+
+Podríamos especificar `NewPoint{T<:Number}`.
 
 ## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
 
@@ -544,56 +598,7 @@ Hecha una primera introducción, es recomendable revisar la documentación de Ju
 
 ---
 
-# Ejemplo. La sucesión de Fibonacci
 
-## Formulación iterativa
-
-$$
-    a_0 = 1, \qquad \qquad  a_1 = 1, \qquad \qquad a_{n} = a_{n-1} + a_{n-2}.
-$$
-
-## Con append!
-```{julia}
-Fib = [1,1]
-N = 25
-for i=1:N
-    append!(Fib, Fib[end] + Fib[end-1]);
-end 
-Fib
-```
-
-## Con pre-alocación
-```{julia}
-N = 5;
-Fib = Vector{Int}(undef, N)
-Fib[1] = 1
-Fib[2] = 1
-for n=3:N
-    Fib[n] = Fib[n-1] + Fib[n-2];
-end 
-display(Fib)
-```
-
-## Formulación recursiva
-
-```{julia}
-function fib(n::Integer) 
-    if n ≤ 2 
-        return 1
-    else 
-        return fib(n-1) + fib(n-2)
-    end 
-end
-@show fib(5);
-```
-
-. . . 
-
-Formulación abreviada
-```{julia}
-fib(n::Integer) = n ≤ 2 ? one(n) : fib(n-1) + fib(n-2)
-@show fib(5);
-```
 
 <!--
 

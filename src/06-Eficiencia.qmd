@@ -59,3 +59,114 @@ end
 <!--TODO GPUArrays  CUDA, AMDGPU, OneAPI, or Metal. y similar-->
 
 # Views
+
+# Iterators
+
+An `iterator` is a `struct` that
+
+Required method |	Brief  description
+----------------|---------------------:
+`iterate(iter)` |	Returns either a tuple of the first item and initial state or nothing if empty
+`iterate(iter, state)` |	Returns either a tuple of the next item and next state or nothing if no items remain
+
+. . .
+
+El código 
+```{julia}
+#| evaluate: false
+for item in iter   # or  "for item = iter"
+    # body
+end
+```
+
+se traduce por 
+
+```{julia}
+#| evaluate: false
+next = iterate(iter)
+while next !== nothing
+    (item, state) = next
+    # body
+    next = iterate(iter, state)
+end
+```
+
+## Ejemplo 
+
+Pongamos que queremos calcular $\sum_{n=0}^N n^2$ de manera eficiente. Podemos generar un iterador que genere $r^n$ iterativamente
+
+```{julia}
+mutable struct Squares
+  count::Int
+end
+
+function Base.iterate(S::Squares, state = 1)
+  if state > S.count
+    return nothing 
+  else
+    next_item = state*state
+    next_state = state+1
+    return (next_item, next_state)
+  end
+end
+```
+
+```{julia}
+N = 20
+S = Squares(N)
+```
+
+```{julia}
+total = 0 
+for x in S
+  total += x
+end
+@show total 
+```
+
+Esto está ya implementado
+
+```{julia}
+25 in S
+```
+
+--- 
+
+Se pueden definir también
+```{julia}
+Base.eltype(S::Type{Squares}) = Int
+Base.length(S::Squares) = S.count
+```
+
+Se puede usar la implementación genérica
+
+```{julia}
+@show sum(S)
+```
+
+, pero a veces es interesante dar valores precisos aprovechando fórmulas cerradas
+```{julia}
+function Base.sum(S::Squares) 
+  n = S.count 
+  return n*(n+1)*(2n+1)÷6
+end
+```
+. . . 
+
+## Generators
+
+Podemos usar una sintaxis similar a *list comprehension*, que ya tienen muchas funciones implementadas
+```{julia}
+x = (i^2 for i in 0:N)
+sum(x)
+```
+
+## Ganancia computacional
+
+```{julia}
+N = 100_000_000
+@btime sum([i^2 for i = 1:N])
+@btime sum((i^2 for i = 1:N))
+@btime sum(Squares(N));
+```
+

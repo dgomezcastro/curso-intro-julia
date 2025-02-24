@@ -223,6 +223,59 @@ v = [1, 2]
 # `DiferentialEquations.jl` + `Measurements.jl`
 <!-- TO DO -->
 
+# Gestión de errores
+
+
+## Errores sencillos
+```{julia}
+#| warning: true
+
+function f()
+    @info "Vamos a probar a hacer algo malo"
+    @warn "¡Oh, no!"
+    @error "Se rompió"
+    return 0
+end
+f()
+```
+[Logging](https://docs.julialang.org/en/v1/stdlib/Logging/)
+
+
+## Objetos de errores
+
+En `julia` existen tipos de error. El tipo `Exception` es un tipo abstracto para gestionar incidencias. 
+
+Algunos subtipos son `DomainError`
+```{julia}
+#| error: true
+sqrt(-1)
+```
+
+Podemos definir nuevos tiupos de error, por ejemplo
+```{julia}
+struct MyCustomException <: Exception end
+```
+
+Los errores se lanzan con `throw` y el constructor del tipo
+```{julia}
+#| error: true
+x = -1
+throw(DomainError(x, "no valido"))
+```
+
+## Control de flujo
+
+Podemos usar un `try-catch` para lidiar con posible errores dentro del código
+```{julia}
+#| error: true
+try 
+    sqrt("ten")
+catch e
+    println("You should have entered a numeric value")
+    println(e)
+end
+```
+
 # Diferenciación automática
 
 ## Números duales
