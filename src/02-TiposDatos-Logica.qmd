@@ -5,9 +5,9 @@ author: "David Gómez-Castro"
 
 format:
     html: 
-        output-file: 02-Fundamentos-apuntes.html
+        output-file: 02-TiposDatos-Logica-apuntes.html
     clean-revealjs:
-        output-file: 02-Fundamentos-diapositivas.html
+        output-file: 02-TiposDatos-Logica-diapositivas.html
 ---
 
 {{< include _theme/activate.qmd >}}

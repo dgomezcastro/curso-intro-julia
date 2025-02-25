@@ -6,3 +6,4 @@ tmp.gif
 *.quarto_ipynb
 .DS_Store
 src/.gitignore
+tmp/

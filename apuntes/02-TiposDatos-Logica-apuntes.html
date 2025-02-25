@@ -3165,25 +3165,25 @@ padding: 0px 15px 15px 15px;
 <h1>Variables</h1>
 <p>Para crear una variable, le asignamos un valor. Julia detecta por defecto elemento introducido.</p>
 <p>Podemos añadir enteros, reales, o vectores de manera sencilla</p>
-<div id="64aa7a27" class="cell" data-execution_count="2">
+<div id="5b1de53d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>1</code></pre>
 </div>
 </div>
-<div id="82fb7f2e" class="cell" data-execution_count="3">
+<div id="7632cef9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>(a);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>typeof(a) = Int64</code></pre>
 </div>
 </div>
-<div id="3cad30dd" class="cell" data-execution_count="4">
+<div id="9cd808df" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>1.0</code></pre>
 </div>
 </div>
-<div id="ff129d73" class="cell" data-execution_count="5">
+<div id="c62cf6fe" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>(b);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>typeof(b) = Float64</code></pre>
@@ -3191,14 +3191,14 @@ padding: 0px 15px 15px 15px;
 </div>
 <hr>
 <p>Si hacemos comparación sencilla obtendremos que son iguales</p>
-<div id="1b852cf5" class="cell" data-execution_count="6">
+<div id="ab8ca2ba" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>true</code></pre>
 </div>
 </div>
 <p>Pero la comparación con tipo revela que no</p>
-<div id="f347b073" class="cell" data-execution_count="7">
+<div id="7aff9579" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">===</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>false</code></pre>
@@ -3206,14 +3206,14 @@ padding: 0px 15px 15px 15px;
 </div>
 <hr>
 <p>Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo float más corto</p>
-<div id="b221d7a5" class="cell" data-execution_count="8">
+<div id="cc928d91" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> <span class="fu">Float32</span>(<span class="fl">1.0</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> b2, <span class="fu">typeof</span>(b2);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(b2, typeof(b2)) = (1.0f0, Float32)</code></pre>
 </div>
 </div>
-<div id="72b4c4a7" class="cell" data-execution_count="9">
+<div id="427be72d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>b3<span class="op">::</span><span class="dt">Float32 </span><span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> b3, <span class="fu">typeof</span>(b3);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3221,21 +3221,21 @@ padding: 0px 15px 15px 15px;
 </div>
 </div>
 <p>Hay que ser cuidado con los valores máximos</p>
-<div id="c1bc57c6" class="cell" data-execution_count="10">
+<div id="1151fd2d" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">Int64</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>typemax(Int64) = 9223372036854775807</code></pre>
 </div>
 </div>
 <p>El tipo <code>Float</code> incluye <code>Inf</code>, de modo que</p>
-<div id="c589cd32" class="cell" data-execution_count="11">
+<div id="63aef66f" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">Float64</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>typemax(Float64) = Inf</code></pre>
 </div>
 </div>
 <p>Pero tenemos una opción elegante para comprobar que</p>
-<div id="aef202f4" class="cell" data-execution_count="12">
+<div id="9819dace" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">prevfloat</span>(<span class="fu">typemax</span>(<span class="dt">Float64</span>));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>prevfloat(typemax(Float64)) = 1.7976931348623157e308</code></pre>
@@ -3243,7 +3243,7 @@ padding: 0px 15px 15px 15px;
 </div>
 <hr>
 <p>Pueden darse algunos compartamiento inesperados como <code>integer overflow</code></p>
-<div id="5dec129e" class="cell" data-execution_count="13">
+<div id="82d3f6a4" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">Int64</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">Int64</span>) <span class="op">+</span> <span class="fl">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3253,14 +3253,14 @@ typemax(Int64) + 1 = -9223372036854775808</code></pre>
 </div>
 <p>Para evitarlo se puede usar el tipo <code>BigInt</code>, que no tiene máximo</p>
 <p>Muy útil, por ejemplo, para</p>
-<div id="8e3179bb" class="cell" data-execution_count="14">
+<div id="b1b0c776" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">factorial</span>(<span class="fu">BigInt</span>(<span class="fl">30</span>));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>factorial(BigInt(30)) = 265252859812191058636308480000000</code></pre>
 </div>
 </div>
 <p>Si preguntamos quien es el máximo, tendremos un error</p>
-<div id="1ff970e5" class="cell" data-execution_count="15">
+<div id="c3f572b7" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">BigInt</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -3287,14 +3287,14 @@ Stacktrace:
 </div>
 <hr>
 <p>De forma similar existe el tipo <code>BigFloat</code> de números arbitrariamente grandes. Es necesario tener cuidado pues estos números son muy pesados de almacenar.</p>
-<div id="98c288fe" class="cell" data-execution_count="16">
+<div id="57b79f0c" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fu">big</span>(<span class="fl">1.0</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>(a);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>typeof(a) = BigFloat</code></pre>
 </div>
 </div>
-<div id="0c6e5bb8" class="cell" data-execution_count="17">
+<div id="35a13875" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typemax</span>(<span class="dt">BigFloat</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">prevfloat</span>(<span class="fu">typemax</span>(<span class="dt">BigFloat</span>));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3304,7 +3304,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 </div>
 <hr>
 <p>Cabe destacar que <code>julia</code> permite usar caracteres utf8 en la variables</p>
-<div id="0890b39c" class="cell" data-execution_count="18">
+<div id="733da8d9" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>α <span class="op">=</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>1</code></pre>
@@ -3312,7 +3312,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 </div>
 <p>Para escribir escribimos <code>\alpha</code> y tabulamos.</p>
 <p>Incluso podemos usar emojis (aunque esto es claramente poco recomendable)</p>
-<div id="81758e8f" class="cell" data-execution_count="19">
+<div id="50dfc6cf" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>🐶 <span class="op">=</span> <span class="st">&quot;Dog&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>&quot;Dog&quot;</code></pre>
@@ -3322,7 +3322,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 <section id="lógica" class="level1">
 <h1>Lógica</h1>
 <p>Podemos hacer comprobaciones lógicas sencillas</p>
-<div id="49b6de12" class="cell" data-execution_count="20">
+<div id="25dbcb8e" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">1</span>;</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span>;</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3330,7 +3330,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 <pre><code>false</code></pre>
 </div>
 </div>
-<div id="90a34de4" class="cell" data-execution_count="21">
+<div id="fefa9b36" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> a <span class="op">&lt;</span> b, a <span class="op">&lt;=</span> b, a <span class="op">!=</span> b;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(a &lt; b, a &lt;= b, a != b) = (true, true, true)</code></pre>
@@ -3338,7 +3338,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 </div>
 <section id="ifthenelse" class="level2">
 <h2 class="anchored" data-anchor-id="ifthenelse">If/then/else</h2>
-<div id="375cc8f9" class="cell" data-execution_count="22">
+<div id="23953168" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">≤</span> <span class="fl">1</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    x</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
@@ -3346,10 +3346,10 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La sintaxis <code>if/then/else</code> tiene una sintaxis abreviada</p>
-<div id="89c12c2b" class="cell" data-execution_count="23">
+<div id="cdcb7034" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(n) <span class="op">=</span> x <span class="op">≤</span> <span class="fl">1</span> ? x <span class="op">:</span> x <span class="op">+</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0f847dc5" class="cell" data-execution_count="24">
+<div id="8a10e817" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">≤</span> <span class="fl">1</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    x</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> x <span class="op">≤</span> <span class="fl">2</span></span>
@@ -3364,7 +3364,7 @@ prevfloat(typemax(BigFloat)) = 5.87565378911158759093691199887844258993851639274
 <h1>Bucles</h1>
 <p>En Julia podemos crear bucles de tipo <code>for</code> y <code>while</code>.</p>
 <p>La sintaxis <code>1:3</code> corresponde al vector <code>[1,2,3]</code></p>
-<div id="2d11ca6a" class="cell" data-execution_count="25">
+<div id="2f044c34" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@show</span> i</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3374,7 +3374,7 @@ i = 2
 i = 3</code></pre>
 </div>
 </div>
-<div id="5726d934" class="cell" data-execution_count="26">
+<div id="2192c3eb" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="fl">1</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> i <span class="op">&lt;=</span> <span class="fl">3</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@show</span> i</span>
@@ -3388,7 +3388,7 @@ i = 3</code></pre>
 </div>
 <hr>
 <p>Y hay algunos comportamientos avanzados</p>
-<div id="d1b4462f" class="cell" data-execution_count="27">
+<div id="32c2b3bf" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="fl">4.0</span>, <span class="fl">5.1</span>, <span class="fl">6.0</span>]</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index, value) <span class="kw">in</span> <span class="fu">enumerate</span>(x)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">display</span>(<span class="st">&quot;El valor de x en el índice </span><span class="sc">$</span>index<span class="st"> es </span><span class="sc">$</span>value<span class="st">&quot;</span>)</span>
@@ -3409,7 +3409,7 @@ i = 3</code></pre>
 <section id="vectores-y-cadenas-de-texto-1" class="level2">
 <h2 class="anchored" data-anchor-id="vectores-y-cadenas-de-texto-1">Vectores y cadenas de texto</h2>
 <p>Lidiamos también con <code>strings</code> (cadenas de cateres)</p>
-<div id="c7007328" class="cell" data-execution_count="28">
+<div id="f2df1a2e" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>palabra <span class="op">=</span> <span class="st">&quot;hola&quot;</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>(palabra);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3417,7 +3417,7 @@ i = 3</code></pre>
 </div>
 </div>
 <p>Añadimos también vectores</p>
-<div id="d66f757a" class="cell" data-execution_count="29">
+<div id="2c6201f2" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [<span class="fl">2.1</span>, <span class="fl">3.2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>2-element Vector{Float64}:
@@ -3426,14 +3426,14 @@ i = 3</code></pre>
 </div>
 </div>
 <p>Y accedemos a la componentes</p>
-<div id="8bb4cab9" class="cell" data-execution_count="30">
+<div id="157db247" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>c[<span class="fl">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>3.2</code></pre>
 </div>
 </div>
 <p>Esta sintaxis también funciona con <code>strings</code></p>
-<div id="f1a317c1" class="cell" data-execution_count="31">
+<div id="169ef7e4" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>palabra[<span class="fl">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>&#39;l&#39;: ASCII/Unicode U+006C (category Ll: Letter, lowercase)</code></pre>
@@ -3444,7 +3444,7 @@ i = 3</code></pre>
 <section id="vectores" class="level2">
 <h2 class="anchored" data-anchor-id="vectores">Vectores</h2>
 <p>Podemos introducir vectores</p>
-<div id="ce4bc58d" class="cell" data-execution_count="32">
+<div id="c6616f7a" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1</span>, <span class="fl">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>2-element Vector{Int64}:
@@ -3453,7 +3453,7 @@ i = 3</code></pre>
 </div>
 </div>
 <p>y matrices</p>
-<div id="5316911d" class="cell" data-execution_count="33">
+<div id="4228e10f" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>; <span class="fl">3</span> <span class="fl">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>2×2 Matrix{Int64}:
@@ -3462,7 +3462,7 @@ i = 3</code></pre>
 </div>
 </div>
 <p>No se deben confundir vectores con matrices fila</p>
-<div id="bad3f812" class="cell" data-execution_count="34">
+<div id="176a18a8" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>[<span class="fl">1</span> <span class="fl">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>1×2 Matrix{Int64}:
@@ -3470,7 +3470,7 @@ i = 3</code></pre>
 </div>
 </div>
 <p>y matrices columna</p>
-<div id="a5b199c0" class="cell" data-execution_count="35">
+<div id="c21a9bf3" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reshape</span>([<span class="fl">1</span>, <span class="fl">2</span>], <span class="fl">2</span>, <span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>2×1 Matrix{Int64}:
@@ -3480,7 +3480,7 @@ i = 3</code></pre>
 </div>
 <hr>
 <p>En Julia los vectores son, por defecto, columnas</p>
-<div id="32ed2c63" class="cell" data-execution_count="36">
+<div id="cd407eda" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">*</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>2-element Vector{Float64}:
@@ -3488,7 +3488,7 @@ i = 3</code></pre>
  19.1</code></pre>
 </div>
 </div>
-<div id="d318bb39" class="cell" data-execution_count="37">
+<div id="fa1c9eed" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>c<span class="op">&#39;</span> <span class="op">*</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>1×2 adjoint(::Vector{Float64}) with eltype Float64:
@@ -3496,7 +3496,7 @@ i = 3</code></pre>
 </div>
 </div>
 <p>Y multiplicar en sentido contrario producirá un error</p>
-<div id="08bdb571" class="cell" data-execution_count="38">
+<div id="3fa300e2" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">*</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>LoadError: DimensionMismatch: matrix A has axes (Base.OneTo(2),Base.OneTo(1)), matrix B has axes (Base.OneTo(2),Base.OneTo(2))
@@ -3525,7 +3525,7 @@ Stacktrace:
 <section id="concatenación" class="level2">
 <h2 class="anchored" data-anchor-id="concatenación">Concatenación</h2>
 <p>A diferencia de en C, se puede añadir elementos a un vector</p>
-<div id="bbb6d4f8" class="cell" data-execution_count="39">
+<div id="ed578763" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>]</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">append!</span>(a, <span class="fl">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
@@ -3537,7 +3537,7 @@ Stacktrace:
 </div>
 <p>En este caso la notación es más correcta que, por ejemplo, la notación de MATLAB <code>a = [a,1]</code></p>
 <p>Usando esta notación en Julia obtenemos lo que hemos pedimos:</p>
-<div id="08855f79" class="cell" data-execution_count="40">
+<div id="96f492ab" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>]</span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [a, <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
@@ -3549,7 +3549,7 @@ Stacktrace:
 <p>En Julia, un vector puede contener elementos de varios tipos</p>
 <hr>
 <p>Se pueden concatenar vectores con <code>;</code></p>
-<div id="23012d3e" class="cell" data-execution_count="41">
+<div id="35451c9d" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>]</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>[v; v]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
@@ -3561,7 +3561,7 @@ Stacktrace:
 </div>
 </div>
 <p>Nótese la diferencia con</p>
-<div id="2e39a92f" class="cell" data-execution_count="42">
+<div id="ef386d32" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>]</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>[v; v]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="40">
@@ -3572,7 +3572,7 @@ Stacktrace:
 </div>
 <hr>
 <p>Para concatenar vectores y matrices podemos usar <code>hcat</code> y <code>vcat</code></p>
-<div id="b8ed7ea9" class="cell" data-execution_count="43">
+<div id="b3b0465f" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>; <span class="fl">3</span> <span class="fl">4</span>]</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">hcat</span>(A, A)</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> [A A];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3582,7 +3582,7 @@ Stacktrace:
 </div>
 </div>
 <p>Esta sintaxis es equivalente a <code>[A A]</code></p>
-<div id="8bdf2024" class="cell" data-execution_count="44">
+<div id="ea3a4e56" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcat</span>(A, A)</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> [A; A]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3606,7 +3606,7 @@ a = 2</code></pre>
 <p>Se queda en estado <code>a=2</code> y <code>b=1</code></p>
 <hr>
 <p>En Julia (y en Python) también es así asignaciones completas tanto en escalares</p>
-<div id="109d52ca" class="cell" data-execution_count="45">
+<div id="cd0e8e49" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">1</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">2</span></span>
@@ -3616,7 +3616,7 @@ a = 2</code></pre>
 </div>
 </div>
 <p>como en vectores</p>
-<div id="60aba4fb" class="cell" data-execution_count="46">
+<div id="7c5fa64f" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">1</span>]</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">2</span>, <span class="fl">1</span>]</span>
@@ -3627,7 +3627,7 @@ a = 2</code></pre>
 </div>
 <hr>
 <p>Pero si modificamos una componente</p>
-<div id="5ab78bae" class="cell" data-execution_count="47">
+<div id="585a1bdc" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">1</span>]</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>a[<span class="fl">1</span>] <span class="op">=</span> <span class="fl">2</span></span>
@@ -3638,7 +3638,7 @@ a = 2</code></pre>
 </div>
 <p>Esto se llama “pass-by-sharing”. Es el comportamiento por defecto de las funciones en Julia. <a href="#Apéndice.-Mutabilidad-en-Julia">Apéndice</a></p>
 <p>Si queremos evitarlo debemos usar la opción <code>copy</code></p>
-<div id="ec1e9b76" class="cell" data-execution_count="48">
+<div id="aef3f51e" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">1.0</span>]</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fu">copy</span>(a)</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>a[<span class="fl">1</span>] <span class="op">=</span> <span class="fl">2.0</span></span>
@@ -3651,7 +3651,7 @@ a = 2</code></pre>
 </section>
 <section id="asignación-puntual-de-vectores" class="level2">
 <h2 class="anchored" data-anchor-id="asignación-puntual-de-vectores">Asignación puntual de vectores</h2>
-<div id="1f99ffe9" class="cell" data-execution_count="49">
+<div id="e9daaf3e" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>]</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="fl">3</span> <span class="fl">4</span>]</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> b</span>
@@ -3663,7 +3663,7 @@ a = 2</code></pre>
 </div>
 <p>Primero compartimos b en c, y luego a en c. </p>
 <p>La notación <code>.=</code> asigna puntualmente:</p>
-<div id="14e00eb8" class="cell" data-execution_count="50">
+<div id="e1452af1" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>]</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="fl">3</span> <span class="fl">4</span>]</span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> b</span>
@@ -3677,7 +3677,7 @@ a = 2</code></pre>
 <section id="list-comprehension" class="level2">
 <h2 class="anchored" data-anchor-id="list-comprehension">List comprehension</h2>
 <p>Una forma muy cómoda de generar algunos vectores es mediante <em>list comprehensions</em></p>
-<div id="d46e5ffa" class="cell" data-execution_count="51">
+<div id="1b405296" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>[i<span class="op">^</span><span class="fl">2</span> for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>3-element Vector{Int64}:
@@ -3689,14 +3689,14 @@ a = 2</code></pre>
 </section>
 <section id="inicialización-de-vectores" class="level2">
 <h2 class="anchored" data-anchor-id="inicialización-de-vectores">Inicialización de vectores</h2>
-<div id="65ba47bc" class="cell" data-execution_count="52">
+<div id="c2f56256" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">1_000_000</span></span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> u <span class="op">=</span> <span class="fu">zeros</span>(N)</span>
 <span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> v <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, N);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  270.833 μs (3 allocations: 7.63 MiB)
-  19.798 μs (3 allocations: 7.63 MiB)</code></pre>
+<pre><code>  69.083 μs (3 allocations: 7.63 MiB)
+  33.746 μs (3 allocations: 7.63 MiB)</code></pre>
 </div>
 </div>
 </section>
@@ -3705,7 +3705,7 @@ a = 2</code></pre>
 <h1>Otros tipos de datos</h1>
 <section id="diccionarios" class="level2">
 <h2 class="anchored" data-anchor-id="diccionarios">Diccionarios</h2>
-<div id="3f6d6c7f" class="cell" data-execution_count="53">
+<div id="8fc911e3" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>dict <span class="op">=</span> <span class="fu">Dict</span>([(<span class="st">&quot;A&quot;</span>, <span class="fl">1</span>), (<span class="st">&quot;B&quot;</span>, <span class="fl">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="51">
 <pre><code>Dict{String, Int64} with 2 entries:
@@ -3713,7 +3713,7 @@ a = 2</code></pre>
   &quot;A&quot; =&gt; 1</code></pre>
 </div>
 </div>
-<div id="5115d1c4" class="cell" data-execution_count="54">
+<div id="18c6a512" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> dict[<span class="st">&quot;A&quot;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dict[&quot;A&quot;] = 1</code></pre>
@@ -3722,7 +3722,7 @@ a = 2</code></pre>
 <pre><code>1</code></pre>
 </div>
 </div>
-<div id="eff68b42" class="cell" data-execution_count="55">
+<div id="ad2aec14" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dict</span>(<span class="st">&quot;A&quot;</span><span class="op">=&gt;</span><span class="fl">1</span>, <span class="st">&quot;B&quot;</span><span class="op">=&gt;</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="53">
 <pre><code>Dict{String, Int64} with 2 entries:
@@ -3734,7 +3734,7 @@ a = 2</code></pre>
 <section id="tuplas" class="level2">
 <h2 class="anchored" data-anchor-id="tuplas">Tuplas</h2>
 <p>Las tuplas son contenedores de longitud fija e inmutables</p>
-<div id="19a02b75" class="cell" data-execution_count="56">
+<div id="a6e87b63" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> (<span class="fl">1</span>, <span class="fl">1</span><span class="op">+</span><span class="fl">1</span>, <span class="st">&quot;hello&quot;</span>)</span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> a[<span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3744,7 +3744,7 @@ a = 2</code></pre>
 <pre><code>1</code></pre>
 </div>
 </div>
-<div id="40cf302c" class="cell" data-execution_count="57">
+<div id="4d2a7d0d" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>a[<span class="fl">1</span>] <span class="op">=</span> <span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>LoadError: MethodError: no method matching setindex!(::Tuple{Int64, Int64, String}, ::Int64, ::Int64)
@@ -3761,7 +3761,7 @@ Stacktrace:
 <section id="definición-de-nuevos-tipos-struct" class="level2">
 <h2 class="anchored" data-anchor-id="definición-de-nuevos-tipos-struct">Definición de nuevos tipos: <code>struct</code></h2>
 <p>Podemos definir un nuevo tipo de datos</p>
-<div id="a62e4a62" class="cell" data-execution_count="58">
+<div id="67ec5335" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Point</span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">::</span><span class="dt">Float64</span></span>
 <span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">::</span><span class="dt">Float64</span></span>
@@ -3778,7 +3778,7 @@ point.x = 1.0</code></pre>
 <hr>
 <p>Los <code>structs</code> se construyen automáticamente cuando se llaman. El constructor es una función que toma por parámetros los elementos. Pero esto puede ser confuso.</p>
 <p>A veces es preferible hacer un constructor a medida, por ejemplo pasando los parámetros como optativos con valores por defecto</p>
-<div id="fb5019b8" class="cell" data-execution_count="59">
+<div id="aa054f27" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Point3d</span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">::</span><span class="dt">Float64</span></span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">::</span><span class="dt">Float64</span></span>
@@ -3796,7 +3796,7 @@ Point3d(x = 1, y = 2, z = 3) = Point3d(1.0, 2.0, 3.0)</code></pre>
 </div>
 </div>
 <p>Al especificar un nuevo constructor se elimina el constructor por defecto</p>
-<div id="e17e64e1" class="cell" data-execution_count="60">
+<div id="13028456" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Point3d</span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -3820,7 +3820,7 @@ Stacktrace:
 <section id="tipos-paramétricos" class="level1">
 <h1>Tipos paramétricos</h1>
 <p>Hasta ahora no hemos prestado atención a la información entre <code>{ }</code>. Por ejemplo</p>
-<div id="bc24af50" class="cell" data-execution_count="61">
+<div id="d42d5d32" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> [<span class="fl">1</span>,<span class="fl">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="59">
 <pre><code>2-element Vector{Int64}:
@@ -3830,7 +3830,7 @@ Stacktrace:
 </div>
 <p>Es <code>Vector{Int64}</code>. La información entre paréntesis nos habla del tipo de datos en interior.</p>
 <p>Podemos extender <code>Point</code> con un tipo paramétrico, que se elegirá automáticamente el tipo</p>
-<div id="2e8d7543" class="cell" data-execution_count="62">
+<div id="5163923d" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> NewPoint{T}</span>
 <span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">::</span><span class="dt">T</span></span>
 <span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">::</span><span class="dt">T</span></span>

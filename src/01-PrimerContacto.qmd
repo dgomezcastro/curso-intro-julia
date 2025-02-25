@@ -92,6 +92,16 @@ Al lanzar julia por primera vez veremos algo así:
 
 ![](Material/first-run.png)
 
+# El REPL
+
+Cuando lanzamos `julia` en terminal nos encontramos en el REPL (read-eval-print loop)
+
+```{bash}
+julia>
+```
+
+Aquí podemos introducir órdenes como las siguientes para obtener el resultado.
+
 ## Uso básico
 
 Variables 
@@ -165,6 +175,19 @@ O desde dentro de julia
 julia> include("MiCodigo.jl")
 "a=2"
 ```
+
+## Otro modos del REPL
+
+El REPL tiene varios modos
+
+| modo | terminal | uso | acceso |
+|------|----------|-----|---------|
+|julian |`julia>`| cálculos| |
+|help|`help?>`| ayuda | `?` |
+|shell|`shell>`|terminal del sistema|`;`
+|pkg|`(@v1.11) pkg>`| gestión de paquetes | `]` |
+
+[Documentación](https://docs.julialang.org/en/v1/stdlib/REPL/)
 
 # IDEs
 

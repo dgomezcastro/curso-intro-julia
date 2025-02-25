@@ -1,10 +1,12 @@
 ---
 title: "![Julia](Material/Julia.svg)"
-subtitle: "Algunos paquetes útiles"
+subtitle: "Paquetes"
 author: "David Gómez-Castro"
 format:
+  html: 
+    output-file: 04-Paquetes-apuntes.html
   clean-revealjs:
-    output-file: 04-diapositivas.html
+    output-file: 04-Paquetes-diapositivas.html
 ---
 
 :::{.hidden}
@@ -20,11 +22,99 @@ Pkg.activate(".")
 
 ## Entornos
 
+Julia permite trabajar, de manera nativa, crear entornos de trabajo con una selección de paquetes, eligiendo la versión de cada uno de ellos.
+
 ## Crear un entorno
 
-## Actualizar un entorno
+Para crear un nuevo entorno en el directorio actual, entramos en modo `pkg`
+```{bash}
+(@v1.11) pkg> activate MiProyecto
+```
+
+hecho esto, el proyecto actual se verá reflejado en `pkg` mediante
+```{bash}
+(MiProyecto) pkg>
+```
+
+Si este entorno no existe en el directorio actual, se entenderá que es un projecto nuevo.
+
+También lo podemos hacer desde el modo normal usando
+```{julia}
+#| eval: false
+
+using Pkg
+Pkg.activate("MiProjecto")
+```
+
+--- 
+
+Por ahora esto no tendrá ningún efecto en la carpeta. Esto cambia si añadimos un paquete.
+
+```
+(MiProyecto) pkg> add Example
+```
+
+Esto creará la carpeta `MiProyecto` en el directorio actual.
+
+Si queremos que el entorno se cree en el directorio actual en lugar de uno nuevo, podemos usar `activate .`
+
+En la carpeta creada hay dos nuevos archivos
+
+- `Project.toml` 
+
+- `Manifest.toml`
+
+Descripción de estos archivos en la [documentación](https://pkgdocs.julialang.org/v1/toml-files/).
+
+Si alguien nos comparte un repositorio con un entorno, entonces podemos activarlo, e instalar las depencias con `instantiate`
 
 ## Crear un paquete
+
+En `julia` es fácil crear nuevos paquetes utilizando `pkg`. 
+
+Para crear un paquete llamado `HelloWorld` basta con indicar en modo `pkg`
+```
+(@v1.11) pkg> generate HelloWorld
+```
+
+. . .
+
+Si ahora pasamos a modo shell podemos ver qué se ha generado
+```{bash}
+shell> tree
+.
+└── HelloWorld
+    ├── Project.toml
+    └── src
+        └── HelloWorld.jl
+```
+
+Se han generado un paquete y un entorno. [Este es `HelloWorld.jl`]{.fragment}
+
+. . .
+
+```{julia filename="HelloWorld.jl"}
+#| eval: false
+#| output: false
+
+module HelloWorld
+
+greet() = print("Hello World!")
+
+end # module HelloWorld
+```
+
+--- 
+
+Para usar el paquete `HelloWorld` debemos estar en la carpeta y activar el entorno generado
+```{bash}
+shell> cd HelloWorld
+(@v1.11) pkg> activate .
+julia> using HelloWorld 
+julia> HelloWorld.greet()
+```
+
+Si queremos que `greet()` se pueda utilizar sin `HelloWorld.`, debemos exportarlo añadiendo `export greet` a `HelloWorld.jl`.
 
 # Algunos paquetes útiles para programación general
 

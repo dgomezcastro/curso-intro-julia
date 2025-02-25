@@ -56,8 +56,6 @@ end
 
 [](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560)
 
-<!--TODO GPUArrays  CUDA, AMDGPU, OneAPI, or Metal. y similar-->
-
 # Views
 
 # Iterators
@@ -170,3 +168,5 @@ N = 100_000_000
 @btime sum(Squares(N));
 ```
 
+# Uso de GPUs
+<!--TODO GPUArrays  CUDA, AMDGPU, OneAPI, or Metal. y similar-->

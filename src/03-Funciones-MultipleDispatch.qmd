@@ -4,8 +4,10 @@ subtitle: "Funciones. Multiple dispatch"
 author: "David Gómez-Castro"
 
 format:
-  clean-revealjs:
-    output-file: 03-diapositivas.html
+    html: 
+        output-file: 03-Funciones-apuntes.html
+    clean-revealjs:
+        output-file: 03-Funciones-diapositivas.html
 ---
 
 :::{.hidden}
