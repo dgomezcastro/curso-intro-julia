@@ -40,21 +40,25 @@ b = 1.0
 @show typeof(b);
 ```
 
----
+## Nombres de variables 
 
-Si hacemos comparación sencilla obtendremos que son iguales
+Cabe destacar que `julia` permite usar caracteres utf8 en la variables
 ```{julia}
-a == b
+α = 1
 ```
 
 . . .
 
-Pero la comparación con tipo revela que no
+Para escribir escribimos `\alpha` y tabulamos.
+
+. . .
+
+Incluso podemos usar emojis (aunque esto es claramente poco recomendable)
 ```{julia}
-a === b
+🐶 = "Dog"
 ```
 
----
+## Espeficar tipos
 
 Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo float más corto
 
@@ -139,23 +143,45 @@ a = big(1.0)
 @show prevfloat(typemax(BigFloat));
 ```
 
---- 
+## La excepción `NaN`
 
-Cabe destacar que `julia` permite usar caracteres utf8 en la variables
+`julia` admite el valor $\pm \infty$, por ejemplo
+
 ```{julia}
-α = 1
+1.0 / 0.0 == Inf, -1.0 / 0.0 == -Inf
+```
+
+Estos valores son específicos de los diferentes tipos de flotantes `Float16`, `Float32`, `Float64`
+ 
+Los valores $0/0$ son indeterminados, y devuelven `NaN`.
+
+
+
+## Rangos
+
+Es útil utilizar rangos, por ejemplo $2, 3, \cdots, 6$ se puede escribir con
+```{julia}
+@show 2:6
 ```
 
 . . .
 
-Para escribir escribimos `\alpha` y tabulamos.
+Si queremos espeficar paso distinto de 1, podemos escribir
+```{julia}
+@show 2:3:6
+```
 
 . . .
 
-Incluso podemos usar emojis (aunque esto es claramente poco recomendable)
+Esto útil para gestionar vectores
 ```{julia}
-🐶 = "Dog"
+v = ["a", "b", "c", "d", "e", "f"]
+v[2:4]
 ```
+
+. . .
+
+También disponemos de los comandos `range` y `LinRange`.
 
 # Lógica
 
@@ -171,6 +197,13 @@ a == b
 
 @show a < b, a <= b, a != b;
 ```
+
+También dispones de comparación con tipo
+```{julia}
+println(a == 1.0)
+println(a === 1.0)
+```
+
 
 ## If/then/else
 
@@ -236,7 +269,6 @@ for (index, value) in enumerate(x)
 end
 ```
 
-
 # Vectores y cadenas de texto
 
 ## Vectores y cadenas de texto
@@ -274,7 +306,7 @@ palabra[3]
 
 Nótese que el vector sabe qué tipo de elementos contiene
 
-## Vectores
+## Matrices
 
 Podemos introducir vectores 
 ```{julia}

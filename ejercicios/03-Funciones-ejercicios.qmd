@@ -3,6 +3,37 @@ title: "Funciones. Multiple dispatch"
 subtitle: "Ejercicios"
 ---
 
+# Ejercicios canónicos
+
+## Sucesión de Fibonacci mediante recursión
+
+Calcule el elemento $n$-ésimo de la sucesión de Fibonacci usando recursión
+
+## Suma cuadrados
+
+a) Escriba una función llamada `suma_cuadrados` que acepte el número natural $n$ y devuelva la suma $1^2 + 2^2 + \cdots + (n-1)^2 + n^2$
+
+```{julia}
+@test suma_cuadrados(1) == 1
+@test suma_cuadrados(2) == 9
+@test suma_cuadrados(100) == 338350
+```
+
+b) Escribe una función llamada `fizz_buzz` que acepte un número y
+- Si el número es divisible por 3 pero no 5, escriba "Fizz" (sin comillas)
+- Si el número es divisible por 5 pero no 3, escriba "Buzz" (sin comillas)
+- Si el número es divisible por 3 y 5, escriba "FizzBuzz" (sin comillas)
+- En otro caso, escriba el propio número
+
+
+```{julia}
+@test fizz_buzz(1) == 1
+@test fizz_buzz(3) == "Fizz"
+@test fizz_buzz(5) == "Buzz"
+@test fizz_buzz(15) == "FizzBuzz"
+@test fizz_buzz(16) == 16
+```
+
 # Creando un tipo de polinomios
 
 ## Estructuras {auto-animate=true}

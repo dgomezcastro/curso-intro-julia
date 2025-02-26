@@ -109,6 +109,20 @@ end
 f("hola")
 ```
 
+## Recusión 
+
+`julia` permite hacer recursión de manera sencilla. Ha de tenerse cuidado en que la recusión termine en tiempo finito
+
+```{julia}
+function mi_factorial(n::Integer)
+    if n ≤ 1
+        return 1 
+    else 
+        return n*factorial(n-1)
+    end 
+end
+```
+
 ## *Multiple dispatch*
 
 Imaginemos que definimos
