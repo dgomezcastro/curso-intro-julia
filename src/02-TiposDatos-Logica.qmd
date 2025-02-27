@@ -269,6 +269,14 @@ for (index, value) in enumerate(x)
 end
 ```
 
+## *Scope* de una variable
+
+En un script, las variables definidas fuera de funciones son globales.
+
+Las variables definidas dentro de bucles y funciones son locales (se olvidan al salir).
+
+[Más documentación sobre *scope*](https://docs.julialang.org/en/v1/manual/variables-and-scoping/)
+
 # Vectores y cadenas de texto
 
 ## Vectores y cadenas de texto
@@ -628,10 +636,7 @@ Hecha una primera introducción, es recomendable revisar la documentación de Ju
 
 ## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
 
----
-
-
-
+# 
 <!--
 
 Además, es preferible hacer sin asignar valores 
