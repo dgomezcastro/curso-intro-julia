@@ -109,7 +109,7 @@ end
 f("hola")
 ```
 
-## Recusión 
+## Recursión 
 
 `julia` permite hacer recursión de manera sencilla. Ha de tenerse cuidado en que la recusión termine en tiempo finito
 
