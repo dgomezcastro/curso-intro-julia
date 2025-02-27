@@ -176,6 +176,33 @@ julia> include("MiCodigo.jl")
 "a=2"
 ```
 
+## Funciones
+
+Podemos definir funciones de varios modos:
+
+. . .
+
+```{julia}
+f(x) = x+1
+f(1)
+```
+
+. . .
+
+```{julia}
+g = x -> x+2
+g(1)
+```
+
+. . .
+
+```{julia}
+function h(x)
+    return x + 3
+end
+h(1)
+```
+
 ## Otro modos del REPL
 
 El REPL tiene varios modos
