@@ -6,9 +6,9 @@ Estructura del curso:
 
 01. Qué es `julia` y algunos motivos para usarlo. Primer contacto.
 
-02. Fundamentos: tipos de datos, lógica, funciones, metaprogramación
+02. Tipos de datos y control de flujo
 
-03. *Multiple dispatch*
+03. Funciones. Multiple dispatch
 
 04. Paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
