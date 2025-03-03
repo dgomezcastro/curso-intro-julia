@@ -1,0 +1,9 @@
+*/.quarto/
+*_files
+tmp.gif
+*/Manifest.toml
+*/.DS_Store
+*.quarto_ipynb
+.DS_Store
+src/.gitignore
+tmp/
