@@ -5,13 +5,15 @@ struct Poly
 end
 
 import Base: iszero, ==
-import Base: +, -, *
-
-## Basic operations
+import Base: +, -, *, %
 
 function iszero(P::Poly)
     return iszero(P.coeff)
 end
+
+```
+El grado de un polinomio \$P\$ es \$n\$ más alto tal que \$ P = a_0 + a_1 x + \cdots + a_n x^n \$ con \$a_n \ne 0\$
+```
 function degree(P::Poly)
     if iszero(P)
         degree = -1
@@ -67,8 +69,6 @@ end
     @test Poly([2])*P == P + P
 end
 
-## Escritura
-
 function Base.show(io::IO,P::Poly) 
     degreeP = degree(P)
     if degreeP < 0
@@ -83,89 +83,39 @@ function Base.show(io::IO,P::Poly)
     return nothing
 end;
 
-
-
-# # El algoritmo de Euclides
-#
-# <!-- Some introduction before -->
-#
-#
-# ## Para números enteros
-
-# +
-function gcd(a, b)
+function my_gcd(a, b)
     if iszero(b)
         return a
     else
-        return gcd(b, a % b)
+        return my_gcd(b, a % b)
     end
 end
 
-@test gcd(30, 15) == 15
-# -
+@test my_gcd(30, 15) == 15
 
-# ## Extensión a polinomios
-#
-# Podemos extender `gcd` a cualquier lugar con `iszero` y `%`. 
-#
-# . . .
-#
-# Queremos ***extender*** la funciones anteriores anterior, de modo que `gcd` funcione ***sin cambios***
-#
-# . . .
-#
-# Por esto julia es uno de los lenguajes con más reciclaje de código. 
-#
-# Creamos una estructura para polinomios de coeficientes reales.
-#
-# Basta con almacenar los coeficientes.
-#
-# ## Añadiendo `%` a `Poly`
-
-import Base: %
 function %(a::Poly, b::Poly)
-    if degree(a) < 0 # a = 0
+    if iszero(a) 
         error("¡No dividas por 0!")
     end
-
-    r = a             # En cada paso a = b * q + r
-
+    
+    # En cada paso a = b * q + r
+    r = a             
     while degree(r) ≥ degree(b)
         s = Poly([zeros(degree(r) - degree(b)); lead(r) / lead(b)])
         r = r - s * b
     end
-
     return r
 end
 
-# Se puede usar la siguiente función auxiliar
-
-function lead(P::Poly)
-    if degree(P) < 0
-        return 0.0
-    else
-        return P.coeff[degree(P)+1]
-    end
+@testset "% works" begin
+    R = Poly([2])
+    Q = Poly([-3, 1])
+    P = Q * Q * Q + R
+    @test P % Q == R
 end
 
-# . . .
-
-# +
-R = Poly([2])
-Q = Poly([-3, 1])
-P = Q * Q * Q + R
-
-@test P % Q == R
-# -
-
-# ## Grand finale
-#
-# Lanzamos la función gcd ¡que nunca oyó hablar de polinomios! Y obtenemos 
-#
-# . . .
-
-# +
-Q = Poly([-3, 1])
-P = Q * Q * Q
-
-@test gcd(P, Q) == Q
+@testset "GCD works for polynomials" begin
+    Q = Poly([-3, 1])
+    P = Q * Q * Q    
+    @test my_gcd(P, Q) == Q
+end;

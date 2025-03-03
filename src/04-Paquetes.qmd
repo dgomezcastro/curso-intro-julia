@@ -118,6 +118,28 @@ Si queremos que `greet()` se pueda utilizar sin `HelloWorld.`, debemos exportarl
 
 # Algunos paquetes útiles para programación general
 
+## [Test.jl](https://docs.julialang.org/en/v1/stdlib/Test/)
+
+```{julia}
+using Test
+@test 1 == 1
+```
+
+. . .
+
+```{julia}
+@test 0 == 1
+```
+
+. . . 
+
+```{julia}
+@testset "Checking obvious things" begin
+  @test 1 == 1
+  @test 1^2 == 1
+end
+```
+
 ## Input Output (IO) 
 
 Hay múltiples paquetes dentro de [`JuliaIO`](https://github.com/JuliaIO)
