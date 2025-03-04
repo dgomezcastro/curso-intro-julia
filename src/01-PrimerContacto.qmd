@@ -80,11 +80,17 @@ En [comparación con Python](https://pythonguides.com/python-numpy-matrix/)
 
 # Instalación
 
+En Linux/MacOS ejecute en una terminal
 ```{bash}
 curl -fsSL https://install.julialang.org | sh
+``` 
+
+En Windows ejecute en una terminal
+```{powershell}
+winget install julia -s msstore
 ```
 
-[Documentación](https://julialang.org/downloads/)
+Más información e instaladores convencionales en la [web de `julia`](https://julialang.org/downloads/)
 
 **Primera ejecución**
 
@@ -226,51 +232,19 @@ Para desarrollar código podemos usar [Visual Studio Code con Julia](https://www
 
 También podemos utilizar libretas [Jupyter](https://jupyter.org/install)
 
-Es una interfaz web basada en libretas para facilitar el uso de Julia, creada originalmente para Python.
-
-![](Material/jupyterpreview.png)
-
-<!-- ## Instalar Jupyter
-
-1. Instalar Python3
-
-. . . 
-
-2. Usar pip (el instalador que viene con python) para instalar Jupyter. En terminal:
-```{bash}
-$ pip install notebook
-```
-
-. . . 
-
-3. Debemos conectar Julia y Jupyter con el paquete `IJulia`.
-En Julia:
-
-```{julia filename="MiCodigo.jl"}
-#| eval: false
-using Pkg
-Pkg.add("IJulia")
-```
-
-. . .
-
-4. Lanzar Jupyter. En Windows click. En Linux/macos
-
-```{bash}
-$ jupyter notebook
-```
-
-. . .
-
-Ocasionalmente Jupyter puede no detectar Julia (especialmente después de actualizaciones). Ejecutar en Julia
-
+Para instalar `jupyter` introduzca en una terminal de `julia`
 ```{julia}
 #| eval: false
-
-using IJulia
-installkernel("Julia")
+using Pkg; Pkg.add("IJulia")
 ```
--->
+
+Para ejecutarlo
+```{julia}
+#| eval: false
+using IJulia; notebook()
+```
+
+La primera vez pedirá instalar otros paquetes. Acepte introduciendo `y`.
 
 # Paquetes
 
@@ -309,7 +283,7 @@ plot(x -> exp(x))
 ---
 
 ```{julia}
-x = 1:5
+x = [0, 0.1, 1, 2]
 y = exp.(x)
 
 using Plots
