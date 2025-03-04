@@ -26,13 +26,11 @@ winget install julia -s msstore
 
 Para instalar `jupyter` introduzca en una terminal de `julia`
 ```{julia}
-#| eval: false
 using Pkg; Pkg.add("IJulia")
 ```
 
 Para ejecutarlo
 ```{julia}
-#| eval: false
 using IJulia; notebook()
 ```
 
