@@ -5,6 +5,11 @@ Siguiendo las instrucciones de las notas, y una IDE:
 $ curl -fsSL https://install.julialang.org | sh
 ``` 
 
+En Windows ejecute en una terminal
+```{powershell}
+winget install julia -s msstore
+```
+
 Compruebe que funcione en una terminal:
 ```{bash}
 $ julia
