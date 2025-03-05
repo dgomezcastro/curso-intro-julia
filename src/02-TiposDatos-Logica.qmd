@@ -1,6 +1,6 @@
 ---
 title: "![Julia](Material/Julia.svg)"
-subtitle: "Algunos conceptos básicos"
+subtitle: "Tipos de datos. Lógica"
 author: "David Gómez-Castro"
 
 format:
@@ -161,14 +161,14 @@ Los valores $0/0$ son indeterminados, y devuelven `NaN`.
 
 Es útil utilizar rangos, por ejemplo $2, 3, \cdots, 6$ se puede escribir con
 ```{julia}
-@show 2:6
+@show 2:6;
 ```
 
 . . .
 
 Si queremos espeficar paso distinto de 1, podemos escribir
 ```{julia}
-@show 2:3:6
+@show 2:3:6;
 ```
 
 . . .
@@ -193,10 +193,16 @@ b = 2;
 a == b
 ```
 
+. . . 
+
 ```{julia}
 
-@show a < b, a <= b, a != b;
+@show a < b
+@show a <= b
+@show a != b;
 ```
+
+Podemos usar `≤` que se escribe como `\le[tab]`
 
 También dispones de comparación con tipo
 ```{julia}
@@ -298,7 +304,9 @@ c = [2.1, 3.2]
 
 . . .
 
-Y accedemos a la componentes
+En `julia` los vectores se indexan desde 1.
+
+Podemos acceder a las componentes del vector
 
 ```{julia}
 c[2]
@@ -351,9 +359,10 @@ A * c
 
 . . .
 
-```{julia}
+El vector traspuesto tiene un tipo específico
 
-c' * A
+```{julia}
+c'
 ```
 
 . . .
@@ -428,17 +437,7 @@ vcat(A, A)
 
 ## Asignaciones de vectores
 
-Recordamos que en C, o en MATLAB, el siguiente código 
-```
-int a = 1
-int b = a
-a = 2
-```
-Se queda en estado `a=2` y `b=1`
-
----
-
-En Julia (y en Python) también es así asignaciones completas tanto en escalares
+En Julia el siguiente código tiene el comportamiento natural
 
 ```{julia}
 a = 1
@@ -636,7 +635,6 @@ Hecha una primera introducción, es recomendable revisar la documentación de Ju
 
 ## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
 
-# 
 <!--
 
 Además, es preferible hacer sin asignar valores 
