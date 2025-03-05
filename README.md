@@ -6,8 +6,15 @@ Marzo 2025. Universidad Complutense de Madrid
 ## Estructura del curso:
 
 01. Qué es `julia` y algunos motivos para usarlo. Primer contacto.
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-PrimerContacto-apuntes.html)
+    
+    - [Ejercicios](ejercicios/01-PrimerContacto-ejercicios.ipynb)
 
 02. Tipos de datos y control de flujo
+
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-TiposDatos-Logica-apuntes.html)
+
+    - [Ejercicios](ejercicios/02-TiposDatos-Logica-ejercicios.ipynb)
 
 03. Funciones. Multiple dispatch
 
@@ -17,7 +24,7 @@ Marzo 2025. Universidad Complutense de Madrid
 
 06. Programación eficiente con `julia`
 
-## En las aulas de informática UCM
+### Configuración para las aulas de informática UCM
 
 En Windows ejecute en una terminal
 ```{powershell}
