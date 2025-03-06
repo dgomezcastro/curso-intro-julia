@@ -3,6 +3,8 @@ David Gómez-Castro (UAM)
 
 Marzo 2025. Universidad Complutense de Madrid
 
+[gomezcastro.xyz/courses/julia](https://www.gomezcastro.xyz/courses/julia)
+
 ## Estructura del curso:
 
 01. Qué es `julia` y algunos motivos para usarlo. Primer contacto.
@@ -17,6 +19,10 @@ Marzo 2025. Universidad Complutense de Madrid
     - [Ejercicios](ejercicios/02-TiposDatos-Logica-ejercicios.ipynb)
 
 03. Funciones. Multiple dispatch
+
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/03-Funciones-apuntes.html)
+
+    - [Ejercicios](ejercicios/03-Funciones-ejercicios.ipynb)
 
 04. Paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
