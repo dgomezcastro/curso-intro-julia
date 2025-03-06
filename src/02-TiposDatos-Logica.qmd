@@ -162,6 +162,7 @@ Los valores $0/0$ son indeterminados, y devuelven `NaN`.
 Es útil utilizar rangos, por ejemplo $2, 3, \cdots, 6$ se puede escribir con
 ```{julia}
 @show 2:6;
+@show typeof(2:6)
 ```
 
 . . .
@@ -224,10 +225,10 @@ end
 
 . . .
 
-La sintaxis `if/then/else` tiene una sintaxis abreviada
+La estructura `if/then/else` tiene una sintaxis abreviada
 ```{julia}
 #| eval: false
-g(n) = x ≤ 1 ? x : x + 1
+x ≤ 1 ? x : x + 1
 ```
 
 . . .
@@ -280,6 +281,23 @@ end
 En un script, las variables definidas fuera de funciones son globales.
 
 Las variables definidas dentro de bucles y funciones son locales (se olvidan al salir).
+
+```{julia}
+#| error: true
+for k = 1:1
+    new_var = 1
+end
+new_var
+```
+
+Las variables definidas como globales se actualizan
+```{julia}
+j = 0
+for k = 1:1
+    j = 1
+end
+j
+```
 
 [Más documentación sobre *scope*](https://docs.julialang.org/en/v1/manual/variables-and-scoping/)
 
@@ -382,6 +400,7 @@ A diferencia de en C, se puede añadir elementos a un vector
 
 a = [1, 2]
 append!(a, 3)
+@show a
 ```
 
 . . .
@@ -431,7 +450,7 @@ A = [1 2; 3 4]
 Esta sintaxis es equivalente a `[A A]`
 
 ```{julia}
-vcat(A, A)
+@show vcat(A, A)
 @show [A; A]
 ```
 
@@ -629,11 +648,26 @@ point = NewPoint(1,2)
 
 Podríamos especificar `NewPoint{T<:Number}`.
 
-## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
-
-Hecha una primera introducción, es recomendable revisar la documentación de Julia
-
 ## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
+
+Julia tiene 
+
+- tipos concretos para variables que se pueden almacenar en memoria como `Int64` y `Float64`
+- tipos abstractos (como `Any` o `Real`). No se pueden crear variables de estos tipos. Pero sirven para estructura el lenguaje. 
+
+La dependencia de unos tipos con otros se comprueba con `<:`.
+
+Por ejemplo
+```{julia}
+@show Float64 <: Real
+@show Real <: Number
+@show Number <: Any;
+```
+
+## [Guía de estilo](https://docs.julialang.org/en/v1/manual/style-guide/)
+
+## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
+Hecha una primera introducción, es recomendable revisar la documentación de Julia
 
 <!--
 
