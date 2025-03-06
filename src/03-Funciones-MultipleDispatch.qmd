@@ -156,13 +156,13 @@ De acuerdo con la documentación de Julia:
 Las variables de tipo `Float` e `Int` no cambian dentro de funciones
 
 ```{julia}
-function AumentarUno(a)
+function aumentaruno(a)
     a += 1.0
     return a
 end
 a = 2.0
 display("Primero a = $a.")
-display("Calculamos AumentarUno(a) = $(AumentarUno(a))")
+display("Calculamos aumentaruno(a) = $(aumentaruno(a))")
 display("Ahora a = $a")
 ```
 
@@ -179,7 +179,7 @@ Los vectores y matrices, sin embargo, son `mutable`.
 Veamos en este ejemplo
 
 ```{julia}
-function AumentarUnoVectorial(v)
+function aumentarunovectorial(v)
     v = v .+ 1
     return v
 end;
@@ -187,7 +187,7 @@ end;
 v = [1, 2];
 
 @show v
-@show AumentarUnoVectorial(v)
+@show aumentarunovectorial(v)
 @show v;
 ```
 
@@ -203,7 +203,7 @@ La convención es añadir `!` al final de la función si modifica su argumento.
 . . .
 
 Así, el nombre correcto de la función es
-`AumentarUnoVectorial!`
+`aumentarunovectorial!`
 
 . . .
 
@@ -212,7 +212,7 @@ Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a 
 . . .
 
 ```{julia}
-function AumentarUnoVectorial!(v)
+function aumentarunovectorial!(v)
     v .= v .+ 1
     return v
 end;
@@ -223,7 +223,7 @@ end;
 ```{julia}
 v = [1, 2]
 @show v
-@show AumentarUnoVectorial!(v)
+@show aumentarunovectorial!(v)
 @show v;
 ```
 
@@ -232,7 +232,7 @@ v = [1, 2]
 ```{julia}
 v = [1, 2]
 @show v
-@show AumentarUnoVectorial!(copy(v))
+@show aumentarunovectorial!(copy(v))
 @show v;
 ```
 
@@ -345,13 +345,16 @@ a + a
 ---
 
 Bajo la premisa $\varepsilon^2 = 0$, para multiplicar:
-$$(a+b\varepsilon)(c+d\varepsilon) = ac + (bc + ad)\varepsilon + bd \varepsilon^2 = ac + (bc + ad)\varepsilon.$$
+$$
+    (a+b\varepsilon)(c+d\varepsilon) = ac + (bc + ad)\varepsilon + bd \varepsilon^2 = ac + (bc + ad)\varepsilon.
+$$
 
 . . .
 
 Para dividir hay un truco sencillo
 $$
-    \frac{a+b\varepsilon}{c+d\varepsilon} = \frac{(a+b\varepsilon)(c-d\varepsilon)}{(c+d\varepsilon)(c-d\varepsilon)} = \frac{(a+b\varepsilon)(c-d\varepsilon)}{c^2-d^2 \varepsilon^2}
+    \frac{a+b\varepsilon}{c+d\varepsilon} 
+    = \frac{(a+b\varepsilon)(c-d\varepsilon)}{(c+d\varepsilon)(c-d\varepsilon)} = \frac{(a+b\varepsilon)(c-d\varepsilon)}{c^2-d^2 \varepsilon^2}
     = \frac{(a+b\varepsilon)(c-d\varepsilon)}{c^2}
 $$
 
@@ -553,5 +556,3 @@ end
 ```{julia}
 @sayhello("human")
 ```
-
-# FIN
