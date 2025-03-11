@@ -163,14 +163,14 @@ De acuerdo con la documentación de Julia:
 Las variables de tipo `Float` e `Int` no cambian dentro de funciones
 
 ```{julia}
-function aumentaruno(a)
-    a = 1.0
+function sumauno(a)
+    a = a + 1.0
     return a
 end
 a = 2.0
-display("Primero a = $a.")
-display("Calculamos aumentaruno(a) = $(aumentaruno(a))")
-display("Ahora a = $a")
+println("Primero a = $a")
+@show sumauno(a)
+println("Ahora a = $a")
 ```
 
 . . .
@@ -182,15 +182,15 @@ Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones
 El comportamiento es el mismo si asignamos un vector completo
 
 ```{julia}
-function aumentarunovectorial(v)
-    v = [1,1]
+function sumauno(v::Vector)
+    v = v .+ 1
     return v
 end;
 
 v = [2, 3];
 
 @show v
-@show aumentarunovectorial(v)
+@show sumauno(v)
 @show v;
 ```
 
@@ -205,8 +205,8 @@ Si modificamos el vector dentro de la función con `.=`
 . . .
 
 ```{julia}
-function aumentarunovectorial!(v)
-    v .= 1 # fijamos cada componente a 1
+function sumauno!(v::Vector)
+    v .= v .+ 1
     return v
 end;
 ```
@@ -216,16 +216,18 @@ end;
 ```{julia}
 v = [2, 3]
 @show v
-@show aumentarunovectorial!(v)
+@show sumauno!(v)
 @show v;
 ```
 
 . . .
 
+Eliminamos este efecto pasando una copia
+
 ```{julia}
 v = [1, 2]
 @show v
-@show aumentarunovectorial!(copy(v))
+@show sumauno!(copy(v))
 @show v;
 ```
 
@@ -247,7 +249,7 @@ f()
 [Logging](https://docs.julialang.org/en/v1/stdlib/Logging/)
 
 
-## Objetos de errores
+## Objetos de errores {.scrollable}
 
 En `julia` existen tipos de error. El tipo `Exception` es un tipo abstracto para gestionar incidencias. 
 
@@ -257,7 +259,7 @@ Algunos subtipos son `DomainError`
 sqrt(-1)
 ```
 
-Podemos definir nuevos tiupos de error, por ejemplo
+Podemos definir nuevos tipos de error, por ejemplo
 ```{julia}
 struct MyCustomException <: Exception end
 ```

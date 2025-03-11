@@ -77,7 +77,7 @@ format:
 
 execute:
   echo: true
-  daemon: false
+  daemon: false # causes a non-fatal error between html and revealjs
   
 jupyter: julia-1.11
 csl: _theme/harvard-imperial-college-london-david.csl
