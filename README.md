@@ -24,7 +24,7 @@ Marzo 2025. Universidad Complutense de Madrid
 
     - [Ejercicios](ejercicios/03-Funciones-ejercicios.ipynb)
 
-04. Paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
+04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
 05. Paquetes de `julia` para matemáticas
 
