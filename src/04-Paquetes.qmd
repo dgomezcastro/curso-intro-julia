@@ -1,6 +1,6 @@
 ---
 title: "![Julia](Material/Julia.svg)"
-subtitle: "Paquetes"
+subtitle: "Entornos y paquetes"
 author: "David Gómez-Castro"
 format:
   html: 

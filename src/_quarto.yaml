@@ -77,6 +77,8 @@ format:
 
 execute:
   echo: true
+  daemon: false
+  
 jupyter: julia-1.11
 csl: _theme/harvard-imperial-college-london-david.csl
 

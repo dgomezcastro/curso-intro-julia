@@ -42,11 +42,13 @@ Y todas estas funciones se pueden aplicar puntualmente a vectores o matrices, in
 v = [1, 2];
 v .^ 2
 ```
+
 . . .
 
 ```{julia}
-@show sqrt.(v), exp.(v), sin.(v);
-
+@show sqrt.(v)
+@show exp.(v)
+@show sin.(v);
 ```
 
 ---
@@ -118,7 +120,7 @@ function mi_factorial(n::Integer)
     if n ≤ 1
         return 1 
     else 
-        return n*factorial(n-1)
+        return n*mi_factorial(n-1)
     end 
 end
 ```
@@ -144,6 +146,11 @@ A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en 
 
 [Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
 
+## `DifferentialEquations.jl` + `Measurements.jl` 
+
+Ver clase 1.
+
+El motivo por el que estas dos librerías encajan bien es por que `Measurements.jl` extiende las operaciones básicas `+`, `*`, ...
 
 # Mutabilidad en Julia
 
@@ -157,7 +164,7 @@ Las variables de tipo `Float` e `Int` no cambian dentro de funciones
 
 ```{julia}
 function aumentaruno(a)
-    a += 1.0
+    a = 1.0
     return a
 end
 a = 2.0
@@ -172,48 +179,34 @@ Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones
 
 ---
 
-Los vectores y matrices, sin embargo, son `mutable`. 
-
-. . .
-
-Veamos en este ejemplo
+El comportamiento es el mismo si asignamos un vector completo
 
 ```{julia}
 function aumentarunovectorial(v)
-    v = v .+ 1
+    v = [1,1]
     return v
 end;
 
-v = [1, 2];
+v = [2, 3];
 
 @show v
 @show aumentarunovectorial(v)
 @show v;
 ```
 
-. . . 
-
-El motivo de esto es que los vectores y matrices suelen ser estructuradas pesadas, y no es recomendable copiarlas por defecto.
+Recordamos que la diferencia entre que `=` rompe el link "simbólico".
 
 --- 
 
+Las funciones en julia también funcionan por link simbólico.
 
-La convención es añadir `!` al final de la función si modifica su argumento. 
-
-. . .
-
-Así, el nombre correcto de la función es
-`aumentarunovectorial!`
-
-. . .
-
-Para evitar esta comportamiento, que es por defecto, se puede pasar una copia a la función. Por ejemplo
+Si modificamos el vector dentro de la función con `.=`
 
 . . .
 
 ```{julia}
 function aumentarunovectorial!(v)
-    v .= v .+ 1
+    v .= 1 # fijamos cada componente a 1
     return v
 end;
 ```
@@ -221,7 +214,7 @@ end;
 . . .
 
 ```{julia}
-v = [1, 2]
+v = [2, 3]
 @show v
 @show aumentarunovectorial!(v)
 @show v;
@@ -235,9 +228,6 @@ v = [1, 2]
 @show aumentarunovectorial!(copy(v))
 @show v;
 ```
-
-# `DiferentialEquations.jl` + `Measurements.jl`
-<!-- TO DO -->
 
 # Gestión de errores
 
@@ -284,7 +274,7 @@ throw(DomainError(x, "no valido"))
 Podemos usar un `try-catch` para lidiar con posible errores dentro del código
 ```{julia}
 #| error: true
-try 
+try
     sqrt("ten")
 catch e
     println("You should have entered a numeric value")
@@ -324,7 +314,7 @@ El constructor se genera de manera automática
 Dual((1.0, 2.1))
 ``` 
 
-. . .
+---
 
 Extendemos las funciones suma y resta a este tipo de elementos
 
@@ -342,7 +332,11 @@ a = Dual((1.0, 2.0))
 a + a
 ```
 
----
+. . .
+
+Nótese que si $f(x) = a + bx, g(x) = c + dx$ entonces $\frac{d}{dx}\Big|_{x=0} (f+g) = b + d$.
+
+--- {.scrollable}
 
 Bajo la premisa $\varepsilon^2 = 0$, para multiplicar:
 $$
@@ -350,6 +344,13 @@ $$
 $$
 
 . . .
+
+Nótese si $f(x) = a + bx, g(x) = c + dx$ entonces 
+$$
+    \frac{d}{dx}\Big|_{x=0} f{g}  = bc + ad.
+$$
+
+---
 
 Para dividir hay un truco sencillo
 $$
@@ -367,7 +368,10 @@ $$
 
 . . .
 
-Nótese si $f(x) = a + bx, g(x) = c + dx$ entonces $\frac{d}{dx} \frac{f}{g} = \frac{bc - ad}{c^2}$.
+Nótese si $f(x) = a + bx, g(x) = c + dx$ entonces 
+$$
+    \frac{d}{dx}\Big|_{x=0} \frac{f}{g}  = \frac{bc - ad}{c^2}\dots. 
+$$
 
 . . .
 
@@ -380,31 +384,28 @@ import Base: *, /
 ));
 ```
 
-## Pinceladas de Álgebra
+--- 
 
-Recordamos el conjunto de números complejos $\mathbb C$ es 
-
-$a + b i$ donde $i \notin \mathbb R$
-
-y coincide con 
-
+**Teorema.** Si $f= p(x) / q(x)$ con $p, q\in \mathbb R[X]$ entonces 
 $$
-    \mathbb R[x] / \langle x^2 + 1 \rangle 
+    f(x + \varepsilon) = f(x) + f'(x) \varepsilon.
 $$
 
-. . .
+Definimos una variable llamada $\varepsilon$
 
-Del mismo modo, $a + b \varepsilon$ donde $\varepsilon \notin \mathbb R$ y $\varepsilon^2 = 0$ es lo mismo que
+```{julia}
+ϵ = Dual((0, 1))
+```
 
-. . .
+así definimos
 
-$$
-    \mathbb R[x] / \langle x^2 \rangle 
-$$
+```{julia}
+#| scrolled: true
+D(g, x) = (g(x + ϵ)).f[2];
+```
+
 
 ## Un poco de maquillaje
-
-. . .
 
 Para verlo bonito
 
@@ -419,14 +420,6 @@ a
 ```
 
 ---
-
-Definimos una variable llamada $\varepsilon$
-
-```{julia}
-ϵ = Dual((0, 1))
-```
-
-. . .
 
 Añadimos una función de convertir, por defecto
 
@@ -452,19 +445,7 @@ Vemos que esto ya nos permite interoperar con `Float` y `Dual`
 1.0 / (1.0 + ϵ)
 ```
 
-## Cálculo formal de derivadas
-
-Con la construcción que hemos hecho, si f es una función racional
-$$
-    g(x + \varepsilon) = g(x) + g'(x) \varepsilon
-$$
-
-```{julia}
-#| scrolled: true
-D(g, x) = (g(x + ϵ)).f[2];
-```
-
-. . .
+## Ejemplo de cálculo de derivadas
 
 Utilizando estos números duales, muchas funciones se pueden derivar de esta forma.
 
@@ -491,6 +472,42 @@ Y si aplicamos números duales tenemos que coincide con la derivada simbólica
 Dsqrt(x) = 0.5 / √x
 Dsqrt(1.35) - D(sqrtBab, 1.35)
 ```
+
+. . .
+
+Mediante diferencias finitas
+```{julia}
+difffin(; x, h) = (sqrt(x + h) - sqrt(x)) / h
+Dsqrt(1.35) - difffin(x=1.35, h=sqrt(eps()))
+```
+
+```{julia}
+h = eps()
+Dsqrt(1.35) - difffin(x=1.35, h=eps())
+```
+
+## Pinceladas de Álgebra
+
+Recordamos el conjunto de números complejos $\mathbb C$ es 
+
+$a + b i$ donde $i \notin \mathbb R$
+
+y coincide con 
+
+$$
+    \mathbb R[x] / \langle x^2 + 1 \rangle 
+$$
+
+. . .
+
+Del mismo modo, $a + b \varepsilon$ donde $\varepsilon \notin \mathbb R$ y $\varepsilon^2 = 0$ es lo mismo que
+
+. . .
+
+$$
+    \mathbb R[x] / \langle x^2 \rangle 
+$$
+
 
 ## Nativos en Julia
 
@@ -556,3 +573,5 @@ end
 ```{julia}
 @sayhello("human")
 ```
+
+# Fin
