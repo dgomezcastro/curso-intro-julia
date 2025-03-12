@@ -4,9 +4,9 @@ subtitle: "Entornos y paquetes"
 author: "David Gómez-Castro"
 format:
   html: 
-    output-file: 04-Paquetes-apuntes.html
+    output-file: 04-EntornosPaquetes-apuntes.html
   clean-revealjs:
-    output-file: 04-Paquetes-diapositivas.html
+    output-file: 04-EntornosPaquetes-diapositivas.html
 ---
 
 :::{.hidden}
@@ -16,9 +16,7 @@ Pkg.activate(".")
 ```
 :::
 
-# Paquetes
-
-## El paquete `Pkg.jl`
+# Entornos y paquetes: `Pkg.jl`
 
 ## Entornos
 
@@ -38,33 +36,43 @@ hecho esto, el proyecto actual se verá reflejado en `pkg` mediante
 
 Si este entorno no existe en el directorio actual, se entenderá que es un projecto nuevo.
 
-También lo podemos hacer desde el modo normal usando
+También lo podemos hacer desde el modo `julian` (por ejemplo si estamos en `jupyter`) usando
 ```{julia}
 #| eval: false
 
-using Pkg
-Pkg.activate("MiProjecto")
+import Pkg; Pkg.activate("MiProjecto")
+```
+
+Usando `"."` en lugar de `"MiProjecto"` creamos/activamos un entorno en el directorio actual (y usará el nombre de la carpeta actual).
+
+--- 
+
+Para saber qué entorno tenemos activo tenemos varias opciones:
+
+- Si estamos en REPL, podemos pasar a modo `pkg` usando `]`
+- En VSCode, el entorno de trabajo aparece en la barra inferior
+- En modo `julian` (o en `jupyter`) podemos usar el comando 
+```{julia}
+#| eval: false
+Base.active_project()
 ```
 
 --- 
 
-Por ahora esto no tendrá ningún efecto en la carpeta. Esto cambia si añadimos un paquete.
+Por ahora esto no hemos causado ningún efecto en la carpeta. Esto cambia si añadimos un paquete.
 
 ```
 (MiProyecto) pkg> add Example
 ```
 
-Esto creará la carpeta `MiProyecto` en el directorio actual.
-
-Si queremos que el entorno se cree en el directorio actual en lugar de uno nuevo, podemos usar `activate .`
-
-En la carpeta creada hay dos nuevos archivos
-
+Esto creará la carpeta `MiProyecto` en el directorio actual, y dentro de ella 
 - `Project.toml` 
 
 - `Manifest.toml`
 
-Descripción de estos archivos en la [documentación](https://pkgdocs.julialang.org/v1/toml-files/).
+Si queremos que el entorno se cree en la carpeta actual en lugar de uno nuevo, podemos usar `activate .`
+
+La descripción de estos archivos en la [documentación](https://pkgdocs.julialang.org/v1/toml-files/).
 
 Si alguien nos comparte un repositorio con un entorno, entonces podemos activarlo, e instalar las depencias con `instantiate`
 
@@ -114,7 +122,7 @@ julia> using HelloWorld
 julia> HelloWorld.greet()
 ```
 
-Si queremos que `greet()` se pueda utilizar sin `HelloWorld.`, debemos exportarlo añadiendo `export greet` a `HelloWorld.jl`.
+Si queremos que `greet()` se pueda utilizar sin `HelloWorld.`, debemos exportarlo añadiendo `export greet` al archivo `HelloWorld/HelloWorld.jl`.
 
 # Algunos paquetes útiles para programación general
 
@@ -142,7 +150,7 @@ end
 
 ## Input Output (IO) 
 
-Hay múltiples paquetes dentro de [`JuliaIO`](https://github.com/JuliaIO)
+Hay múltiples paquetes dentro de [`JuliaIO.jl`](https://github.com/JuliaIO)
 
 ## Variables de fecha y hora
 
@@ -208,7 +216,7 @@ dict = Dict("customer age" => [15, 20, 25],
 
 [Más ejemplos](https://dataframes.juliadata.org/stable/man/basics/)
 
-## Otros paquetes 
+## Otros paquetes para tablas
 
 [Tables.jl](https://github.com/JuliaData/Tables.jl)
 
@@ -218,7 +226,7 @@ dict = Dict("customer age" => [15, 20, 25],
 
 [RData.jl](https://github.com/JuliaData/RData.jl)
 
-# Barras de progreso con [ProgressMeter](https://github.com/timholy/ProgressMeter.jl)
+## Barras de progreso con [ProgressMeter](https://github.com/timholy/ProgressMeter.jl)
 
 ```{julia}
 using ProgressMeter
@@ -228,11 +236,13 @@ using ProgressMeter
 end
 ```
 
-# `BenchmarkTools.jl`
+## [`BenchmarkTools.jl`](https://github.com/JuliaCI/BenchmarkTools.jl)
 
-<!--TODO-->
+El macro `@time` calcula el tiempo que tarda en ejecutarse una orden. Debido a JIT es habitual que los tiempos de compilación se reduzcan si se ejecuta varias veces. 
 
-# [DrWatson.jl](https://juliadynamics.github.io/DrWatson.jl/dev/)
+Este paquete realiza múltiples ejecuciones del comando a cronometrar, y devuelve información estadística. 
+
+## [DrWatson.jl](https://github.com/JuliaDynamics/DrWatson.jl)
 
 Es un paquete de gestión de investigación científica. 
 

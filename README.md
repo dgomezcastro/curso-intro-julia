@@ -26,6 +26,8 @@ Marzo 2025. Universidad Complutense de Madrid
 
 04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
+
 05. Paquetes de `julia` para matemáticas
 
 06. Programación eficiente con `julia`

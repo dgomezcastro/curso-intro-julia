@@ -14,7 +14,11 @@ Pkg.activate(".")
 ```
 :::
 
-# LinearAlgebra.jl 
+Entre otras ventajas, los algoritmos matemáticos en `julia` pueden quedar escritos de manera muy agradable
+
+[https://github.com/mossr/BeautifulAlgorithms.jl](https://github.com/mossr/BeautifulAlgorithms.jl)
+
+# `LinearAlgebra.jl` 
 
 Es parte de `Standard Library`
 
@@ -47,7 +51,6 @@ A \ b
 
 Y las descomposiciones
 ```{julia}
-
 eigvals(A) 
 ```
 
