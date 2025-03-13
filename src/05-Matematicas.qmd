@@ -46,6 +46,8 @@ b = [1,2,3]
 A \ b 
 ```
 
+Más detalles sobre inversión de matrices. [Youtube](https://www.youtube.com/watch?v=JWI34_w-yYw&pp=ygUOcmF1Y2thdXMganVsaWE%3D)
+
 . . .
 
 
