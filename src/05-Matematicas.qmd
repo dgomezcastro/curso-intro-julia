@@ -1,12 +1,12 @@
 ---
 title: "![Julia](Material/Julia.svg)"
-subtitle: "Paquetes de cálculo científico"
+subtitle: "Paquetes para matemáticas"
 author: "David Gómez-Castro"
 format:
-  clean-revealjs:
-    output-file: 05-Matematicas-diapositivas.html
   html:
     output-file: 05-Matematicas-apuntes.html
+  clean-revealjs:
+    output-file: 05-Matematicas-diapositivas.html
 ---
 
 :::{.hidden}
@@ -91,11 +91,11 @@ B = lu(A)
 
 Julia incluso puede elegir una "buena" factorización para nuestro problema
 ```{julia}
-C = factorize(A)
+factorize(A)
 ```
 
 ```{julia}
-D = factorize(A'*A)
+factorize(A'*A)
 ```
 
 Volveremos sobre la importancia de factorizar en la próxima sesión.
@@ -174,11 +174,11 @@ Ver también [MeasureTheory.jl](https://cscherrer.github.io/MeasureTheory.jl/sta
 ## [Turing.jl](https://turinglang.org/dev/docs/using-turing/)
 
 > Turing is a general-purpose probabilistic programming language for robust, efficient Bayesian inference and decision making. Current features include:
-
-|   * General-purpose probabilistic programming with an intuitive modelling interface;
-|   * Robust, efficient Hamiltonian Monte Carlo (HMC) sampling for differentiable posterior distributions;
-|   * Particle MCMC sampling for complex posterior distributions involving discrete variables and stochastic control flow; and
-|   * Compositional inference via Gibbs sampling that combines particle MCMC, HMC and random-walk MH (RWMH).
+>
+>   * General-purpose probabilistic programming with an intuitive modelling interface;
+>   * Robust, efficient Hamiltonian Monte Carlo (HMC) sampling for differentiable posterior distributions;
+>   * Particle MCMC sampling for complex posterior distributions involving discrete variables and stochastic control flow; and
+>   * Compositional inference via Gibbs sampling that combines particle MCMC, HMC and random-walk MH (RWMH).
 
 [Un ejemplo sencillo](https://turinglang.org/dev/docs/using-turing/quick-start)
 
@@ -250,14 +250,16 @@ plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
 plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
 ```
 
+`julia` implementa por defecto [`Tsit5`](https://www.sciencedirect.com/science/article/pii/S0898122111004706) en lugar de `Dormund-Prince`
+
 ## [ModelingToolkit.jl](https://docs.sciml.ai/ModelingToolkit/stable/)
 
 > ModelingToolkit.jl is a modeling language for high-performance symbolic-numeric computation in scientific computing and scientific machine learning. It then mixes ideas from symbolic computational algebra systems with causal and acausal equation-based modeling frameworks to give an extendable and parallel modeling system. It allows for users to give a high-level description of a model for symbolic preprocessing to analyze and enhance the model. Automatic symbolic transformations, such as index reduction of differential-algebraic equations, make it possible to solve equations that are impossible to solve with a purely numeric-based technique.
 
-## `ModelingToolkit.jl` una capa más sobre DifferentialEquations
+## `ModelingToolkit.jl` una capa más sobre `DifferentialEquations.jl`
 
 ```{julia} 
-using ModelingToolkit
+using ModelingToolkit, Plots
 using ModelingToolkit: t_nounits as t, D_nounits as D
 
 @mtkmodel FOL begin
@@ -277,7 +279,6 @@ using OrdinaryDiffEq
 prob = ODEProblem(fol, [], (0.0, 10.0), [])
 sol = solve(prob)
 
-using Plots
 plot(sol)
 ```
 
@@ -329,7 +330,7 @@ import Pkg
 Pkg.add("HiGHS")
 ```
 
-## [Ejemplo](https://jump.dev/JuMP.jl/stable/tutorials/getting_started/getting_started_with_JuMP/#Step-by-step)
+## [Ejemplo](https://jump.dev/JuMP.jl/stable/tutorials/getting_started/getting_started_with_JuMP/#Step-by-step) {.center}
 
 ## Limitaciones y alternativas
 
@@ -372,7 +373,7 @@ Dt = Differential(x)
 . . .
 
 ```{julia}
-expression = expand_derivatives(Dt(x*g))
+expression = expand_derivatives(Dt(x * g))
 ```
 
 . . .
@@ -384,7 +385,7 @@ expr2 = substitute(expression, Dict([g => x]))
 . . .
 
 ```{julia}
-expand_derivatives( expr2 )
+expand_derivatives(expr2)
 ```
 
 ### Limitaciones

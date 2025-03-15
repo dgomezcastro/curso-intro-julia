@@ -3,8 +3,10 @@ title: "![Julia](Material/Julia.svg)"
 subtitle: "Redes neuronales"
 author: "David Gómez-Castro"
 format:
+  html:
+    output-file: 06-Eficiencia-apuntes.html
   clean-revealjs:
-    output-file: 06-diapositivas.html
+    output-file: 06-Eficiencia-diapositivas.html
 ---
 
 :::{.hidden}
@@ -37,6 +39,26 @@ B = factorize(A)
 print("Resolver:")
 @btime B \ b
 @show typeof(B);
+```
+
+## Para vectores pequeños y cuyos valores no cambian usa `static array`
+
+[`StaticArrays.jl`](https://github.com/JuliaArrays/StaticArrays.jl) 
+
+```{julia} 
+using StaticArrays, BenchmarkTools
+
+A = [1 2 3; 4 5 6; 7 8 9]
+B = @SMatrix [1 2 3; 4 5 6; 7 8 9]
+
+@btime A^20 
+@btime B^20;
+```
+
+```{julia}
+#| error: true
+
+B[3,3] = 1
 ```
 
 # Cálculo paralelo
@@ -95,9 +117,7 @@ end
 @show s;
 ```
 
-## Distributed
-
-[](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560)
+## [Distributed]((https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560) {.center}
 
 # Views
 
@@ -298,14 +318,14 @@ N = 100_000_000
 
 ```{julia} 
 #| eval: false 
-using CUDA
+using CUDA, BenchmarkTools
 N = 10_000
 A = rand(N, N);
-B = CuArray(A)
+B = CuArray(A);
 
-@btime A * A
-println("@btime A*A = 1.875 s (3 allocations: 762.94 MiB)")
+@btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
 
-@time B * B
-print("@time B*B = 0.000114 seconds (55 allocations: 1.250 KiB)")
+@time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
+@time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
+
 ```
