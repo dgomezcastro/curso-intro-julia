@@ -4,7 +4,9 @@ subtitle: "Paquetes de cálculo científico"
 author: "David Gómez-Castro"
 format:
   clean-revealjs:
-    output-file: 05-diapositivas.html
+    output-file: 05-Matematicas-diapositivas.html
+  html:
+    output-file: 05-Matematicas-apuntes.html
 ---
 
 :::{.hidden}
@@ -22,7 +24,7 @@ Entre otras ventajas, los algoritmos matemáticos en `julia` pueden quedar escri
 
 Es parte de `Standard Library`
 
-## Operaciones básicas
+## Operaciones básicas {.scrollable}
 
 ```{julia}
 
@@ -38,36 +40,18 @@ println("inv(A) = ")
 inv(A)
 ```
 
-. . .
-
 La sintaxis para sistemas es la habitual
 ```{julia}
 b = [1,2,3]
 A \ b 
 ```
 
-Más detalles sobre inversión de matrices. [Youtube](https://www.youtube.com/watch?v=JWI34_w-yYw&pp=ygUOcmF1Y2thdXMganVsaWE%3D)
-
 . . .
 
 
-Y las descomposiciones
+Y las descomposición espectral
 ```{julia}
 eigvals(A) 
-```
-
-## Factorizaciones {.scrollable}
-
-[LU](LinearAlgebra.lu) permite exportar L, U y vector de permutaciones, o matriz de permutaciones
-```{julia}
-
-lu(A)
-```
-
-[SVD](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.svd)
-```{julia}
-
-svd(A)
 ```
 
 ## Matrices especiales 
@@ -94,6 +78,46 @@ A = UnitUpperTriangular( [ 1 2 3 ; 1 2 3 ; 1 2 3 ] )
 ```
 
 [Más sobre matrices especiales](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#Special-matrices)
+
+## Factorizaciones {.scrollable}
+
+`lu` permite exportar L, U y vector de permutaciones, o matriz de permutaciones
+```{julia} 
+A = rand(3,3)
+B = lu(A)
+```
+
+. . . 
+
+Julia incluso puede elegir una "buena" factorización para nuestro problema
+```{julia}
+C = factorize(A)
+```
+
+```{julia}
+D = factorize(A'*A)
+```
+
+Volveremos sobre la importancia de factorizar en la próxima sesión.
+
+## Más sobre sistemas lineales
+
+Para sistemas "difíciles" o cuando queramos la máxima velocidad, podemos utilizar el paquete `LinearSolve.jl`
+```{julia}
+using LinearSolve
+
+A = rand(4, 4)
+b = rand(4)
+prob = LinearProblem(A, b)
+sol = solve(prob)
+sol.u
+```
+
+Implementa muchos resolvedores optimizados y tiene, además, un sistema de selección de solvers adecuados.
+
+Video explicativo en [Youtube](https://www.youtube.com/watch?v=JWI34_w-yYw&pp=ygUOcmF1Y2thdXMganVsaWE%3D)
+
+
 
 # Estadística y teoría de la medida
 

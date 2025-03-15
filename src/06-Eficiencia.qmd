@@ -14,6 +14,30 @@ Pkg.activate(".")
 ```
 :::
 
+# Álgebra Lineal
+
+## *si resuelves muchas veces, factoriza tus matrices*
+
+```{julia}
+using BenchmarkTools
+
+N = 100
+A = rand(N,N)
+b = ones(N)
+
+@btime A \ b ;
+```
+
+```{julia}
+using LinearAlgebra
+
+print("Factorizar:")
+@btime factorize(A)
+B = factorize(A)
+print("Resolver:")
+@btime B \ b
+@show typeof(B);
+```
 
 # Cálculo paralelo
 
@@ -271,4 +295,17 @@ N = 100_000_000
 ```
 
 # Uso de GPUs
-<!--TODO GPUArrays  CUDA, AMDGPU, OneAPI, or Metal. y similar-->
+
+```{julia} 
+#| eval: false 
+using CUDA
+N = 10_000
+A = rand(N, N);
+B = CuArray(A)
+
+@btime A * A
+println("@btime A*A = 1.875 s (3 allocations: 762.94 MiB)")
+
+@time B * B
+print("@time B*B = 0.000114 seconds (55 allocations: 1.250 KiB)")
+```
