@@ -105,7 +105,7 @@ end
 
 Hay que tener cuidado con los cálculos inseguros. Si tenemos más de un thread activo el siguiente código dará resultados inesperados:
 ```{julia}
-#| eval= false
+#| eval: false
 using Base.Threads
 N = 1000
 @show sum([ i for i = 1:N ])
@@ -176,7 +176,7 @@ Required method |	Brief  description
 
 El código 
 ```{julia}
-#| evaluate: false
+#| eval: false
 for item in iter   # or  "for item = iter"
     # body
 end
@@ -185,7 +185,7 @@ end
 se traduce por 
 
 ```{julia}
-#| evaluate: false
+#| eval: false
 next = iterate(iter)
 while next !== nothing
     (item, state) = next
@@ -231,6 +231,7 @@ end
 Esto está ya implementado
 
 ```{julia}
+S = Cuadrados(6)
 25 in S
 ```
 
@@ -301,7 +302,7 @@ Base.eltype(S::Type{Cuadrados}) = Int64
 
 Podemos usar una sintaxis similar a *list comprehension*, que ya tienen muchas funciones implementadas
 ```{julia}
-x = (i^2 for i in 0:N)
+x = (i^2 for i = 0:N)
 sum(x)
 ```
 
@@ -311,7 +312,7 @@ sum(x)
 N = 100_000_000
 @btime sum([i^2 for i = 1:N])
 @btime sum((i^2 for i = 1:N))
-@btime sum(Squares(N));
+@btime sum(Cuadrados(N));
 ```
 
 # Uso de GPUs
