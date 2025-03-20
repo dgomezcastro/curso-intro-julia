@@ -1,6 +1,6 @@
 ---
 title: "![Julia](Material/Julia.svg)"
-subtitle: "Redes neuronales"
+subtitle: "Eficiencia computacional"
 author: "David Gómez-Castro"
 format:
   html:
@@ -117,9 +117,115 @@ end
 @show s;
 ```
 
-## [Distributed]((https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560) {.center}
+## [Distributed](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560) {.center}
 
-# Views
+# Views {.scrollable}
+
+```{julia}
+using Plots
+function plotCantor(cantor::Array, n::Integer)
+    p = plot(
+        title="Conjunto de Cantor n = $n",
+        xticks=([0, 1]), yticks=[],
+        ylim=(-1, 1))
+    for j = 1:length(cantor)
+        p = plot!(
+            [first(cantor[j]), last(cantor[j])],
+            [0, 0],
+            linewidth=2,
+            axis=([], false),
+            color=:black,
+            label="")
+    end
+    return p
+end;
+```
+
+```{julia}
+function CantorIter(cantor)
+    N = length(cantor)
+    new_cantor = Array{Tuple{Float64,Float64}}(undef, 2 * N)
+
+    for i = 1:N
+        (a₁, a₂) = cantor[i]
+        b₁ = (2 * a₁ + a₂) / 3
+        b₂ = (a₁ + 2 * a₂) / 3
+
+        new_cantor[2*i-1] = (a₁, b₁)
+        new_cantor[2*i] = (b₂, a₂)
+    end
+    return new_cantor
+end;
+```
+
+```{julia}
+#| output-location: column
+#| code-fold: false
+cantor = [(0, 1)]
+@gif for n = 0:5
+    plotCantor(cantor, n)
+    global cantor = CantorIter(cantor)
+end fps = 1
+```
+
+```{julia}
+#| echo: true
+function CantorRec(a₁::Real, a₂::Real, n::Integer)
+    if n > 0
+        b₁ = (2 * a₁ + a₂) / 3
+        b₂ = (a₁ + 2 * a₂) / 3
+        return [CantorRec(a₁, b₁, n - 1); CantorRec(b₂, a₂, n - 1)]
+    else
+        return [(a₁, a₂)]
+    end
+end;
+```
+
+```{julia}
+
+N = 25
+@show N
+println("Recursivo")
+@time CantorRec(0.0, 1.0, N)
+@time cantorRec = CantorRec(0.0, 1.0, N)
+
+println("Iterativo")
+for i = 1:2
+    @time begin
+        global cantorIter = [(0, 1)]
+        for n = 1:N
+            cantorIter = CantorIter(cantorIter)
+        end
+    end
+end
+
+@show isequal(cantorRec, cantorIter);
+```
+
+```{julia}
+function CantorRecAllocated!(a₁::Real, a₂::Real, cantor)
+    if length(cantor) == 1
+        cantor[1] = (a₁, a₂)
+    else
+        L = div(length(cantor), 2)
+        b₁ = (2 * a₁ + a₂) / 3
+        b₂ = (a₁ + 2 * a₂) / 3
+        CantorRecAllocated!(a₁, b₁, @view cantor[1:L])
+        CantorRecAllocated!(b₂, a₂, @view cantor[L+1:end])
+    end
+end;
+```
+
+```{julia}
+println("Recursivo con reserva de memoria prueba 1")
+@time cantorRecAllocated = Vector{Tuple{Float64,Float64}}(undef, 2^N)
+@time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated)
+println("Recursivo con reserva de memoria prueba 2")
+@time cantorRecAllocated2 = Vector{Tuple{Float64,Float64}}(undef, 2^N)
+@time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated2)
+
+@show isequal(cantorRecAllocated, cantorIter);
+```
 
 # Generadores {.scrollable}
 
@@ -298,7 +404,7 @@ Base.eltype(S::Type{Cuadrados}) = Int64
 ```
 
 
-## Generators
+## Generators {.scrollable}
 
 Podemos usar una sintaxis similar a *list comprehension*, que ya tienen muchas funciones implementadas
 ```{julia}
