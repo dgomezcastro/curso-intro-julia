@@ -34,6 +34,8 @@ Marzo 2025. Universidad Complutense de Madrid
 
 06. Programación eficiente con `julia`
 
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/06-Eficiencia-apuntes.html)
+
 ### Configuración para las aulas de informática UCM
 
 En Windows ejecute en una terminal
