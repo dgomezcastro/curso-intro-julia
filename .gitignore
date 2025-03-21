@@ -7,3 +7,4 @@ tmp.gif
 .DS_Store
 src/.gitignore
 tmp/
+**/.quarto_ipynb

@@ -119,7 +119,32 @@ end
 
 ## [Distributed](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560) {.center}
 
-# Views {.scrollable}
+# Vector allocation - Ejemplo en el conjunto de Cantor 
+
+## Conjunto de Cantor {.scrollable}
+
+El conjunto de Cantor se obtiene iterativamente partiendo del intervalo $(0,1)$ y, en cada iteración, dividiendo pasando del intervalo $(a,b)$ a $(a,\frac{a+b}{3}) \cup (2 \frab{a+b}{3} , b)$.
+
+Si representamos el segmento $(a,b)$ por la tupla `(a,b)`, una iteración del cojunto de Cantor es un vector de tuplas. Una implementación posible es
+
+```{julia}
+function CantorIter(cantor)
+    N = length(cantor)
+    new_cantor = Array{Tuple{Float64,Float64}}(undef, 2 * N)
+
+    for i = 1:N
+        (a₁, a₂) = cantor[i]
+        b₁ = (2 * a₁ + a₂) / 3
+        b₂ = (a₁ + 2 * a₂) / 3
+
+        new_cantor[2*i-1] = (a₁, b₁)
+        new_cantor[2*i] = (b₂, a₂)
+    end
+    return new_cantor
+end;
+```
+
+## Representando el conjunto de datos {.scrollable}
 
 ```{julia}
 using Plots
@@ -141,26 +166,9 @@ function plotCantor(cantor::Array, n::Integer)
 end;
 ```
 
-```{julia}
-function CantorIter(cantor)
-    N = length(cantor)
-    new_cantor = Array{Tuple{Float64,Float64}}(undef, 2 * N)
-
-    for i = 1:N
-        (a₁, a₂) = cantor[i]
-        b₁ = (2 * a₁ + a₂) / 3
-        b₂ = (a₁ + 2 * a₂) / 3
-
-        new_cantor[2*i-1] = (a₁, b₁)
-        new_cantor[2*i] = (b₂, a₂)
-    end
-    return new_cantor
-end;
-```
+Para representar $n$ pasos, aplicamos la fórmula iterativa
 
 ```{julia}
-#| output-location: column
-#| code-fold: false
 cantor = [(0, 1)]
 @gif for n = 0:5
     plotCantor(cantor, n)
@@ -168,8 +176,10 @@ cantor = [(0, 1)]
 end fps = 1
 ```
 
+## Implementación recursiva {.scrollable}
+
+La siguiente implementación recursiva devuelve directamente el paso $n$-ésimo
 ```{julia}
-#| echo: true
 function CantorRec(a₁::Real, a₂::Real, n::Integer)
     if n > 0
         b₁ = (2 * a₁ + a₂) / 3
@@ -181,14 +191,15 @@ function CantorRec(a₁::Real, a₂::Real, n::Integer)
 end;
 ```
 
-```{julia}
+Comprobamos el timpo de computación
 
+```{julia}
 N = 25
 @show N
 println("Recursivo")
 @time CantorRec(0.0, 1.0, N)
 @time cantorRec = CantorRec(0.0, 1.0, N)
-
+println("---")
 println("Iterativo")
 for i = 1:2
     @time begin
@@ -201,6 +212,12 @@ end
 
 @show isequal(cantorRec, cantorIter);
 ```
+
+## Utilizando `@view` {.scrollable}
+
+En `julia` los vectores se pasan a la funciones por *sharing*, lo que ahorra memoria. 
+
+Sin embargo, si pasamos un rango de un vector (por ejemplo `v[2:3]`) entonces se pasa una copia. Para que se pasa por *sharing*, y poder cambiarlo, se puede utilizar el macro `@view`.
 
 ```{julia}
 function CantorRecAllocated!(a₁::Real, a₂::Real, cantor)
@@ -216,18 +233,27 @@ function CantorRecAllocated!(a₁::Real, a₂::Real, cantor)
 end;
 ```
 
+## Eficiencia computacional {.scrollable}
+
 ```{julia}
 println("Recursivo con reserva de memoria prueba 1")
+print("Reserva de memoria = ")
 @time cantorRecAllocated = Vector{Tuple{Float64,Float64}}(undef, 2^N)
+print("Cálculo de los valores = ")
 @time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated)
+println("----")
 println("Recursivo con reserva de memoria prueba 2")
+print("Reserva de memoria = ")
 @time cantorRecAllocated2 = Vector{Tuple{Float64,Float64}}(undef, 2^N)
+print("Cálculo de los valores = ")
 @time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated2)
 
 @show isequal(cantorRecAllocated, cantorIter);
 ```
 
-# Generadores {.scrollable}
+# Iteradores 
+
+## Generadores {.scrollable}
 
 Recordamos que en `julia` podemos utilizar *list comprehension* 
 ```{julia}
@@ -269,7 +295,7 @@ N = 1_000_000
 
 Los generadores son un tipo de `iterator`
 
-# Iterators
+## Iterators {.scrollable}
 
 Un `iterator` es una estructura`struct` y una implementación de
 
@@ -306,7 +332,7 @@ Pongamos que queremos calcular $\sum_{n=0}^N n^2$ de manera eficiente. Podemos g
 
 ```{julia}
 mutable struct Cuadrados
-  # calcularemos cuadrados hasta que n^2 > count
+  # calcularemos cuadrados hasta que n > count
   count::Int 
 end
 
@@ -401,15 +427,6 @@ ya podemos
 También podemos fijar
 ```{julia} 
 Base.eltype(S::Type{Cuadrados}) = Int64
-```
-
-
-## Generators {.scrollable}
-
-Podemos usar una sintaxis similar a *list comprehension*, que ya tienen muchas funciones implementadas
-```{julia}
-x = (i^2 for i = 0:N)
-sum(x)
 ```
 
 ## Ganancia computacional
