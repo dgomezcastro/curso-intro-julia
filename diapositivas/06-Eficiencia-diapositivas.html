@@ -1127,7 +1127,7 @@ David Gómez-Castro
 <section class="slide level2">
 
 <div class="hidden">
-<div id="938c2851" class="cell columns column-output-location" data-execution_count="1">
+<div id="10ee1119" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href></a><span class="im">using</span> <span class="bu">Pkg</span></span>
 <span id="cb1-2"><a href></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">&quot;.&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1143,7 +1143,7 @@ David Gómez-Castro
 </section>
 <section id="si-resuelves-muchas-veces-factoriza-tus-matrices" class="slide level2">
 <h2><em>si resuelves muchas veces, factoriza tus matrices</em></h2>
-<div id="d1dc9247" class="cell columns column-output-location" data-execution_count="2">
+<div id="c42db0c3" class="cell columns column-output-location" data-execution_count="2">
 <div class="column">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
 <span id="cb2-2"><a href></a></span>
@@ -1154,10 +1154,10 @@ David Gómez-Castro
 <span id="cb2-7"><a href></a><span class="pp">@btime</span> A <span class="op">\</span> b ;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  33.500 μs (7 allocations: 80.02 KiB)</code></pre>
+<pre><code>  33.250 μs (7 allocations: 80.02 KiB)</code></pre>
 </div>
 </div></div>
-<div id="a3a904c6" class="cell columns column-output-location" data-execution_count="3">
+<div id="0fd918a6" class="cell columns column-output-location" data-execution_count="3">
 <div class="column">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
 <span id="cb4-2"><a href></a></span>
@@ -1169,8 +1169,8 @@ David Gómez-Castro
 <span id="cb4-8"><a href></a><span class="pp">@show</span> <span class="fu">typeof</span>(B);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>Factorizar:  31.333 μs (6 allocations: 79.14 KiB)
-Resolver:  1.986 μs (2 allocations: 928 bytes)
+<pre><code>Factorizar:  31.125 μs (6 allocations: 79.14 KiB)
+Resolver:  1.991 μs (2 allocations: 928 bytes)
 typeof(B) = LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pre>
 </div>
 </div></div>
@@ -1178,7 +1178,7 @@ typeof(B) = LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pre>
 <section id="para-vectores-pequeños-y-cuyos-valores-no-cambian-usa-static-array" class="slide level2">
 <h2>Para vectores pequeños y cuyos valores no cambian usa <code>static array</code></h2>
 <p><a href="https://github.com/JuliaArrays/StaticArrays.jl"><code>StaticArrays.jl</code></a></p>
-<div id="9c0926bb" class="cell columns column-output-location" data-execution_count="4">
+<div id="757a6067" class="cell columns column-output-location" data-execution_count="4">
 <div class="column">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href></a><span class="im">using</span> <span class="bu">StaticArrays</span>, <span class="bu">BenchmarkTools</span></span>
 <span id="cb6-2"><a href></a></span>
@@ -1189,11 +1189,11 @@ typeof(B) = LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pre>
 <span id="cb6-7"><a href></a><span class="pp">@btime</span> B<span class="op">^</span><span class="fl">20</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  113.850 ns (10 allocations: 720 bytes)
-  21.773 ns (1 allocation: 80 bytes)</code></pre>
+<pre><code>  114.142 ns (10 allocations: 720 bytes)
+  23.195 ns (1 allocation: 80 bytes)</code></pre>
 </div>
 </div></div>
-<div id="c6dafbaf" class="cell columns column-output-location" data-execution_count="5">
+<div id="d6e79b38" class="cell columns column-output-location" data-execution_count="5">
 <div class="column">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href></a>B[<span class="fl">3</span>,<span class="fl">3</span>] <span class="op">=</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
@@ -1229,28 +1229,31 @@ Stacktrace:
 </section>
 <section id="threads" class="slide level2">
 <h2>Threads</h2>
-<div id="c32e0243" class="cell columns column-output-location" data-execution_count="6">
+<div id="2917e2c8" class="cell columns column-output-location" data-execution_count="6">
 <div class="column">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href></a><span class="pp">@show</span> <span class="bu">Threads</span>.<span class="fu">nthreads</span>();</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href></a><span class="pp">@show</span> <span class="bu">Threads</span>.<span class="fu">nthreads</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Threads.nthreads() = 1</code></pre>
 </div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>1</code></pre>
+</div>
 </div></div>
 <p>Si queremos fijar 20 hilo, podemos iniciar julia especificando</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href></a>julia --threads 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href></a>julia --threads 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>En Linux/MacOS podemos fijar el número de threads en .bashrc/.zshrc fijando</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href></a>export JULIA_NUM_THREADS=4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href></a>export JULIA_NUM_THREADS=4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Hecho esto podemos ejecutar bucles en paralelo</p>
-<div id="db2e81e8" class="cell columns column-output-location" data-execution_count="7">
+<div id="f8edcff8" class="cell columns column-output-location" data-execution_count="7">
 <div class="column">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
-<span id="cb14-2"><a href></a>N <span class="op">=</span> <span class="fl">20</span></span>
-<span id="cb14-3"><a href></a>a <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, N)</span>
-<span id="cb14-4"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb14-5"><a href></a>  a[i] <span class="op">=</span> i<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb14-6"><a href></a><span class="cf">end</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
+<span id="cb15-2"><a href></a>N <span class="op">=</span> <span class="fl">20</span></span>
+<span id="cb15-3"><a href></a>a <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, N)</span>
+<span id="cb15-4"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb15-5"><a href></a>  a[i] <span class="op">=</span> i<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb15-6"><a href></a><span class="cf">end</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1259,22 +1262,19 @@ Stacktrace:
 <section class="slide level2">
 
 <p>Hay que tener cuidado con los cálculos inseguros. Si tenemos más de un thread activo el siguiente código dará resultados inesperados:</p>
-<div id="af21c39b" class="cell columns column-output-location" data-execution_count="8">
+<div id="a34c649d" class="cell columns column-output-location" data-execution_count="8">
 <div class="column">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
-<span id="cb15-2"><a href></a>N <span class="op">=</span> <span class="fl">1000</span></span>
-<span id="cb15-3"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>([ i for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N ])</span>
-<span id="cb15-4"><a href></a></span>
-<span id="cb15-5"><a href></a>s <span class="op">=</span> <span class="fl">0</span></span>
-<span id="cb15-6"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb15-7"><a href></a>  <span class="kw">global</span> s <span class="op">+=</span> i  </span>
-<span id="cb15-8"><a href></a><span class="cf">end</span> </span>
-<span id="cb15-9"><a href></a><span class="pp">@show</span> s;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
+<span id="cb16-2"><a href></a>N <span class="op">=</span> <span class="fl">1000</span></span>
+<span id="cb16-3"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>([ i for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N ])</span>
+<span id="cb16-4"><a href></a></span>
+<span id="cb16-5"><a href></a>s <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb16-6"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb16-7"><a href></a>  <span class="kw">global</span> s <span class="op">+=</span> i  </span>
+<span id="cb16-8"><a href></a><span class="cf">end</span> </span>
+<span id="cb16-9"><a href></a><span class="pp">@show</span> s;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-stdout">
-<pre><code>sum([i for i = 1:N]) = 500500
-s = 500500</code></pre>
-</div>
+
 </div></div>
 </section>
 <section id="distributed" class="slide level2 center">
@@ -1289,7 +1289,7 @@ s = 500500</code></pre>
 <h2>Conjunto de Cantor</h2>
 <p>El conjunto de Cantor se obtiene iterativamente partiendo del intervalo <span class="math inline">\((0,1)\)</span> y, en cada iteración, dividiendo pasando del intervalo <span class="math inline">\((a,b)\)</span> a <span class="math inline">\((a,\frac{a+b}{3}) \cup (2 \frab{a+b}{3} , b)\)</span>.</p>
 <p>Si representamos el segmento <span class="math inline">\((a,b)\)</span> por la tupla <code>(a,b)</code>, una iteración del cojunto de Cantor es un vector de tuplas. Una implementación posible es</p>
-<div id="34dbac1c" class="cell columns column-output-location" data-execution_count="9">
+<div id="07aacaf8" class="cell columns column-output-location" data-execution_count="9">
 <div class="column">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href></a><span class="kw">function</span> <span class="fu">CantorIter</span>(cantor)</span>
 <span id="cb17-2"><a href></a>    N <span class="op">=</span> <span class="fu">length</span>(cantor)</span>
@@ -1311,7 +1311,7 @@ s = 500500</code></pre>
 </section>
 <section id="representando-el-conjunto-de-datos" class="slide level2 scrollable">
 <h2>Representando el conjunto de datos</h2>
-<div id="dd5a97e2" class="cell columns column-output-location" data-execution_count="10">
+<div id="66fd7091" class="cell columns column-output-location" data-execution_count="10">
 <div class="column">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href></a><span class="im">using</span> <span class="bu">Plots</span></span>
 <span id="cb18-2"><a href></a><span class="kw">function</span> <span class="fu">plotCantor</span>(cantor<span class="op">::</span><span class="dt">Array</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
@@ -1334,7 +1334,7 @@ s = 500500</code></pre>
 
 </div></div>
 <p>Para representar <span class="math inline">\(n\)</span> pasos, aplicamos la fórmula iterativa</p>
-<div id="717dc68d" class="cell columns column-output-location" data-execution_count="11">
+<div id="28cf679e" class="cell columns column-output-location" data-execution_count="11">
 <div class="column">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href></a>cantor <span class="op">=</span> [(<span class="fl">0</span>, <span class="fl">1</span>)]</span>
 <span id="cb19-2"><a href></a><span class="pp">@gif</span> <span class="cf">for</span> n <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">5</span></span>
@@ -1342,7 +1342,7 @@ s = 500500</code></pre>
 <span id="cb19-4"><a href></a>    <span class="kw">global</span> cantor <span class="op">=</span> <span class="fu">CantorIter</span>(cantor)</span>
 <span id="cb19-5"><a href></a><span class="cf">end</span> fps <span class="op">=</span> <span class="fl">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <img role="img" src="data:image/gif;base64,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AVfpHPKHANhgHgapRZLuyguCHPOb4URkUAPwDgAsiCBS2CH0AjCI5PW0eQGQp0A22ROs/wYgHzEAgCzAytve+pY7/XhCAEYwinbcthhhIMBxhBCAN9zjbzwIQPneJ1fwTLSWAolFj46kji6wRZce9WtGwyEAFdQMLpioJmfywYdq/pQg9PiAAUhBlmNYALICgYYCImAKuJJjEZ1IiD6AEIAVrIJC+PgFFgbAGVQAYAgNqgcbEOBNn4pWkQGogANwYSnMHoMAGDDGP/xBigNQIICGcepBoDrPespEHkhghTf08Q5hGAEAKoDrb3fM4x7rZR91QIBAFMAUAVBBbOeQAZxCQLkwiIy6EqWo/WYk3ABQAMeF4Gt4B/LXgajhjtqY0RuiBQIHBCAFy0EIMiQQAAyIAP8AdDhVAHShmQJ8IJDSVcg90FCAITOFAF6oRwD6QZUEjABPl6iwIX+ayIFgos8CQdEmmMWBClg5GNh6rUJYPFup7gSdBpmBN/Tp41Kb+tQ8KYcm2ICFM0SCGwXZRypSVwdicIVsOg6AxLIhEHcA4F55HcUYvlAJegDpaQLRRCu40lnrDGQbsyiUXJeRhy2gYRS5Rsg5BrEFNwwtFQCCbyjUkIU3PAIbpAZHJdZwhTRQQpSDHoUavpAIc6wjE8IYyD1l2p80B8AcucgirAXijUJ4IQyTMO5AOpbvheAiAIIeCK8llupQ1KELX+DDLvoRHVR7/OMgj003APCFkJv85Cj/T3mP63EHkar85TCPuczBR7YAhKCsM8+5znfO8+tc4w+moFDPh070ohv96EhPutKXzvSmO/3pUI+61KdO9apb/epYz7rWt871rnv962APu9jHTvaym/3saE+72tfO9ra7/e1wj7vc5073utv97njPu973zve++/3vgA+84AdP+MIb/vCIT7ziF8/4xjv+8ZCPvOQnT/nKW/7ymM+85jfP+c57/vOgD73oR0/60pv+9KhPvepXz/rWu/71sI+97GdP+9rb/va4z73ud8/73vv+98APvvCHT/ziG//4yE++8pfP/OY7//nQj770p0/96lv/+tjPvva3z/3ue//74A+///jHT/7ym//86E+/+tfP/va7//3wj7/850//+tv//vjPv/73z//++///ABiAAjiABFiABniACJiACriADNiADviAEBiBEjiBFFiBFniBGJiB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">
 </div>
 </div></div>
@@ -1350,7 +1350,7 @@ s = 500500</code></pre>
 <section id="implementación-recursiva" class="slide level2 scrollable">
 <h2>Implementación recursiva</h2>
 <p>La siguiente implementación recursiva devuelve directamente el paso <span class="math inline">\(n\)</span>-ésimo</p>
-<div id="d4cf3ba0" class="cell columns column-output-location" data-execution_count="12">
+<div id="27312148" class="cell columns column-output-location" data-execution_count="12">
 <div class="column">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRec</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
 <span id="cb20-2"><a href></a>    <span class="cf">if</span> n <span class="op">&gt;</span> <span class="fl">0</span></span>
@@ -1365,7 +1365,7 @@ s = 500500</code></pre>
 
 </div></div>
 <p>Comprobamos el timpo de computación</p>
-<div id="8162675f" class="cell columns column-output-location" data-execution_count="13">
+<div id="88c4967e" class="cell columns column-output-location" data-execution_count="13">
 <div class="column">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href></a>N <span class="op">=</span> <span class="fl">25</span></span>
 <span id="cb21-2"><a href></a><span class="pp">@show</span> N</span>
@@ -1388,12 +1388,12 @@ s = 500500</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>N = 25
 Recursivo
-  2.997991 seconds (134.77 M allocations: 17.017 GiB, 45.63% gc time, 0.44% compilation time)
-  2.780769 seconds (134.74 M allocations: 17.016 GiB, 43.16% gc time)
+  3.035217 seconds (134.77 M allocations: 17.017 GiB, 46.09% gc time, 0.48% compilation time)
+  2.815543 seconds (134.74 M allocations: 17.016 GiB, 43.06% gc time)
 ---
 Iterativo
-  0.158041 seconds (97 allocations: 1.000 GiB, 53.13% gc time)
-  0.093882 seconds (97 allocations: 1.000 GiB, 18.30% gc time)
+  0.160704 seconds (97 allocations: 1.000 GiB, 53.39% gc time)
+  0.091776 seconds (97 allocations: 1.000 GiB, 17.66% gc time)
 isequal(cantorRec, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1402,7 +1402,7 @@ isequal(cantorRec, cantorIter) = true</code></pre>
 <h2>Utilizando <code>@view</code></h2>
 <p>En <code>julia</code> los vectores se pasan a la funciones por <em>sharing</em>, lo que ahorra memoria.</p>
 <p>Sin embargo, si pasamos un rango de un vector (por ejemplo <code>v[2:3]</code>) entonces se pasa una copia. Para que se pasa por <em>sharing</em>, y poder cambiarlo, se puede utilizar el macro <code>@view</code>.</p>
-<div id="e0ca336d" class="cell columns column-output-location" data-execution_count="14">
+<div id="a299db65" class="cell columns column-output-location" data-execution_count="14">
 <div class="column">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRecAllocated!</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, cantor)</span>
 <span id="cb23-2"><a href></a>    <span class="cf">if</span> <span class="fu">length</span>(cantor) <span class="op">==</span> <span class="fl">1</span></span>
@@ -1421,7 +1421,7 @@ isequal(cantorRec, cantorIter) = true</code></pre>
 </section>
 <section id="eficiencia-computacional" class="slide level2 scrollable">
 <h2>Eficiencia computacional</h2>
-<div id="2b130f99" class="cell columns column-output-location" data-execution_count="15">
+<div id="7260084b" class="cell columns column-output-location" data-execution_count="15">
 <div class="column">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo con reserva de memoria prueba 1&quot;</span>)</span>
 <span id="cb24-2"><a href></a><span class="fu">print</span>(<span class="st">&quot;Reserva de memoria = &quot;</span>)</span>
@@ -1439,12 +1439,12 @@ isequal(cantorRec, cantorIter) = true</code></pre>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Recursivo con reserva de memoria prueba 1
-Reserva de memoria =   0.008767 seconds (108 allocations: 512.004 MiB, 60.23% gc time, 39.41% compilation time)
-Cálculo de los valores =   0.308222 seconds (88.51 k allocations: 4.416 MiB, 4.99% compilation time)
+Reserva de memoria =   0.010829 seconds (108 allocations: 512.004 MiB, 51.82% gc time, 47.80% compilation time)
+Cálculo de los valores =   0.306620 seconds (88.51 k allocations: 4.416 MiB, 4.46% compilation time)
 ----
 Recursivo con reserva de memoria prueba 2
-Reserva de memoria =   0.001994 seconds (4 allocations: 512.000 MiB, 98.50% gc time)
-Cálculo de los valores =   0.299053 seconds (1 allocation: 32 bytes)
+Reserva de memoria =   0.001950 seconds (4 allocations: 512.000 MiB, 98.48% gc time)
+Cálculo de los valores =   0.301161 seconds (1 allocation: 32 bytes)
 isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1457,11 +1457,11 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section id="generadores" class="slide level2 scrollable">
 <h2>Generadores</h2>
 <p>Recordamos que en <code>julia</code> podemos utilizar <em>list comprehension</em></p>
-<div id="50ed17c3" class="cell columns column-output-location" data-execution_count="16">
+<div id="2709728e" class="cell columns column-output-location" data-execution_count="16">
 <div class="column">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href></a>[i for i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>5-element Vector{Int64}:
  1
  2
@@ -1473,33 +1473,33 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <p>esto es útil, por ejemplo, dentro de <code>sum</code>.</p>
 <div class="fragment">
 <p>Pensando qué hace <code>sum</code>, realmente no necesitamos ocupar todo el espacio de memoria y podemos hacer evaluación <code>lazy</code>. Para esto <code>julia</code> <em>generadores</em>. En términos de sintaxis basta con decir</p>
-<div id="666938ab" class="cell columns column-output-location" data-execution_count="17">
+<div id="81c0b411" class="cell columns column-output-location" data-execution_count="17">
 <div class="column">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href></a><span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>15</code></pre>
 </div>
 </div></div>
 </div>
 <div class="fragment">
 <p>¿Qué objeto es este?</p>
-<div id="bd18cb27" class="cell columns column-output-location" data-execution_count="18">
+<div id="0cc06407" class="cell columns column-output-location" data-execution_count="18">
 <div class="column">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href></a>gen <span class="op">=</span> (i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:5)</code></pre>
 </div>
 </div></div>
 </div>
 <div class="fragment">
 <p>Podemos convertirlo en vector</p>
-<div id="d3a20882" class="cell columns column-output-location" data-execution_count="19">
+<div id="6f0e0802" class="cell columns column-output-location" data-execution_count="19">
 <div class="column">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href></a><span class="fu">collect</span>(gen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>5-element Vector{Int64}:
  1
  2
@@ -1511,7 +1511,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 <div class="fragment">
 <p>El uso de generadores viene con enormes ganancias en rendimiento</p>
-<div id="6f76fdf4" class="cell columns column-output-location" data-execution_count="20">
+<div id="16cd2b2f" class="cell columns column-output-location" data-execution_count="20">
 <div class="column">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
 <span id="cb34-2"><a href></a>N <span class="op">=</span> <span class="fl">1_000_000</span></span>
@@ -1519,10 +1519,10 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <span id="cb34-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  159.750 μs (6 allocations: 7.63 MiB)
-  94.465 ns (3 allocations: 80 bytes)</code></pre>
+<pre><code>  159.625 μs (6 allocations: 7.63 MiB)
+  92.578 ns (3 allocations: 80 bytes)</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>500000500000</code></pre>
 </div>
 </div></div>
@@ -1556,7 +1556,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </table>
 <div class="fragment">
 <p>El código</p>
-<div id="1937f01b" class="cell columns column-output-location" data-execution_count="21">
+<div id="b5c94f39" class="cell columns column-output-location" data-execution_count="21">
 <div class="column">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href></a><span class="cf">for</span> item <span class="kw">in</span> iter   <span class="co"># or  &quot;for item = iter&quot;</span></span>
 <span id="cb37-2"><a href></a>    <span class="co"># body</span></span>
@@ -1565,7 +1565,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 
 </div></div>
 <p>se traduce por</p>
-<div id="11416bdb" class="cell columns column-output-location" data-execution_count="22">
+<div id="fa3ad308" class="cell columns column-output-location" data-execution_count="22">
 <div class="column">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href></a>next <span class="op">=</span> <span class="fu">iterate</span>(iter)</span>
 <span id="cb38-2"><a href></a><span class="cf">while</span> next <span class="op">!==</span> <span class="cn">nothing</span></span>
@@ -1581,7 +1581,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section id="ejemplo" class="slide level2">
 <h2>Ejemplo</h2>
 <p>Pongamos que queremos calcular <span class="math inline">\(\sum_{n=0}^N n^2\)</span> de manera eficiente. Podemos generar un iterador que genere <span class="math inline">\(r^n\)</span> iterativamente</p>
-<div id="2bc24f5e" class="cell columns column-output-location" data-execution_count="23">
+<div id="67b5fbb7" class="cell columns column-output-location" data-execution_count="23">
 <div class="column">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
 <span id="cb39-2"><a href></a>  <span class="co"># calcularemos cuadrados hasta que n &gt; count</span></span>
@@ -1606,7 +1606,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div><div class="column fragment">
 
 </div></div>
-<div id="eb340719" class="cell columns column-output-location" data-execution_count="24">
+<div id="9c7acf24" class="cell columns column-output-location" data-execution_count="24">
 <div class="column">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href></a>N <span class="op">=</span> <span class="fl">5</span></span>
 <span id="cb40-2"><a href></a><span class="cf">for</span> m <span class="kw">in</span> <span class="fu">Cuadrados</span>(N)</span>
@@ -1618,12 +1618,12 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 </div></div>
 <p>Esto está ya implementado</p>
-<div id="f4395595" class="cell columns column-output-location" data-execution_count="25">
+<div id="2f30f4eb" class="cell columns column-output-location" data-execution_count="25">
 <div class="column">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href></a>S <span class="op">=</span> <span class="fu">Cuadrados</span>(<span class="fl">6</span>)</span>
 <span id="cb42-2"><a href></a><span class="fl">25</span> <span class="kw">in</span> S</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>true</code></pre>
 </div>
 </div></div>
@@ -1631,7 +1631,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Podemos simplicar el constructor, especificando el caso base como parámetro con valor por defecto</p>
-<div id="7e3d6d87" class="cell columns column-output-location" data-execution_count="26">
+<div id="25616efb" class="cell columns column-output-location" data-execution_count="26">
 <div class="column">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
 <span id="cb44-2"><a href></a>  count<span class="op">::</span><span class="dt">Int </span><span class="co"># último número</span></span>
@@ -1652,19 +1652,19 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Se puede usar la implementación genérica</p>
-<div id="c24731bd" class="cell columns column-output-location" data-execution_count="27">
+<div id="655266e0" class="cell columns column-output-location" data-execution_count="27">
 <div class="column">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>(S)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>sum(S) = 91</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>91</code></pre>
 </div>
 </div></div>
 <p>, pero a veces es interesante dar valores precisos aprovechando fórmulas cerradas</p>
-<div id="c3366a1e" class="cell columns column-output-location" data-execution_count="28">
+<div id="113fd29c" class="cell columns column-output-location" data-execution_count="28">
 <div class="column">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">sum</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) </span>
 <span id="cb48-2"><a href></a>  n <span class="op">=</span> S.count </span>
@@ -1677,7 +1677,7 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Hay que tener cuidado con algunas cuestiones. Por ejemplo</p>
-<div id="5c24d91b" class="cell columns column-output-location" data-execution_count="29">
+<div id="208ee823" class="cell columns column-output-location" data-execution_count="29">
 <div class="column">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb49-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
@@ -1705,24 +1705,24 @@ Stacktrace:
  [3] collect(itr::Base.Generator{Cuadrados, typeof(identity)})
    @ Base ./array.jl:790
  [4] top-level scope
-   @ In[28]:1</pre>
+   @ In[27]:1</pre>
 </div>
 </div>
 </div></div>
 <p>Falla porque <code>julia</code> quiere reservar el espacio de memoria antes de llenarlo, y necesita saber <code>length</code></p>
 <div class="fragment">
-<div id="6949761f" class="cell columns column-output-location" data-execution_count="30">
+<div id="ec56e114" class="cell columns column-output-location" data-execution_count="30">
 <div class="column">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href></a><span class="bu">Base</span>.<span class="fu">length</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) <span class="op">=</span> S.count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 
 </div></div>
 <p>ya podemos</p>
-<div id="0177d73e" class="cell columns column-output-location" data-execution_count="31">
+<div id="0fdb2080" class="cell columns column-output-location" data-execution_count="31">
 <div class="column">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>5-element Vector{Int64}:
   1
   4
@@ -1732,7 +1732,7 @@ Stacktrace:
 </div>
 </div></div>
 <p>También podemos fijar</p>
-<div id="9d03b568" class="cell columns column-output-location" data-execution_count="32">
+<div id="f2462643" class="cell columns column-output-location" data-execution_count="32">
 <div class="column">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href></a><span class="bu">Base</span>.<span class="fu">eltype</span>(S<span class="op">::</span><span class="dt">Type{Cuadrados}</span>) <span class="op">=</span> <span class="dt">Int64</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
@@ -1742,7 +1742,7 @@ Stacktrace:
 </section>
 <section id="ganancia-computacional" class="slide level2">
 <h2>Ganancia computacional</h2>
-<div id="6328a6f7" class="cell columns column-output-location" data-execution_count="33">
+<div id="447604fc" class="cell columns column-output-location" data-execution_count="33">
 <div class="column">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href></a>N <span class="op">=</span> <span class="fl">100_000_000</span></span>
 <span id="cb54-2"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>([i<span class="op">^</span><span class="fl">2</span> for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N])</span>
@@ -1750,15 +1750,15 @@ Stacktrace:
 <span id="cb54-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>(<span class="fu">Cuadrados</span>(N));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  62.867 ms (6 allocations: 762.94 MiB)
-  103.328 ns (3 allocations: 80 bytes)
+<pre><code>  71.317 ms (6 allocations: 762.94 MiB)
+  97.852 ns (3 allocations: 80 bytes)
   1.916 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div></div>
 </section></section>
 <section id="uso-de-gpus" class="title-slide slide level1 center">
 <h1>Uso de GPUs</h1>
-<div id="092bf90a" class="cell columns column-output-location" data-execution_count="34">
+<div id="e7d84f0a" class="cell columns column-output-location" data-execution_count="34">
 <div class="column">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href></a><span class="im">using</span> <span class="bu">CUDA</span>, <span class="bu">BenchmarkTools</span></span>
 <span id="cb56-2"><a href></a>N <span class="op">=</span> <span class="fl">10_000</span></span>
