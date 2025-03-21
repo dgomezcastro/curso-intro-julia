@@ -74,7 +74,7 @@ Para cálculo paralelo en GPU hay un conjunto de paquetes llamados [JuliaGPU](ht
 ## Threads
 
 ```{julia}
-@show Threads.nthreads()
+@show Threads.nthreads();
 ```
 
 Si queremos fijar 20 hilo, podemos iniciar julia especificando
@@ -105,7 +105,6 @@ end
 
 Hay que tener cuidado con los cálculos inseguros. Si tenemos más de un thread activo el siguiente código dará resultados inesperados:
 ```{julia}
-#| eval: false
 using Base.Threads
 N = 1000
 @show sum([ i for i = 1:N ])
