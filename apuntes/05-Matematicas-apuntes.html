@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.41">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -3311,7 +3311,7 @@ padding: 0px 15px 15px 15px;
 
 
 <div class="hidden">
-<div id="c3af0bab" class="cell" data-execution_count="1">
+<div id="9365c9e6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">&quot;.&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -3326,7 +3326,7 @@ padding: 0px 15px 15px 15px;
 <p>Es parte de <code>Standard Library</code></p>
 <section id="operaciones-básicas" class="level2 scrollable">
 <h2 class="scrollable anchored" data-anchor-id="operaciones-básicas">Operaciones básicas</h2>
-<div id="561f6a4e" class="cell" data-execution_count="2">
+<div id="bbfabe80" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span>; <span class="fl">4</span> <span class="fl">1</span> <span class="fl">6</span>; <span class="fl">7</span> <span class="fl">8</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -3336,7 +3336,7 @@ padding: 0px 15px 15px 15px;
  7  8  1</code></pre>
 </div>
 </div>
-<div id="a95fa317" class="cell" data-execution_count="3">
+<div id="96d63a9e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">tr</span>(A)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">det</span>(A)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">&quot;inv(A) = &quot;</span>)</span>
@@ -3354,7 +3354,7 @@ inv(A) = </code></pre>
 </div>
 </div>
 <p>La sintaxis para sistemas es la habitual</p>
-<div id="caa36ca6" class="cell" data-execution_count="4">
+<div id="bdbd7a57" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">\</span> b </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -3365,7 +3365,7 @@ inv(A) = </code></pre>
 </div>
 </div>
 <p>Y las descomposición espectral</p>
-<div id="9d9165aa" class="cell" data-execution_count="5">
+<div id="f8e0f330" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eigvals</span>(A) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>3-element Vector{Float64}:
@@ -3436,7 +3436,7 @@ inv(A) = </code></pre>
 </tbody>
 </table>
 <hr>
-<div id="42fcf3ca" class="cell" data-execution_count="6">
+<div id="a89ac824" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fu">UnitUpperTriangular</span>( [ <span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span> ; <span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span> ; <span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span> ] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>3×3 UnitUpperTriangular{Int64, Matrix{Int64}}:
@@ -3450,49 +3450,49 @@ inv(A) = </code></pre>
 <section id="factorizaciones" class="level2 scrollable">
 <h2 class="scrollable anchored" data-anchor-id="factorizaciones">Factorizaciones</h2>
 <p><code>lu</code> permite exportar L, U y vector de permutaciones, o matriz de permutaciones</p>
-<div id="4c957adc" class="cell" data-execution_count="7">
+<div id="1de3c6be" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">3</span>,<span class="fl">3</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="fu">lu</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>LU{Float64, Matrix{Float64}, Vector{Int64}}
 L factor:
 3×3 Matrix{Float64}:
- 1.0        0.0        0.0
- 0.238587   1.0        0.0
- 0.45746   -0.0529314  1.0
+ 1.0         0.0       0.0
+ 0.0831652   1.0       0.0
+ 0.622521   -0.066381  1.0
 U factor:
 3×3 Matrix{Float64}:
- 0.111688  0.461549  0.995102
- 0.0       0.409144  0.358805
- 0.0       0.0       0.205532</code></pre>
+ 0.805297  0.296127  0.0233106
+ 0.0       0.72017   0.843849
+ 0.0       0.0       1.00634</code></pre>
 </div>
 </div>
 <p>Julia incluso puede elegir una “buena” factorización para nuestro problema</p>
-<div id="e3f66c1f" class="cell" data-execution_count="8">
+<div id="2fc23308" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factorize</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>LU{Float64, Matrix{Float64}, Vector{Int64}}
 L factor:
 3×3 Matrix{Float64}:
- 1.0        0.0        0.0
- 0.238587   1.0        0.0
- 0.45746   -0.0529314  1.0
+ 1.0         0.0       0.0
+ 0.0831652   1.0       0.0
+ 0.622521   -0.066381  1.0
 U factor:
 3×3 Matrix{Float64}:
- 0.111688  0.461549  0.995102
- 0.0       0.409144  0.358805
- 0.0       0.0       0.205532</code></pre>
+ 0.805297  0.296127  0.0233106
+ 0.0       0.72017   0.843849
+ 0.0       0.0       1.00634</code></pre>
 </div>
 </div>
-<div id="c2009261" class="cell" data-execution_count="9">
+<div id="835cb03d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factorize</span>(A<span class="op">&#39;*</span>A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>Cholesky{Float64, Matrix{Float64}}
 U factor:
 3×3 UpperTriangular{Float64, Matrix{Float64}}:
- 0.125677  0.597306  1.27165
-  ⋅        0.402234  0.325487
-  ⋅         ⋅        0.185792</code></pre>
+ 0.95095  0.375205  0.58794
+  ⋅       0.721304  0.759713
+  ⋅        ⋅        0.850862</code></pre>
 </div>
 </div>
 <p>Volveremos sobre la importancia de factorizar en la próxima sesión.</p>
@@ -3500,7 +3500,7 @@ U factor:
 <section id="más-sobre-sistemas-lineales" class="level2">
 <h2 class="anchored" data-anchor-id="más-sobre-sistemas-lineales">Más sobre sistemas lineales</h2>
 <p>Para sistemas “difíciles” o cuando queramos la máxima velocidad, podemos utilizar el paquete <code>LinearSolve.jl</code></p>
-<div id="9ac843be" class="cell" data-execution_count="10">
+<div id="1c29c681" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearSolve</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">4</span>, <span class="fl">4</span>)</span>
@@ -3510,10 +3510,10 @@ U factor:
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>sol.u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>4-element Vector{Float64}:
-  3.713223897499237
- -6.237585078460404
-  0.14700863212236517
- -0.39836866048571257</code></pre>
+ -0.09528886283237596
+  0.8150376945200831
+ -1.2010722755252647
+  1.9498613743422943</code></pre>
 </div>
 </div>
 <p>Implementa muchos resolvedores optimizados y tiene, además, un sistema de selección de solvers adecuados.</p>
@@ -3523,15 +3523,15 @@ U factor:
 <section id="estadística-y-teoría-de-la-medida" class="level1">
 <h1>Estadística y teoría de la medida</h1>
 <p><a href="https://docs.julialang.org/en/v1/stdlib/Random/">Random.jl</a> es parte de <code>Standard Library</code></p>
-<div id="abd7617a" class="cell" data-execution_count="11">
+<div id="a673dea9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Random</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">rand</span>()</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">rand</span>( (<span class="op">-</span><span class="fl">1</span>,<span class="fl">2</span>) )</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">rand</span>(<span class="fl">5</span><span class="op">:</span><span class="fl">10</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>rand() = 0.4483229092495584
+<pre><code>rand() = 0.12425394291493708
 rand((-1, 2)) = -1
-rand(5:10) = 8</code></pre>
+rand(5:10) = 7</code></pre>
 </div>
 </div>
 <p><a href="https://docs.julialang.org/en/v1/stdlib/Statistics/">Statistics.jl</a> es parte de Standard Library.</p>
@@ -3548,7 +3548,7 @@ rand(5:10) = 8</code></pre>
 <li>Distribution composition and derived distributions (Cartesian product of distributions, truncated distributions, censored distributions)</li>
 </ul>
 <hr>
-<div id="4036dadd" class="cell" data-execution_count="12">
+<div id="1ec3753d" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Random</span>, <span class="bu">Distributions</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fu">Normal</span>()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>d <span class="op">+</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3556,31 +3556,31 @@ rand(5:10) = 8</code></pre>
 <pre><code>Normal{Float64}(μ=1.0, σ=1.0)</code></pre>
 </div>
 </div>
-<div id="422a073d" class="cell" data-execution_count="13">
+<div id="bba072b8" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">mean</span>(d)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">rand</span>(d, <span class="fl">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mean(d) = 0.0
-rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code></pre>
+rand(d, 3) = [-0.037342279399625804, 0.4834727332134736, -0.9486198052716474]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>3-element Vector{Float64}:
-  1.3356608746908085
-  1.485090579687053
- -0.7125778485952072</code></pre>
+ -0.037342279399625804
+  0.4834727332134736
+ -0.9486198052716474</code></pre>
 </div>
 </div>
-<div id="9d6eb25e" class="cell" data-execution_count="14">
+<div id="5ca6d64e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="fl">0</span>, <span class="fl">0.4</span>, <span class="op">-</span><span class="fl">0.4</span>] </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fit</span>(Normal, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>Normal{Float64}(μ=0.0, σ=0.32659863237109044)</code></pre>
 </div>
 </div>
-<p>Ver también <a href="https://cscherrer.github.io/MeasureTheory.jl/stable/">MeasureTheory.jl</a></p>
+<p>Ver también <a href="https://juliamath.github.io/MeasureTheory.jl/stable/">MeasureTheory.jl</a></p>
 </section>
 <section id="turing.jl" class="level2">
-<h2 class="anchored" data-anchor-id="turing.jl"><a href="https://turinglang.org/dev/docs/using-turing/">Turing.jl</a></h2>
+<h2 class="anchored" data-anchor-id="turing.jl"><a href="https://turinglang.org/">Turing.jl</a></h2>
 <blockquote class="blockquote">
 <p>Turing is a general-purpose probabilistic programming language for robust, efficient Bayesian inference and decision making. Current features include:</p>
 <ul>
@@ -3600,7 +3600,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 </section>
 <section id="creando-animaciones" class="level2">
 <h2 class="anchored" data-anchor-id="creando-animaciones">Creando animaciones</h2>
-<div id="e9fba001" class="cell" data-execution_count="15">
+<div id="76de40f5" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> <span class="pp">@animate</span> <span class="cf">for</span> n<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>( x<span class="op">-&gt;</span> <span class="fu">sin</span>(n<span class="op">*</span>x) , label<span class="op">=</span><span class="st">&quot;&quot;</span>)</span>
@@ -3612,7 +3612,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 </div>
 <hr>
 <p>En un notebook se puede hacer</p>
-<div id="b6f6c8a6" class="cell" data-execution_count="16">
+<div id="8be69ab4" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@gif</span> <span class="cf">for</span> n<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>( x<span class="op">-&gt;</span> <span class="fu">sin</span>(n<span class="op">*</span>x) , label<span class="op">=</span><span class="st">&quot;&quot;</span> )</span>
@@ -3627,7 +3627,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 </section>
 <section id="pintando-polígonos" class="level2">
 <h2 class="anchored" data-anchor-id="pintando-polígonos">Pintando polígonos</h2>
-<div id="9bd72d62" class="cell" data-execution_count="17">
+<div id="5dc055af" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>x,y <span class="op">=</span>  [<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>],  [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>]</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x[[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span>;<span class="fl">1</span>]] , y[[<span class="fl">1</span><span class="op">:</span><span class="kw">end</span>; <span class="fl">1</span>]], fill <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
@@ -3697,7 +3697,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 <section id="ecuaciones-diferenciales" class="level2">
 <h2 class="anchored" data-anchor-id="ecuaciones-diferenciales"><a href="https://docs.sciml.ai/DiffEqDocs/stable/">Ecuaciones Diferenciales</a></h2>
 <p><a href="https://docs.sciml.ai/DiffEqDocs/stable/getting_started/">Resolución de EDOs</a></p>
-<div id="cef0cb06" class="cell" data-execution_count="18">
+<div id="e4b1bac0" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(u,p,t) <span class="op">=</span> <span class="fl">1.01</span><span class="op">*</span>u</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span></span>
@@ -3770,7 +3770,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 </section>
 <section id="modelingtoolkit.jl-una-capa-más-sobre-differentialequations.jl" class="level2">
 <h2 class="anchored" data-anchor-id="modelingtoolkit.jl-una-capa-más-sobre-differentialequations.jl"><code>ModelingToolkit.jl</code> una capa más sobre <code>DifferentialEquations.jl</code></h2>
-<div id="bc89470e" class="cell" data-execution_count="19">
+<div id="cd46e207" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ModelingToolkit</span>, <span class="bu">Plots</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ModelingToolkit</span>: t_nounits as t, D_nounits as D</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3847,10 +3847,10 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 <p><a href="https://www.youtube.com/watch?v=ChwKqrH8OQU">Vídeo con un ejemplo industrial</a></p>
 </section>
 <section id="jumpprocesses.jl" class="level2">
-<h2 class="anchored" data-anchor-id="jumpprocesses.jl"><a href="https://docs.sciml.ai/JumpProcesses/stable/">JumpProcesses.jl</a></h2>
+<h2 class="anchored" data-anchor-id="jumpprocesses.jl"><a href="https://docs.sciml.ai/JumpProcesses/stable/"><code>JumpProcesses.jl</code></a></h2>
 </section>
 <section id="fenics.jl" class="level2">
-<h2 class="anchored" data-anchor-id="fenics.jl"><a href="https://docs.sciml.ai/FEniCS/stable/">FeNICS.jl</a></h2>
+<h2 class="anchored" data-anchor-id="fenics.jl"><a href="https://docs.sciml.ai/FEniCS/stable/"><code>FeNICS.jl</code></a></h2>
 <blockquote class="blockquote">
 <p>FEniCS.jl is a wrapper for the FEniCS library for finite element discretizations of PDEs. This wrapper includes three parts:</p>
 </blockquote>
@@ -3862,15 +3862,18 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 <section id="ecuaciones-en-derivadas-parciales" class="level1">
 <h1>Ecuaciones en Derivadas Parciales</h1>
 <section id="gridap.jl" class="level2">
-<h2 class="anchored" data-anchor-id="gridap.jl"><a href="https://github.com/gridap/Gridap.jl">Gridap.jl</a></h2>
+<h2 class="anchored" data-anchor-id="gridap.jl"><a href="https://github.com/gridap/Gridap.jl"><code>Gridap.jl</code></a></h2>
 <blockquote class="blockquote">
 <p>Gridap provides a set of tools for the grid-based approximation of partial differential equations (PDEs) written in the Julia programming language. The main motivation behind the development of this library is to provide an easy-to-use framework for the development of complex PDE solvers in a dynamically typed style without sacrificing the performance of statically typed languages. The library currently supports linear and nonlinear PDE systems for scalar and vector fields, single and multi-field problems, conforming and nonconforming finite element discretizations, on structured and unstructured meshes of simplices and hexahedra.</p>
 </blockquote>
 <p>It has a very reach <a href="https://gridap.github.io/Tutorials/dev/pages/t001_poisson/">library of worked examples</a></p>
 </section>
-<section id="juliafem" class="level2">
-<h2 class="anchored" data-anchor-id="juliafem"><a href="http://www.juliafem.org/JuliaFEM.jl/stable/">JuliaFEM</a></h2>
+<section id="juliafem.jl" class="level2">
+<h2 class="anchored" data-anchor-id="juliafem.jl"><a href="http://www.juliafem.org/JuliaFEM.jl/stable/"><code>JuliaFEM.jl</code></a></h2>
 <p>The JuliaFEM project develops open-source software for reliable, scalable, distributed Finite Element Method.</p>
+</section>
+<section id="trixi.jl" class="level2">
+<h2 class="anchored" data-anchor-id="trixi.jl"><a href="https://trixi-framework.github.io/Trixi.jl/stable/"><code>Trixi.jl</code></a></h2>
 </section>
 </section>
 <section id="optimización-jump.jl" class="level1">
@@ -3881,14 +3884,14 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 <blockquote class="blockquote">
 <p>JuMP is a package for Julia. From Julia, JuMP is installed by using the built-in package manager.</p>
 </blockquote>
-<div id="9de947dc" class="cell" data-execution_count="20">
+<div id="9f5ff067" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Pkg</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(<span class="st">&quot;JuMP&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>You also need to include a Julia package which provides an appropriate solver. One such solver is HiGHS.Optimizer, which is provided by the HiGHS.jl package.</p>
 </blockquote>
-<div id="249551b1" class="cell" data-execution_count="21">
+<div id="c81ae22f" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Pkg</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(<span class="st">&quot;HiGHS&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -3914,7 +3917,7 @@ rand(d, 3) = [1.3356608746908085, 1.485090579687053, -0.7125778485952072]</code>
 <h1>Cálculo simbólico</h1>
 <section id="symbolics.jl" class="level2">
 <h2 class="anchored" data-anchor-id="symbolics.jl"><a href="https://symbolics.juliasymbolics.org/dev/">Symbolics.jl</a></h2>
-<div id="e0747a72" class="cell" data-execution_count="22">
+<div id="b06ef469" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Symbolics</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@variables</span> x y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="20">
@@ -3929,7 +3932,7 @@ y \\
 \]</span></p>
 </div>
 </div>
-<div id="6b37cb40" class="cell" data-execution_count="23">
+<div id="1160c049" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="21">
 <p><span class="math display">\[ \begin{equation}
@@ -3938,7 +3941,7 @@ y + x^{2}
 \]</span></p>
 </div>
 </div>
-<div id="e4bdf2da" class="cell" data-execution_count="24">
+<div id="b2e03ebb" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">simplify</span>(<span class="fl">2</span>x <span class="op">+</span> <span class="fl">2</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="22">
 <p><span class="math display">\[ \begin{equation}
@@ -3949,14 +3952,14 @@ y + x^{2}
 </div>
 <section id="derivadas" class="level3">
 <h3 class="anchored" data-anchor-id="derivadas">Derivadas</h3>
-<div id="adcec765" class="cell" data-execution_count="25">
+<div id="99a24048" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@variables</span> x <span class="fu">g</span>(x)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>Dt <span class="op">=</span> <span class="fu">Differential</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>Differential(x)</code></pre>
 </div>
 </div>
-<div id="1b4328c6" class="cell" data-execution_count="26">
+<div id="2d3cbd66" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>expression <span class="op">=</span> <span class="fu">expand_derivatives</span>(<span class="fu">Dt</span>(x <span class="op">*</span> g))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="24">
 <p><span class="math display">\[ \begin{equation}
@@ -3965,7 +3968,7 @@ g\left( x \right) + x \frac{\mathrm{d} g\left( x \right)}{\mathrm{d}x}
 \]</span></p>
 </div>
 </div>
-<div id="624e0e7e" class="cell" data-execution_count="27">
+<div id="d28a57b1" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>expr2 <span class="op">=</span> <span class="fu">substitute</span>(expression, <span class="fu">Dict</span>([g <span class="op">=&gt;</span> x]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="25">
 <p><span class="math display">\[ \begin{equation}
@@ -3974,7 +3977,7 @@ x + x \frac{\mathrm{d}}{\mathrm{d}x} x
 \]</span></p>
 </div>
 </div>
-<div id="a5f9e666" class="cell" data-execution_count="28">
+<div id="fa622a2b" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_derivatives</span>(expr2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="26">
 <p><span class="math display">\[ \begin{equation}
@@ -3997,7 +4000,7 @@ x + x \frac{\mathrm{d}}{\mathrm{d}x} x
 <p>With the excellent PyCall package of julia, one has access to the many features of the SymPy library from within a Julia session.</p>
 </blockquote>
 <p>It requires Python to run in the background. To install it sometimes it is needed to make a few</p>
-<div id="03ac9d1f" class="cell" data-execution_count="29">
+<div id="dc5af978" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(<span class="st">&quot;Conda&quot;</span>) <span class="co">#  if needed</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Conda</span></span>
@@ -4089,7 +4092,7 @@ x + x \frac{\mathrm{d}}{\mathrm{d}x} x
 </section>
 </section>
 <section id="un-ejemplo-detallado-en-julia" class="level1">
-<h1><a href="https://towardsdatascience.com/how-to-build-an-artificial-neural-network-from-scratch-in-julia-c839219b3ef8">Un ejemplo detallado en Julia</a></h1>
+<h1><a href="https://www.freecodecamp.org/news/deep-learning-with-julia/">Un ejemplo detallado en Julia</a></h1>
 </section>
 <section id="flux.jl" class="level1">
 <h1><a href="https://fluxml.ai/Flux.jl/stable/">Flux.jl</a></h1>
