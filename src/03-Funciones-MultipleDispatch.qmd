@@ -146,6 +146,25 @@ A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en 
 
 [Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
 
+## `struct`s como función
+
+En ocasiones es interesante poder llamar a una estructura como si fuese una función. 
+Esto es posible en `julia`
+Por ejemplo
+```{julia}
+struct Poly
+    coeff::Vector{Float64} # [a₀, a₁,... , aₙ]
+end
+
+function (P::Poly)(x::Number)
+    return sum([ c * x^(n-1) for (n,c) in enumerate(P.coeff) ])
+end
+
+P = Poly([0, 0, 1])
+
+P(2.0)
+```
+
 ## `DifferentialEquations.jl` + `Measurements.jl` 
 
 Ver clase 1.
