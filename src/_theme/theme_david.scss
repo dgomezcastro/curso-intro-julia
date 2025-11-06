@@ -1,0 +1,22 @@
+/*-- scss:defaults --*/
+$presentation-font-size-root: 25px !default; 
+$h2-font-size:          1.0rem !default;
+
+$code-block-font-size:                    .7em !default;
+
+/*-- scss:rules --*/
+.katex { font-size: 1.1em !important; } 
+
+main {
+    ol ol,
+    ul ul,
+    ol ul,
+    ul ol {
+      /* remove margin bottom under nested list item */
+      margin-bottom: unset;
+    }
+    ul p {
+      /* remove margin under paragraph inside list */
+      margin-bottom: 0.2rem;
+    }
+  }

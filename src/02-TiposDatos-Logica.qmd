@@ -1,0 +1,699 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Tipos de datos. Lógica"
+author: "David Gómez-Castro"
+
+format:
+    html: 
+        output-file: 02-TiposDatos-Logica-apuntes.html
+    clean-revealjs:
+        output-file: 02-TiposDatos-Logica-diapositivas.html
+---
+
+{{< include _theme/activate.qmd >}}
+
+# Variables
+
+Para crear una variable, le asignamos un valor. Julia detecta por defecto elemento introducido. 
+
+Podemos añadir enteros, reales, o vectores de manera sencilla
+
+```{julia}
+a = 1
+```
+
+. . .
+
+```{julia}
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+b = 1.0
+```
+
+. . .
+
+```{julia}
+@show typeof(b);
+```
+
+## Nombres de variables 
+
+Cabe destacar que `julia` permite usar caracteres utf8 en la variables
+```{julia}
+α = 1
+```
+
+. . .
+
+Para escribir escribimos `\alpha` y tabulamos.
+
+. . .
+
+Incluso podemos usar emojis (aunque esto es claramente poco recomendable)
+```{julia}
+🐶 = "Dog"
+```
+
+## Espeficar tipos
+
+Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo float más corto
+
+```{julia}
+b2 = Float32(1.0)
+@show b2, typeof(b2);
+```
+
+. . .
+
+```{julia}
+b3::Float32 = 1.0
+@show b3, typeof(b3);
+```
+
+. . .
+
+Hay que ser cuidado con los valores máximos
+
+```{julia}
+@show typemax(Int64);
+```
+
+. . .
+
+El tipo `Float` incluye `Inf`, de modo que
+
+```{julia}
+@show typemax(Float64);
+```
+
+. . .
+
+Pero tenemos una opción elegante para comprobar que
+
+```{julia}
+@show prevfloat(typemax(Float64));
+```
+
+---
+
+Pueden darse algunos compartamiento inesperados como `integer overflow`
+
+```{julia}
+@show typemax(Int64)
+@show typemax(Int64) + 1;
+```
+
+. . .
+
+Para evitarlo se puede usar el tipo `BigInt`, que no tiene máximo
+
+Muy útil, por ejemplo, para
+
+```{julia}
+#| scrolled: true
+@show factorial(BigInt(30));
+```
+
+. . .
+
+Si preguntamos quien es el máximo, tendremos un error
+
+```{julia}
+#| error: true
+@show typemax(BigInt);
+```
+
+---
+
+De forma similar existe el tipo `BigFloat` de números arbitrariamente grandes. Es necesario tener cuidado pues estos números son muy pesados de almacenar.
+
+```{julia}
+a = big(1.0)
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+@show typemax(BigFloat)
+@show prevfloat(typemax(BigFloat));
+```
+
+## La excepción `NaN`
+
+`julia` admite el valor $\pm \infty$, por ejemplo
+
+```{julia}
+1.0 / 0.0 == Inf, -1.0 / 0.0 == -Inf
+```
+
+Estos valores son específicos de los diferentes tipos de flotantes `Float16`, `Float32`, `Float64`
+ 
+Los valores $0/0$ son indeterminados, y devuelven `NaN`.
+
+
+
+## Rangos
+
+Es útil utilizar rangos, por ejemplo $2, 3, \cdots, 6$ se puede escribir con
+```{julia}
+@show 2:6;
+@show typeof(2:6)
+```
+
+. . .
+
+Si queremos espeficar paso distinto de 1, podemos escribir
+```{julia}
+@show 2:3:6;
+```
+
+. . .
+
+Esto útil para gestionar vectores
+```{julia}
+v = ["a", "b", "c", "d", "e", "f"]
+v[2:4]
+```
+
+. . .
+
+También disponemos de los comandos `range` y `LinRange`.
+
+# Lógica
+
+Podemos hacer comprobaciones lógicas sencillas
+
+```{julia}
+a = 1;
+b = 2;
+a == b
+```
+
+. . . 
+
+```{julia}
+
+@show a < b
+@show a <= b
+@show a != b;
+```
+
+Podemos usar `≤` que se escribe como `\le[tab]`
+
+También dispones de comparación con tipo
+```{julia}
+println(a == 1.0)
+println(a === 1.0)
+```
+
+
+## If/then/else
+
+```{julia}
+#| eval: false
+if x ≤ 1
+    x
+else
+    x + 1
+end
+```
+
+. . .
+
+La estructura `if/then/else` tiene una sintaxis abreviada
+```{julia}
+#| eval: false
+x ≤ 1 ? x : x + 1
+```
+
+. . .
+
+```{julia}
+#| eval: false
+if x ≤ 1
+    x
+elseif x ≤ 2
+    x + 1
+else
+    x + 2
+end
+```
+
+# Bucles
+
+En Julia podemos crear bucles de tipo `for` y `while`. 
+
+La sintaxis `1:3` corresponde al vector `[1,2,3]`
+
+```{julia}
+
+for i = 1:3
+    @show i
+end
+```
+
+```{julia}
+i = 1
+while i <= 3
+    @show i
+    i = i + 1
+end
+```
+
+---
+
+Y hay algunos comportamientos avanzados
+
+```{julia}
+x = [4.0, 5.1, 6.0]
+for (index, value) in enumerate(x)
+    display("El valor de x en el índice $index es $value")
+end
+```
+
+## *Scope* de una variable
+
+En un script, las variables definidas fuera de funciones son globales.
+
+Las variables definidas dentro de bucles y funciones son locales (se olvidan al salir).
+
+```{julia}
+#| error: true
+for k = 1:1
+    new_var = 1
+end
+new_var
+```
+
+Las variables definidas como globales se actualizan
+```{julia}
+j = 0
+for k = 1:1
+    j = 1
+end
+j
+```
+
+[Más documentación sobre *scope*](https://docs.julialang.org/en/v1/manual/variables-and-scoping/)
+
+# Vectores y cadenas de texto
+
+## Vectores y cadenas de texto
+
+Lidiamos también con `strings` (cadenas de cateres)
+
+```{julia}
+palabra = "hola"
+@show typeof(palabra);
+```
+
+. . .
+
+Añadimos también vectores
+
+```{julia}
+c = [2.1, 3.2]
+```
+
+. . .
+
+En `julia` los vectores se indexan desde 1.
+
+Podemos acceder a las componentes del vector
+
+```{julia}
+c[2]
+```
+
+. . .
+
+Esta sintaxis también funciona con `strings`
+
+```{julia}
+palabra[3]
+```
+
+Nótese que el vector sabe qué tipo de elementos contiene
+
+## Matrices
+
+Podemos introducir vectores 
+```{julia}
+[1, 2]
+```
+
+y matrices
+
+```{julia}
+A = [1 2; 3 4]
+```
+
+. . .
+
+No se deben confundir vectores con matrices fila
+
+```{julia}
+[1 2]
+```
+
+y matrices columna
+
+```{julia}
+reshape([1, 2], 2, 1)
+```
+
+---
+
+En Julia los vectores son, por defecto, columnas
+
+```{julia}
+A * c
+```
+
+. . .
+
+El vector traspuesto tiene un tipo específico
+
+```{julia}
+c'
+```
+
+. . .
+
+Y multiplicar en sentido contrario producirá un error
+
+```{julia}
+#| error: true
+c * A
+```
+
+## Concatenación
+
+A diferencia de en C, se puede añadir elementos a un vector
+
+```{julia}
+
+a = [1, 2]
+append!(a, 3)
+@show a
+```
+
+. . .
+
+En este caso la notación es más correcta que, por ejemplo, la notación de MATLAB `a = [a,1]`
+
+. . .
+
+Usando esta notación en Julia obtenemos lo que hemos pedimos:
+
+```{julia}
+
+a = [1, 2]
+a = [a, 1]
+```
+
+En Julia, un vector puede contener elementos de varios tipos
+
+--- 
+
+Se pueden concatenar vectores con `;`
+
+```{julia}
+v = [1, 2]
+[v; v]
+```
+
+. . .
+
+Nótese la diferencia con
+
+```{julia}
+v = [1 2]
+[v; v]
+```
+
+---
+
+Para concatenar vectores y matrices podemos usar `hcat` y `vcat`
+
+```{julia}
+A = [1 2; 3 4]
+@show hcat(A, A)
+@show [A A];
+```
+
+Esta sintaxis es equivalente a `[A A]`
+
+```{julia}
+@show vcat(A, A)
+@show [A; A]
+```
+
+## Asignaciones de vectores
+
+En Julia el siguiente código tiene el comportamiento natural
+
+```{julia}
+a = 1
+b = a
+a = 2
+@show a, b;
+```
+. . .
+
+como en vectores
+
+```{julia}
+a = [1, 1]
+b = a
+a = [2, 1]
+@show a, b;
+```
+
+---
+
+Pero si modificamos una componente
+
+```{julia}
+a = [1, 1]
+b = a
+a[1] = 2
+@show a, b;
+```
+
+. . .
+
+Esto se llama "pass-by-sharing". Es el comportamiento por defecto de las funciones en Julia. [Apéndice](#Apéndice.-Mutabilidad-en-Julia)
+
+. . .
+
+Si queremos evitarlo debemos usar la opción `copy`
+
+```{julia}
+a = [1.0, 1.0]
+b = copy(a)
+a[1] = 2.0
+@show a, b;
+```
+
+--- 
+
+## Asignación puntual de vectores 
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c = a
+@show b;
+```
+
+Primero compartimos b en c, y luego a en c. 
+
+. . .
+
+La notación `.=` asigna puntualmente:
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c .= a
+@show b;
+```
+
+## List comprehension
+
+Una forma muy cómoda de generar algunos vectores es mediante *list comprehensions* 
+```{julia}
+[i^2 for i in 1:3]
+```
+
+## Inicialización de vectores
+
+```{julia}
+using BenchmarkTools
+N = 1_000_000
+@btime u = zeros(N)
+@btime v = Vector{Float64}(undef, N);
+```
+
+# Otros tipos de datos
+
+## Diccionarios
+
+```{julia}
+dict = Dict([("A", 1), ("B", 2)])
+```
+
+. . .
+
+```{julia}
+@show dict["A"]
+```
+
+. . .
+
+```{julia}
+Dict("A"=>1, "B"=>2)
+```
+
+## Tuplas
+
+Las tuplas son contenedores de longitud fija e inmutables
+```{julia}
+a = (1, 1+1, "hello")
+@show a[1]
+```
+
+. . .
+
+```{julia}
+#| error: true
+a[1] = 3
+```
+
+## Definición de nuevos tipos: `struct`
+
+Podemos definir un nuevo tipo de datos
+```{julia}
+struct Point
+    x::Float64
+    y::Float64
+end
+
+point = Point(1,2)
+@show point 
+@show point.x;
+```
+
+---
+
+Los `structs` se construyen automáticamente cuando se llaman. El constructor es una función que toma por parámetros los elementos. Pero esto puede ser confuso. 
+
+A veces es preferible hacer un constructor a medida, por ejemplo pasando los parámetros como optativos con valores por defecto
+```{julia}
+struct Point3d
+    x::Float64
+    y::Float64
+    z::Float64
+    function Point3d(;x, y, z=0)
+        return new(x,y,z)
+    end
+end
+
+@show Point3d(x=1,y=2)
+@show Point3d(x=1,y=2,z=3);
+```
+
+. . .
+
+Al especificar un nuevo constructor se elimina el constructor por defecto
+```{julia} 
+#| error: true
+Point3d(1,2,3)
+```
+
+. . . 
+
+Pueden definirse múltiples constructores.
+
+# Tipos paramétricos
+
+Hasta ahora no hemos prestado atención a la información entre `{ }`. Por ejemplo
+```{julia}
+v = [1,2]
+```
+
+Es `Vector{Int64}`. La información entre paréntesis nos habla del tipo de datos en interior. 
+
+. . . 
+
+Podemos extender `Point` con un tipo paramétrico, que se elegirá automáticamente el tipo
+
+```{julia}
+struct NewPoint{T}
+    x::T
+    y::T
+end
+
+point = NewPoint(1,2)
+@show point 
+```
+
+Podríamos especificar `NewPoint{T<:Number}`.
+
+## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
+
+Julia tiene 
+
+- tipos concretos para variables que se pueden almacenar en memoria como `Int64` y `Float64`
+- tipos abstractos (como `Any` o `Real`). No se pueden crear variables de estos tipos. Pero sirven para estructura el lenguaje. 
+
+La dependencia de unos tipos con otros se comprueba con `<:`.
+
+Por ejemplo
+```{julia}
+@show Float64 <: Real
+@show Real <: Number
+@show Number <: Any;
+```
+
+## [Guía de estilo](https://docs.julialang.org/en/v1/manual/style-guide/)
+
+## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
+Hecha una primera introducción, es recomendable revisar la documentación de Julia
+
+<!--
+
+Además, es preferible hacer sin asignar valores 
+
+```{julia}
+#| code-fold: true
+NCases = 10:20
+NTests = 100
+RelativeTimeLost = zeros(length(NCases))
+for (case,n) in enumerate(NCases)
+    for test=1:NTests
+        time1 = @elapsed test = zeros(2^n);
+        time2 = @elapsed test = Vector{Int}(undef, 2^n);
+        RelativeTimeLost[case] += 1/NTests * time1/time2;
+    end
+end
+
+using Plots
+plot(NCases,RelativeTimeLost,xlabel="Vector de 2^n elementos \n ",
+        ylabel="\n Tiempo fijando 0 / Tiempo sin fijar 0 ",
+        label="")
+```
+. . .
+
+(no es posible en MATLAB ver [documentación](https://www.mathworks.com/help/matlab/matlab_prog/preallocating-arrays.html) )
+
+-->
+

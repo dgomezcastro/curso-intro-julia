@@ -1,0 +1,39 @@
+/*
+Adapted from:
+https://stackoverflow.com/questions/63749683/how-to-set-up-theorem-environment-in-the-rmarkdown-presentation
+
+In the reference only -webkit-fill-available was available
+
+This cannot use the :::{#thm-name} format because that use amsthm.
+
+Hence it creates a problem numbering
+*/
+
+.theorem-unnumbered {
+    display: block;
+    font-style: italic;
+    font-size: 24px;
+    font-family: "Times New Roman";
+    color: black;
+    margin: 0px;
+    border-radius: 10px;
+    background-color: rgb(222,222,231);
+    box-shadow: 5px 10px 8px #888888;
+}
+.theorem-unnumbered::before {
+    content: "Theorem. ";
+    font-weight: bold;
+    font-style: normal;
+    display: inline-block;
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 10px 5px 5px 15px;
+    background-color: rgb(38, 38, 134);
+}
+.theorem-unnumbered p {
+    padding: 0px 15px 15px 15px;
+}
