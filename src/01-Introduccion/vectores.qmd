@@ -1,0 +1,242 @@
+
+# Vectores y cadenas de texto
+
+## Vectores y cadenas de texto
+
+Lidiamos también con `strings` (cadenas de cateres)
+
+```{julia}
+palabra = "hola"
+@show typeof(palabra);
+```
+
+. . .
+
+Añadimos también vectores
+
+```{julia}
+c = [2.1, 3.2]
+```
+
+. . .
+
+En `julia` los vectores se indexan desde 1.
+
+Podemos acceder a las componentes del vector
+
+```{julia}
+c[2]
+```
+
+. . .
+
+Esta sintaxis también funciona con `strings`
+
+```{julia}
+palabra[3]
+```
+
+Nótese que el vector sabe qué tipo de elementos contiene
+
+## Matrices
+
+Podemos introducir vectores 
+```{julia}
+[1, 2]
+```
+
+y matrices
+
+```{julia}
+A = [1 2; 3 4]
+```
+
+. . .
+
+No se deben confundir vectores con matrices fila
+
+```{julia}
+[1 2]
+```
+
+y matrices columna
+
+```{julia}
+reshape([1, 2], 2, 1)
+```
+
+---
+
+En Julia los vectores son, por defecto, columnas
+
+```{julia}
+A * c
+```
+
+. . .
+
+El vector traspuesto tiene un tipo específico
+
+```{julia}
+c'
+```
+
+. . .
+
+Y multiplicar en sentido contrario producirá un error
+
+```{julia}
+#| error: true
+c * A
+```
+
+## Concatenación
+
+A diferencia de en C, se puede añadir elementos a un vector
+
+```{julia}
+
+a = [1, 2]
+append!(a, 3)
+@show a
+```
+
+. . .
+
+En este caso la notación es más correcta que, por ejemplo, la notación de MATLAB `a = [a,1]`
+
+. . .
+
+Usando esta notación en Julia obtenemos lo que hemos pedimos:
+
+```{julia}
+
+a = [1, 2]
+a = [a, 1]
+```
+
+En Julia, un vector puede contener elementos de varios tipos
+
+--- 
+
+Se pueden concatenar vectores con `;`
+
+```{julia}
+v = [1, 2]
+[v; v]
+```
+
+. . .
+
+Nótese la diferencia con
+
+```{julia}
+v = [1 2]
+[v; v]
+```
+
+---
+
+Para concatenar vectores y matrices podemos usar `hcat` y `vcat`
+
+```{julia}
+A = [1 2; 3 4]
+@show hcat(A, A)
+@show [A A];
+```
+
+Esta sintaxis es equivalente a `[A A]`
+
+```{julia}
+@show vcat(A, A)
+@show [A; A]
+```
+
+## Asignaciones de vectores
+
+En Julia el siguiente código tiene el comportamiento natural
+
+```{julia}
+a = 1
+b = a
+a = 2
+@show a, b;
+```
+. . .
+
+como en vectores
+
+```{julia}
+a = [1, 1]
+b = a
+a = [2, 1]
+@show a, b;
+```
+
+---
+
+Pero si modificamos una componente
+
+```{julia}
+a = [1, 1]
+b = a
+a[1] = 2
+@show a, b;
+```
+
+. . .
+
+Esto se llama "pass-by-sharing". Es el comportamiento por defecto de las funciones en Julia. [Apéndice](#Apéndice.-Mutabilidad-en-Julia)
+
+. . .
+
+Si queremos evitarlo debemos usar la opción `copy`
+
+```{julia}
+a = [1.0, 1.0]
+b = copy(a)
+a[1] = 2.0
+@show a, b;
+```
+
+--- 
+
+## Asignación puntual de vectores 
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c = a
+@show b;
+```
+
+Primero compartimos b en c, y luego a en c. 
+
+. . .
+
+La notación `.=` asigna puntualmente:
+
+```{julia}
+a = [1 2]
+b = [3 4]
+c = b
+c .= a
+@show b;
+```
+
+## List comprehension
+
+Una forma muy cómoda de generar algunos vectores es mediante *list comprehensions* 
+```{julia}
+[i^2 for i in 1:3]
+```
+
+## Inicialización de vectores
+
+```{julia}
+using BenchmarkTools
+N = 1_000_000
+@btime u = zeros(N)
+@btime v = Vector{Float64}(undef, N);
+```

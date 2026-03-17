@@ -1,0 +1,29 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Introducción a Julia"
+
+format:
+    html: 
+        output-file: 01-Intro-apuntes.html
+    clean-revealjs:
+        output-file: 01-Intro-diapositivas.html
+---
+
+{{< include _theme/activate.qmd >}}
+
+{{< include 01-Introduccion/porque.qmd >}}
+{{< include 01-Introduccion/instalacion.qmd >}}
+{{< include 01-Introduccion/repl.qmd >}}
+
+{{< include 01-Introduccion/ides.qmd >}}
+
+{{< include 01-Introduccion/intro-paquetes.qmd >}}
+
+{{< include 01-Introduccion/variables.qmd >}}
+{{< include 01-Introduccion/control-flujo.qmd >}}
+{{< include 01-Introduccion/vectores.qmd >}}
+{{< include 01-Introduccion/otros-tipos.qmd >}}
+
+{{< include 01-Introduccion/funciones.qmd >}}
+{{< include 01-Introduccion/errores.qmd >}}
+{{< include 01-Introduccion/macros.qmd >}}

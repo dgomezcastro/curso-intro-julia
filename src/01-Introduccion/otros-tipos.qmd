@@ -1,0 +1,154 @@
+# Otros tipos de datos
+
+## Diccionarios
+
+```{julia}
+dict = Dict([("A", 1), ("B", 2)])
+```
+
+. . .
+
+```{julia}
+@show dict["A"]
+```
+
+. . .
+
+```{julia}
+Dict("A"=>1, "B"=>2)
+```
+
+## Tuplas
+
+Las tuplas son contenedores de longitud fija e inmutables
+```{julia}
+a = (1, 1+1, "hello")
+@show a[1]
+```
+
+. . .
+
+```{julia}
+#| error: true
+a[1] = 3
+```
+
+## Definición de nuevos tipos: `struct`
+
+Podemos definir un nuevo tipo de datos
+```{julia}
+struct Point
+    x::Float64
+    y::Float64
+end
+
+point = Point(1,2)
+@show point 
+@show point.x;
+```
+
+---
+
+Los `structs` se construyen automáticamente cuando se llaman. El constructor es una función que toma por parámetros los elementos. Pero esto puede ser confuso. 
+
+A veces es preferible hacer un constructor a medida, por ejemplo pasando los parámetros como optativos con valores por defecto
+```{julia}
+struct Point3d
+    x::Float64
+    y::Float64
+    z::Float64
+    function Point3d(;x, y, z=0)
+        return new(x,y,z)
+    end
+end
+
+@show Point3d(x=1,y=2)
+@show Point3d(x=1,y=2,z=3);
+```
+
+. . .
+
+Al especificar un nuevo constructor se elimina el constructor por defecto
+```{julia} 
+#| error: true
+Point3d(1,2,3)
+```
+
+. . . 
+
+Pueden definirse múltiples constructores.
+
+# Tipos paramétricos
+
+Hasta ahora no hemos prestado atención a la información entre `{ }`. Por ejemplo
+```{julia}
+v = [1,2]
+```
+
+Es `Vector{Int64}`. La información entre paréntesis nos habla del tipo de datos en interior. 
+
+. . . 
+
+Podemos extender `Point` con un tipo paramétrico, que se elegirá automáticamente el tipo
+
+```{julia}
+struct NewPoint{T}
+    x::T
+    y::T
+end
+
+point = NewPoint(1,2)
+@show point 
+```
+
+Podríamos especificar `NewPoint{T<:Number}`.
+
+## [Tipos abstractos y subtipos](https://docs.julialang.org/en/v1/manual/types/)
+
+Julia tiene 
+
+- tipos concretos para variables que se pueden almacenar en memoria como `Int64` y `Float64`
+- tipos abstractos (como `Any` o `Real`). No se pueden crear variables de estos tipos. Pero sirven para estructura el lenguaje. 
+
+La dependencia de unos tipos con otros se comprueba con `<:`.
+
+Por ejemplo
+```{julia}
+@show Float64 <: Real
+@show Real <: Number
+@show Number <: Any;
+```
+
+## [Guía de estilo](https://docs.julialang.org/en/v1/manual/style-guide/)
+
+## [Documentación](https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/)
+Hecha una primera introducción, es recomendable revisar la documentación de Julia
+
+<!--
+
+Además, es preferible hacer sin asignar valores 
+
+```{julia}
+#| code-fold: true
+NCases = 10:20
+NTests = 100
+RelativeTimeLost = zeros(length(NCases))
+for (case,n) in enumerate(NCases)
+    for test=1:NTests
+        time1 = @elapsed test = zeros(2^n);
+        time2 = @elapsed test = Vector{Int}(undef, 2^n);
+        RelativeTimeLost[case] += 1/NTests * time1/time2;
+    end
+end
+
+using Plots
+plot(NCases,RelativeTimeLost,xlabel="Vector de 2^n elementos \n ",
+        ylabel="\n Tiempo fijando 0 / Tiempo sin fijar 0 ",
+        label="")
+```
+. . .
+
+(no es posible en MATLAB ver [documentación](https://www.mathworks.com/help/matlab/matlab_prog/preallocating-arrays.html) )
+
+-->
+

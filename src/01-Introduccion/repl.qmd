@@ -1,0 +1,123 @@
+# El REPL
+
+Cuando lanzamos `julia` en terminal nos encontramos en el REPL (read-eval-print loop)
+
+```{bash}
+julia>
+```
+
+Aquí podemos introducir órdenes como las siguientes para obtener el resultado.
+
+## Uso básico
+
+Variables 
+```{julia}
+x = 2
+```
+
+. . .
+
+Vectores
+```{julia}
+x = [1, 2]
+```
+
+. . .
+
+Matrices 
+```{julia}
+A = [1 2]
+B = [1 2; 3 4]
+```
+
+---
+
+Lógica
+```{julia}
+if x == 1
+    println("x es uno. Está solito.")
+elseif x == 2
+    println("x es dos. Mejor en pareja.")
+else
+    println("x es $x. ¡Qué decir!")
+end
+```
+
+. . .
+
+Bucles básicos
+```{julia}
+for i = 1:2
+    println(i^2)
+end
+```
+
+## Scripts
+
+Los scripts de Julia son archivos `.jl`
+
+. . . 
+
+```{julia filename="MiCodigo.jl"}
+#| eval: false
+a = 1
+a = a + 1
+println("a=$a")
+```
+. . .
+
+Ejecutamos en terminal de Unix (si julia está bien en el path)
+
+```{bash}
+$ julia MiCodigo.jl
+"a=2"
+```
+
+. . . 
+
+O desde dentro de julia
+
+```{bash}
+julia> include("MiCodigo.jl")
+"a=2"
+```
+
+## Funciones
+
+Podemos definir funciones de varios modos:
+
+. . .
+
+```{julia}
+f(x) = x+1
+f(1)
+```
+
+. . .
+
+```{julia}
+g = x -> x+2
+g(1)
+```
+
+. . .
+
+```{julia}
+function h(x)
+    return x + 3
+end
+h(1)
+```
+
+## Otro modos del REPL
+
+El REPL tiene varios modos
+
+| modo | terminal | uso | acceso |
+|------|----------|-----|---------|
+|julian |`julia>`| cálculos| |
+|help|`help?>`| ayuda | `?` |
+|shell|`shell>`|terminal del sistema|`;`
+|pkg|`(@v1.11) pkg>`| gestión de paquetes | `]` |
+
+[Documentación](https://docs.julialang.org/en/v1/stdlib/REPL/)

@@ -7,40 +7,34 @@ Marzo 2025. Universidad Complutense de Madrid
 
 ## Estructura del curso:
 
-01. Qué es `julia` y algunos motivos para usarlo. Primer contacto.
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-PrimerContacto-apuntes.html)
+01. Introducción.
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-Introduccion-apuntes.html)
     
-    - [Ejercicios](ejercicios/01-PrimerContacto-ejercicios.ipynb)
+    - [Ejercicios 1.](ejercicios/01-PrimerContacto-ejercicios.ipynb)
 
-02. Tipos de datos y control de flujo
+    - [Ejercicios 2.](ejercicios/02-TiposDatos-Logica-ejercicios.ipynb)
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-TiposDatos-Logica-apuntes.html)
+    - [Ejercicios 3.](ejercicios/03-Funciones-ejercicios.ipynb)
 
-    - [Ejercicios](ejercicios/02-TiposDatos-Logica-ejercicios.ipynb)
 
-03. Funciones. Multiple dispatch
+02. Paquetes de `julia` para matemáticas
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/03-Funciones-apuntes.html)
-
-    - [Ejercicios](ejercicios/03-Funciones-ejercicios.ipynb)
-
-04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
-
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
-
-05. Paquetes de `julia` para matemáticas
-
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/05-Matematicas-apuntes.html)
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-Matematicas-apuntes.html)
 
 06. Programación eficiente con `julia`
 
     - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/06-Eficiencia-apuntes.html)
 
+04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
+
+- [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
+
+
 ### Configuración para las aulas de informática UCM
 
 En Windows ejecute en una terminal
 ```{powershell}
-winget install julia -s msstore
+winget install --name Julia --id 9NJNWW8PVKMN -e -s msstore
 ```
 
 Para instalar `jupyter` introduzca en una terminal de `julia`

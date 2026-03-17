@@ -1,0 +1,116 @@
+# Lógica
+
+Podemos hacer comprobaciones lógicas sencillas
+
+```{julia}
+a = 1;
+b = 2;
+a == b
+```
+
+. . . 
+
+```{julia}
+
+@show a < b
+@show a <= b
+@show a != b;
+```
+
+Podemos usar `≤` que se escribe como `\le[tab]`
+
+También dispones de comparación con tipo
+```{julia}
+println(a == 1.0)
+println(a === 1.0)
+```
+
+
+## If/then/else
+
+```{julia}
+#| eval: false
+if x ≤ 1
+    x
+else
+    x + 1
+end
+```
+
+. . .
+
+La estructura `if/then/else` tiene una sintaxis abreviada
+```{julia}
+#| eval: false
+x ≤ 1 ? x : x + 1
+```
+
+. . .
+
+```{julia}
+#| eval: false
+if x ≤ 1
+    x
+elseif x ≤ 2
+    x + 1
+else
+    x + 2
+end
+```
+
+# Bucles
+
+En Julia podemos crear bucles de tipo `for` y `while`. 
+
+La sintaxis `1:3` corresponde al vector `[1,2,3]`
+
+```{julia}
+
+for i = 1:3
+    @show i
+end
+```
+
+```{julia}
+i = 1
+while i <= 3
+    @show i
+    i = i + 1
+end
+```
+
+---
+
+Y hay algunos comportamientos avanzados
+
+```{julia}
+x = [4.0, 5.1, 6.0]
+for (index, value) in enumerate(x)
+    display("El valor de x en el índice $index es $value")
+end
+```
+
+## *Scope* de una variable
+
+En un script, las variables definidas fuera de funciones son globales.
+
+Las variables definidas dentro de bucles y funciones son locales (se olvidan al salir).
+
+```{julia}
+#| error: true
+for k = 1:1
+    new_var = 1
+end
+new_var
+```
+
+Las variables definidas como globales se actualizan
+```{julia}
+j = 0
+for k = 1:1
+    j = 1
+end
+j
+```
+
+[Más documentación sobre *scope*](https://docs.julialang.org/en/v1/manual/variables-and-scoping/)

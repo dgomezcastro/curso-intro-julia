@@ -1,0 +1,171 @@
+# Variables
+
+Para crear una variable, le asignamos un valor. Julia detecta por defecto elemento introducido. 
+
+Podemos añadir enteros, reales, o vectores de manera sencilla
+
+```{julia}
+a = 1
+```
+
+. . .
+
+```{julia}
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+b = 1.0
+```
+
+. . .
+
+```{julia}
+@show typeof(b);
+```
+
+## Nombres de variables 
+
+Cabe destacar que `julia` permite usar caracteres utf8 en la variables
+```{julia}
+α = 1
+```
+
+. . .
+
+Para escribir escribimos `\alpha` y tabulamos.
+
+. . .
+
+Incluso podemos usar emojis (aunque esto es claramente poco recomendable)
+```{julia}
+🐶 = "Dog"
+```
+
+## Espeficar tipos
+
+Aunque podemos especificar el tipo de float manualmente, por ejemplo un tipo float más corto
+
+```{julia}
+b2 = Float32(1.0)
+@show b2, typeof(b2);
+```
+
+. . .
+
+```{julia}
+b3::Float32 = 1.0
+@show b3, typeof(b3);
+```
+
+. . .
+
+Hay que ser cuidado con los valores máximos
+
+```{julia}
+@show typemax(Int64);
+```
+
+. . .
+
+El tipo `Float` incluye `Inf`, de modo que
+
+```{julia}
+@show typemax(Float64);
+```
+
+. . .
+
+Pero tenemos una opción elegante para comprobar que
+
+```{julia}
+@show prevfloat(typemax(Float64));
+```
+
+---
+
+Pueden darse algunos compartamiento inesperados como `integer overflow`
+
+```{julia}
+@show typemax(Int64)
+@show typemax(Int64) + 1;
+```
+
+. . .
+
+Para evitarlo se puede usar el tipo `BigInt`, que no tiene máximo
+
+Muy útil, por ejemplo, para
+
+```{julia}
+#| scrolled: true
+@show factorial(BigInt(30));
+```
+
+. . .
+
+Si preguntamos quien es el máximo, tendremos un error
+
+```{julia}
+#| error: true
+@show typemax(BigInt);
+```
+
+---
+
+De forma similar existe el tipo `BigFloat` de números arbitrariamente grandes. Es necesario tener cuidado pues estos números son muy pesados de almacenar.
+
+```{julia}
+a = big(1.0)
+@show typeof(a);
+```
+
+. . .
+
+```{julia}
+@show typemax(BigFloat)
+@show prevfloat(typemax(BigFloat));
+```
+
+## La excepción `NaN`
+
+`julia` admite el valor $\pm \infty$, por ejemplo
+
+```{julia}
+1.0 / 0.0 == Inf, -1.0 / 0.0 == -Inf
+```
+
+Estos valores son específicos de los diferentes tipos de flotantes `Float16`, `Float32`, `Float64`
+ 
+Los valores $0/0$ son indeterminados, y devuelven `NaN`.
+
+
+
+## Rangos
+
+Es útil utilizar rangos, por ejemplo $2, 3, \cdots, 6$ se puede escribir con
+```{julia}
+@show 2:6;
+@show typeof(2:6)
+```
+
+. . .
+
+Si queremos espeficar paso distinto de 1, podemos escribir
+```{julia}
+@show 2:3:6;
+```
+
+. . .
+
+Esto útil para gestionar vectores
+```{julia}
+v = ["a", "b", "c", "d", "e", "f"]
+v[2:4]
+```
+
+. . .
+
+También disponemos de los comandos `range` y `LinRange`.

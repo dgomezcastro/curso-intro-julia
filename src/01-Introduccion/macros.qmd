@@ -1,0 +1,59 @@
+
+# Metaprogramación y macros
+
+## Legado de Lisp
+
+> The strongest legacy of Lisp in the Julia language is its metaprogramming support. Like Lisp, Julia represents its own code as a data structure of the language itself. Since code is represented by objects that can be created and manipulated from within the language, it is possible for a program to transform and generate its own code. This allows sophisticated code generation without extra build steps, and also allows true Lisp-style macros operating at the level of abstract syntax trees. In contrast, preprocessor "macro" systems, like that of C and C++, perform textual manipulation and substitution before any actual parsing or interpretation occurs. Because all data types and code in Julia are represented by Julia data structures, powerful reflection capabilities are available to explore the internals of a program and its types just like any other data.
+
+## La vida de un string
+
+```{julia}
+prog = "1 + 1"
+
+ex1 = Meta.parse(prog)
+```
+
+```{julia}
+typeof(ex1)
+```
+
+```{julia}
+eval(ex1)
+```
+
+--- 
+
+```{julia}
+ex1.head
+```
+
+```{julia}
+ex1.args
+```
+
+```{julia}
+ex2 = Expr(:call, :+, 1, 1)
+ex1 == ex2
+```
+
+## Macros
+
+```{julia}
+macro sayhello()
+    return :(println("Hello, world!"))
+end
+```
+
+```{julia}
+@sayhello()
+```
+
+```{julia}
+macro sayhello(name)
+    return :(println("Hello, ", $name))
+end
+```
+
+```{julia}
+@sayhello("human")
+```

@@ -1,0 +1,62 @@
+# ¿Por qué julia?
+
+## ¿Por qué Julia?
+
+Artículo [*why we created Julia*](https://julialang.org/blog/2012/02/why-we-created-julia/)
+
+- Es **código abierto**:
+
+  todo está alojado en GitHub
+
+. . .
+
+- Es **reproducible**: 
+
+  permite controlar todas las versiones de todos los paquetes
+
+. . .
+
+- Es **dinámica**: 
+
+  utiliza tipos dinámicos, y la sintaxis es muy sencilla. 
+
+. . .
+
+- Es **componible**: 
+
+  *multiple distach*
+
+## Julia es rápido ([JIT](https://en.wikipedia.org/wiki/Just-in-time_compilation))
+
+[Benchmarks](https://julialang.github.io/Microbenchmarks/dev/benchmarks/)
+
+## Comparación con MATLAB
+
+La sintaxis para vectores y matrices veremos que es muy sencilla. 
+
+```{julia}
+
+A = [1 2 3; 4 5 6]
+```
+
+. . .
+
+```{julia}
+
+@show A[1, :];
+```
+
+. . .
+
+| Función                 | Julia     | MATLAB        | 
+|:------------------------|:------    |:----------    |
+| Leer vector             | `x[i]`    |`x(i)`         |
+| Leer fila de matriz     | `A[i,:]`  |`A(i,:)`       |
+| Resolver sistema lineal | `A\b`     |`A\b`          |
+| Funciones               | `f(x)=x^2`|`f = @(x) x^2` |
+
+: Comparación de sintaxis vectorial
+
+. . .
+
+En [comparación con Python](https://pythonguides.com/python-numpy-matrix/)
