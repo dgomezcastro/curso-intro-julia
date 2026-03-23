@@ -13,10 +13,32 @@ format:
 ```{julia}
 using Pkg
 Pkg.activate(".")
+using BenchmarkTools
 ```
 :::
 
 # Álgebra Lineal
+
+## Usa tipos de matrices 
+
+```{julia}
+N = 1000
+A = zeros(N,N)
+for i=1:N 
+  for j=1:N 
+    A[i,j] = rand()
+  end 
+end 
+
+x = rand(N) 
+@btime A * x;
+``` 
+
+```{julia}
+using LinearAlgebra
+B = UpperTriangular(A) 
+@btime B*x;
+```
 
 ## *si resuelves muchas veces, factoriza tus matrices*
 
@@ -40,6 +62,8 @@ print("Resolver:")
 @btime B \ b
 @show typeof(B);
 ```
+
+[Documentación](https://deepwiki.com/JuliaLang/LinearAlgebra.jl/4-matrix-factorizations)
 
 ## Para vectores pequeños y cuyos valores no cambian usa `static array`
 
@@ -117,9 +141,49 @@ end
 @show s;
 ```
 
-## [Distributed](https://discourse.julialang.org/t/what-is-the-difference-between-threads-spawn-and-distributed-spawnnat/35560) {.center}
+## [Distributed](https://github.com/JuliaLang/Distributed.jl) {.center}
 
-# Vector allocation - Ejemplo en el conjunto de Cantor 
+# Uso de GPUs
+
+```{julia} 
+#| eval: false 
+using CUDA, BenchmarkTools
+N = 10_000
+A = rand(N, N);
+B = CuArray(A);
+
+@btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
+
+@time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
+@time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
+
+```
+
+# [Memoization](https://github.com/JuliaCollections/Memoize.jl)
+
+Permite que funciones costosas no se recalculen en el mismo punto
+```{julia}
+using Memoize
+@memoize function mifuncion(a)
+    println("Running")
+    sleep(3)
+    return 2a
+end
+```
+
+```{julia}
+@time mifuncion(1)
+```
+
+```{julia} 
+@time mifuncion(1)
+```
+
+```{julia}
+memoize_cache(mifuncion)
+```
+
+# Reserva de memoria - Ejemplo en el conjunto de Cantor 
 
 ## Conjunto de Cantor {.scrollable}
 
@@ -438,18 +502,5 @@ N = 100_000_000
 @btime sum(Cuadrados(N));
 ```
 
-# Uso de GPUs
 
-```{julia} 
-#| eval: false 
-using CUDA, BenchmarkTools
-N = 10_000
-A = rand(N, N);
-B = CuArray(A);
 
-@btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
-
-@time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
-@time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
-
-```

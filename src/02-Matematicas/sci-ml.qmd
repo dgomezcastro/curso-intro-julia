@@ -13,16 +13,16 @@
 
 ```{julia}
 using DifferentialEquations
-f(u,p,t) = 1.01*u
-u0 = 1/2
-tspan = (0.0,1.0)
-prob = ODEProblem(f,u0,tspan)
+f(u, p, t) = 1.01 * u
+u0 = 1 / 2
+tspan = (0.0, 1.0)
+prob = ODEProblem(f, u0, tspan)
 sol = solve(prob, Tsit5(), reltol=1e-8, abstol=1e-8)
 
 using Plots
-plot(sol,linewidth=5,title="Solution to the linear ODE with a thick line",
-     xaxis="Time (t)",yaxis="u(t) (in μm)",label="My Thick Line!") # legend=false
-plot!(sol.t, t->0.5*exp(1.01t),lw=3,ls=:dash,label="True Solution!")
+plot(sol, linewidth=5, title="Solution to the linear ODE with a thick line",
+    xaxis="Time (t)", yaxis="u(t) (in μm)", label="My Thick Line!") # legend=false
+plot!(sol.t, t -> 0.5 * exp(1.01t), lw=3, ls=:dash, label="True Solution!")
 ```
 
 `julia` implementa por defecto [`Tsit5`](https://www.sciencedirect.com/science/article/pii/S0898122111004706) en lugar de `Dormund-Prince`
@@ -58,6 +58,10 @@ plot(sol)
 
 ## [`JumpProcesses.jl`](https://docs.sciml.ai/JumpProcesses/stable/)
 
+# Ecuaciones en Derivadas Parciales
+
+## [WIAS](https://github.com/wias-pdelib) {.center}
+
 ## [`FeNICS.jl`](https://docs.sciml.ai/FEniCS/stable/)
 
 > FEniCS.jl is a wrapper for the FEniCS library for finite element discretizations of PDEs. This wrapper includes three parts:
@@ -65,8 +69,6 @@ plot(sol)
 > Installation and direct access to FEniCS via a Conda installation. Alternatively one may use their current FEniCS installation.
 A low-level development API and provides some functionality to make directly dealing with the library a little bit easier, but still requires knowledge of FEniCS itself. Interfaces have been provided for the main functions and their attributes, and instructions to add further ones can be found here.
 A high-level API for usage with DifferentialEquations. An example can be seen solving the heat equation with high order adaptive timestepping.
-
-# Ecuaciones en Derivadas Parciales
 
 ## [`Gridap.jl`](https://github.com/gridap/Gridap.jl)
 

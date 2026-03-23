@@ -10,20 +10,20 @@ Marzo 2025. Universidad Complutense de Madrid
 01. Introducción.
     - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-Introduccion-apuntes.html)
     
-    - [Ejercicios 1.](ejercicios/01-PrimerContacto-ejercicios.ipynb)
+    - [Ejercicios 1a.](ejercicios/01a-PrimerContacto-ejercicios.ipynb)
 
-    - [Ejercicios 2.](ejercicios/02-TiposDatos-Logica-ejercicios.ipynb)
+    - [Ejercicios 1b.](ejercicios/01b-TiposDatos-Logica-ejercicios.ipynb)
 
-    - [Ejercicios 3.](ejercicios/03-Funciones-ejercicios.ipynb)
+    - [Ejercicios 1c.](ejercicios/01c-Funciones-ejercicios.ipynb)
 
 
 02. Paquetes de `julia` para matemáticas
 
     - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-Matematicas-apuntes.html)
 
-06. Programación eficiente con `julia`
+03. Programación eficiente con `julia`
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/06-Eficiencia-apuntes.html)
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/03-Eficiencia-apuntes.html)
 
 04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 

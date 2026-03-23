@@ -9,5 +9,6 @@
     },
     "[quarto]": {
         "editor.defaultFormatter": "quarto.quarto",
-    }
+    },
+    "julia.environmentPath": "./src"
 }
