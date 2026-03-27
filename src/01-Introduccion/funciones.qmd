@@ -1,0 +1,231 @@
+# Funciones
+
+La mayoría de funciones numéricas "habituales" viene por defecto en `julia`
+
+```{julia}
+a = 2.0;
+a^2
+```
+
+. . .
+
+
+```{julia}
+@show sqrt(a), exp(a), sin(a);
+```
+
+---
+
+Y todas estas funciones se pueden aplicar puntualmente a vectores o matrices, indicando que la operación es puntual
+
+```{julia}
+v = [1, 2];
+v .^ 2
+```
+
+. . .
+
+```{julia}
+@show sqrt.(v)
+@show exp.(v)
+@show sin.(v);
+```
+
+---
+
+El usuario puede también definir funciones. 
+
+. . .
+
+Bien de la manera convencional
+
+```{julia}
+function suma(x, y)
+    x + y
+end
+
+suma(1, 2)
+```
+
+. . .
+
+O en línea
+
+```{julia}
+suma2(x, y) = x + y
+
+suma2(1, 2)
+```
+
+## Parámetros opcionales (y valores por defecto)
+
+```{julia}
+function h(x; n, m=1)
+    if n == 0
+        return x
+    else
+        return x + m
+    end
+end
+@show h(1, n=1)
+@show h(1; n=1)
+@show h(1, n=1, m=2)
+@show h(1; n=1, m=2);
+```
+
+## Especificar el tipo esperado
+
+Para evitar sorpresas, podemos escribir el tipo de entrada (concreto o abstracto) en una función
+```{julia} 
+function f(x::Real)
+    return x^2
+end
+@show f(1.0)
+@show f(2)
+```
+
+. . .
+
+```{julia}
+#| error: true
+f("hola")
+```
+
+## Recursión 
+
+`julia` permite hacer recursión de manera sencilla. Ha de tenerse cuidado en que la recusión termine en tiempo finito
+
+```{julia}
+function mi_factorial(n::Integer)
+    if n ≤ 1
+        return 1 
+    else 
+        return n*mi_factorial(n-1)
+    end 
+end
+```
+
+## *Multiple dispatch*
+
+Imaginemos que definimos
+```{julia}
+f(x::Real) = x + 1
+f(x::Integer) = x + 2;
+```
+
+Como `Integer <: Real`, si ejecutado `f(2)` ¿cómo sabrá qué hacer? 
+
+. . .
+
+Lo natural es elegir la clase "más restrictiva". 
+```{julia}
+f(2)
+```
+
+A esto se lo conoce como *polimorfismo*. En julia podemos hacer poliformismo en todas las variables, hablamos de *multiple dispatch*.
+
+[Un buen artículo sobre esto.](https://nextjournal.com/Javierweiss/programación-orientada-a-objetos-polimorfismo) 
+
+## `struct`s como función
+
+En ocasiones es interesante poder llamar a una estructura como si fuese una función. 
+Esto es posible en `julia`
+Por ejemplo
+```{julia}
+struct Poly
+    coeff::Vector{Float64} # [a₀, a₁,... , aₙ]
+end
+
+function (P::Poly)(x::Number)
+    return sum([ c * x^(n-1) for (n,c) in enumerate(P.coeff) ])
+end
+
+P = Poly([0, 0, 1])
+
+P(2.0)
+```
+
+## `DifferentialEquations.jl` + `Measurements.jl` 
+
+Ver clase 1.
+
+El motivo por el que estas dos librerías encajan bien es por que `Measurements.jl` extiende las operaciones básicas `+`, `*`, ...
+
+# Mutabilidad en Julia
+
+De acuerdo con la documentación de Julia:
+
+> Julia function arguments follow a convention sometimes called "pass-by-sharing", which means that values are not copied when they are passed to functions. Function arguments themselves act as new variable bindings (new locations that can refer to values), but the values they refer to are identical to the passed values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages. 
+
+---
+
+Las variables de tipo `Float` e `Int` no cambian dentro de funciones
+
+```{julia}
+function sumauno(a)
+    a = a + 1.0
+    return a
+end
+a = 2.0
+println("Primero a = $a")
+@show sumauno(a)
+println("Ahora a = $a")
+```
+
+. . .
+
+Se suele decir que Float64 es `immutable`, pues modificarlos dentro de funciones no afecta a su valor exterior
+
+---
+
+El comportamiento es el mismo si asignamos un vector completo
+
+```{julia}
+function sumauno(v::Vector)
+    v = v .+ 1
+    return v
+end;
+
+v = [2, 3];
+
+@show v
+@show sumauno(v)
+@show v;
+```
+
+Recordamos que la diferencia entre que `=` rompe el link "simbólico".
+
+--- 
+
+Las funciones en julia también funcionan por link simbólico.
+
+Si modificamos el vector dentro de la función con `.=`
+
+. . .
+
+```{julia}
+function sumauno!(v::Vector)
+    v .= v .+ 1
+    return v
+end;
+```
+
+. . .
+
+```{julia}
+v = [2, 3]
+@show v
+@show sumauno!(v)
+@show v;
+```
+
+. . .
+
+Eliminamos este efecto pasando una copia
+
+```{julia}
+v = [1, 2]
+@show v
+@show sumauno!(copy(v))
+@show v;
+```

@@ -1,0 +1,23 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Julia para matemáticos"
+author: "David Gómez-Castro"
+format:
+  html:
+    output-file: 02-Matematicas-apuntes.html
+  clean-revealjs:
+    output-file: 02-Matematicas-diapositivas.html
+---
+
+{{< include _theme/activate.qmd >}}
+
+Entre otras ventajas, los algoritmos matemáticos en `julia` pueden quedar escritos de manera muy agradable
+
+[https://github.com/mossr/BeautifulAlgorithms.jl](https://github.com/mossr/BeautifulAlgorithms.jl)
+
+{{< include 02-Matematicas/linear-algebra.qmd >}}
+{{< include 02-Matematicas/plot.qmd >}}
+{{< include 02-Matematicas/random.qmd >}}
+{{< include 02-Matematicas/sci-ml.qmd >}}
+{{< include 02-Matematicas/diferenciacion-automatica.qmd >}}
+{{< include 02-Matematicas/nn.qmd >}}

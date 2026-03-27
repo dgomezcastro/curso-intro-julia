@@ -1,0 +1,95 @@
+# `LinearAlgebra.jl` 
+
+Es parte de `Standard Library`
+
+## Operaciones básicas {.scrollable}
+
+```{julia}
+using LinearAlgebra
+A = [1 2 3; 4 1 6; 7 8 1]
+```
+
+```{julia}
+@show tr(A)
+@show det(A)
+println("inv(A) = ")
+inv(A)
+```
+
+La sintaxis para sistemas es la habitual
+```{julia}
+b = [1,2,3]
+A \ b 
+```
+
+. . .
+
+
+Y las descomposición espectral
+```{julia}
+eigvals(A) 
+```
+
+## Matrices especiales 
+
+| Type | 	Description | 
+|------|-----------------
+|Symmetric|	Symmetric matrix|
+|Hermitian|	Hermitian matrix|
+|UpperTriangular|	Upper triangular matrix|
+|UnitUpperTriangular|	Upper triangular matrix with unit diagonal|
+|LowerTriangular|	Lower triangular matrix|
+|UnitLowerTriangular|	Lower triangular matrix with unit diagonal|
+|UpperHessenberg|	Upper Hessenberg matrix|
+|Tridiagonal|	Tridiagonal matrix|
+|SymTridiagonal|	Symmetric tridiagonal matrix|
+|Bidiagonal|	Upper/lower bidiagonal matrix|
+|Diagonal|	Diagonal matrix|
+|UniformScaling|	Uniform scaling operator|
+
+--- 
+
+```{julia}
+A = UnitUpperTriangular( [ 1 2 3 ; 1 2 3 ; 1 2 3 ] )
+```
+
+[Más sobre matrices especiales](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#Special-matrices)
+
+## Factorizaciones {.scrollable}
+
+`lu` permite exportar L, U y vector de permutaciones, o matriz de permutaciones
+```{julia} 
+A = rand(3,3)
+B = lu(A)
+```
+
+. . . 
+
+Julia incluso puede elegir una "buena" factorización para nuestro problema
+```{julia}
+factorize(A)
+```
+
+```{julia}
+factorize(A'*A)
+```
+
+Volveremos sobre la importancia de factorizar en la próxima sesión.
+
+## Más sobre sistemas lineales
+
+Para sistemas "difíciles" o cuando queramos la máxima velocidad, podemos utilizar el paquete `LinearSolve.jl`
+```{julia}
+using LinearSolve
+
+A = rand(4, 4)
+b = rand(4)
+prob = LinearProblem(A, b)
+sol = solve(prob)
+sol.u
+```
+
+Implementa muchos resolvedores optimizados y tiene, además, un sistema de selección de solvers adecuados.
+
+Video explicativo en [Youtube](https://www.youtube.com/watch?v=JWI34_w-yYw&pp=ygUOcmF1Y2thdXMganVsaWE%3D)
+

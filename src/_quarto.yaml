@@ -79,7 +79,7 @@ execute:
   echo: true
   daemon: false # causes a non-fatal error between html and revealjs
   
-jupyter: julia-1.11
+jupyter: julia-1.12
 csl: _theme/harvard-imperial-college-london-david.csl
 
 project:

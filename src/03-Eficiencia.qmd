@@ -1,0 +1,211 @@
+---
+title: "![Julia](Material/Julia.svg)"
+subtitle: "Eficiencia computacional"
+author: "David Gómez-Castro"
+format:
+  html:
+    output-file: 03-Eficiencia-apuntes.html
+  clean-revealjs:
+    output-file: 03-Eficiencia-diapositivas.html
+---
+
+:::{.hidden}
+```{julia}
+using Pkg
+Pkg.activate(".")
+using BenchmarkTools
+```
+:::
+
+# Álgebra Lineal
+
+## Usa tipos de matrices 
+
+```{julia}
+N = 1000
+A = zeros(N,N)
+for i=1:N 
+  for j=1:N 
+    A[i,j] = rand()
+  end 
+end 
+
+x = rand(N) 
+@btime A * x;
+``` 
+
+```{julia}
+using LinearAlgebra
+B = UpperTriangular(A) 
+@btime B*x;
+```
+
+## Paquetes con tipos adicionales
+
+```{julia}
+using BenchmarkTools
+N = 10_000
+A = zeros(N,N)
+for i=1:N
+  A[i,i] = 1.
+  A[i,[1:i-1;i+1:N]] .= -1 / (3*N)
+end 
+x = rand(N)
+@btime A*x;
+```
+
+```{julia}
+using ToeplitzMatrices #usa FFT para matrices banda
+
+vc = [ 1.;  -ones(N-1) / (3*N) ]
+B = SymmetricToeplitz(vc)
+@btime B*x;
+```
+
+## *si resuelves muchas veces, factoriza tus matrices*
+
+```{julia}
+using BenchmarkTools
+
+N = 100
+A = rand(N,N)
+b = ones(N)
+
+@btime A \ b ;
+```
+
+```{julia}
+using LinearAlgebra
+
+print("Factorizar:")
+@btime factorize(A)
+B = factorize(A)
+print("Resolver:")
+@btime B \ b
+@show typeof(B);
+```
+
+[Documentación](https://deepwiki.com/JuliaLang/LinearAlgebra.jl/4-matrix-factorizations)
+
+## Para vectores pequeños y cuyos valores no cambian usa `static array`
+
+[`StaticArrays.jl`](https://github.com/JuliaArrays/StaticArrays.jl) 
+
+```{julia} 
+using StaticArrays, BenchmarkTools
+
+A = [1 2 3; 4 5 6; 7 8 9]
+B = @SMatrix [1 2 3; 4 5 6; 7 8 9]
+
+@btime A^20 
+@btime B^20;
+```
+
+```{julia}
+#| error: true
+
+B[3,3] = 1
+```
+
+# Cálculo paralelo
+
+En este curso no haremos hincapié en las capacidades y técnicas de Julia para hacer cálculo en paralelo. 
+
+Los paralelización básica puede hacerse con [`Base.Threads`](https://docs.julialang.org/en/v1/manual/multi-threading/)
+
+Para el cálculo paralelo distribuido se cuenta con `Distributed` en la Standard Library. Véase este [Tutorial](https://docs.julialang.org/en/v1/manual/distributed-computing/).
+
+Para cálculo paralelo en GPU hay un conjunto de paquetes llamados [JuliaGPU](https://github.com/JuliaGPU): [Cuda.jl](https://cuda.juliagpu.org/stable/), AMDGPU.jl, Metal.jl, OpenCL.jl, ...
+
+## Threads
+
+```{julia}
+@show Threads.nthreads()
+```
+
+Si queremos fijar 20 hilo, podemos iniciar julia especificando
+```{bash}
+julia --threads 4
+```
+
+En Linux/MacOS podemos fijar el número de threads en .bashrc/.zshrc fijando 
+
+```{bash}
+export JULIA_NUM_THREADS=4
+```
+
+. . .
+
+Hecho esto podemos ejecutar bucles en paralelo
+
+```{julia}
+using Base.Threads
+N = 20
+a = Vector{Float64}(undef, N)
+@threads for i=1:N
+  a[i] = i^2
+end 
+```
+
+--- 
+
+Hay que tener cuidado con los cálculos inseguros. Si tenemos más de un thread activo el siguiente código dará resultados inesperados:
+```{julia}
+#| eval: false
+using Base.Threads
+N = 1000
+@show sum([ i for i = 1:N ])
+
+s = 0
+@threads for i=1:N
+  global s += i  
+end 
+@show s;
+```
+
+## [Distributed](https://github.com/JuliaLang/Distributed.jl) {.center}
+
+# Uso de GPUs
+
+```{julia} 
+#| eval: false 
+using CUDA, BenchmarkTools
+N = 10_000
+A = rand(N, N);
+B = CuArray(A);
+
+@btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
+
+@time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
+@time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
+
+```
+
+# [Memoization](https://github.com/JuliaCollections/Memoize.jl)
+
+Permite que funciones costosas no se recalculen en el mismo punto
+```{julia}
+using Memoize
+@memoize function mifuncion(a)
+    println("Running")
+    sleep(3)
+    return 2a
+end
+```
+
+```{julia}
+@time mifuncion(1)
+```
+
+```{julia} 
+@time mifuncion(1)
+```
+
+```{julia}
+memoize_cache(mifuncion)
+```
+
+{{< include 03-Eficiencia/cantor.qmd >}}
+{{< include 03-Eficiencia/iterators.qmd >}}
+
+

@@ -1,0 +1,24 @@
+
+# IDEs
+
+## [Visual Studio Code](https://code.visualstudio.com)
+
+Para desarrollar código podemos usar [Visual Studio Code con Julia](https://www.julia-vscode.org). 
+
+## Jupyter 
+
+También podemos utilizar libretas [Jupyter](https://jupyter.org/install)
+
+Para instalar `jupyter` introduzca en una terminal de `julia`
+```{julia}
+#| eval: false
+using Pkg; Pkg.add("IJulia")
+```
+
+Para ejecutarlo
+```{julia}
+#| eval: false
+using IJulia; notebook()
+```
+
+La primera vez pedirá instalar otros paquetes. Acepte introduciendo `y`.

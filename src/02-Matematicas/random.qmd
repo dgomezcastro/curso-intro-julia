@@ -1,0 +1,66 @@
+
+# Probabilidad, Estadística y teoría de la medida
+
+[Random.jl](https://docs.julialang.org/en/v1/stdlib/Random/) es parte de `Standard Library`
+
+```{julia}
+using Random 
+@show rand()
+@show rand( (-1,2) )
+@show rand(5:10);
+```
+
+. . .
+
+[Statistics.jl](https://docs.julialang.org/en/v1/stdlib/Statistics/) es parte de Standard Library.
+
+. . .
+
+Es reseñable la familia [JuliaStats](https://juliastats.org/): DataFrames, Distributions, HypothesisTests, TimeSeries, ... 
+
+## [Distributions.jl](https://juliastats.org/Distributions.jl/stable/)
+
+The Distributions package provides a large collection of probabilistic distributions and related functions. Particularly, Distributions implements:
+
+* Sampling from distributions
+* Moments (e.g mean, variance, skewness, and kurtosis), entropy, and other properties
+* Probability density/mass functions (pdf) and their logarithm (logpdf)
+* Moment-generating functions and characteristic functions
+* Maximum likelihood estimation
+* Distribution composition and derived distributions (Cartesian product of distributions, truncated distributions, censored distributions)
+
+--- 
+
+```{julia}
+using Random, Distributions
+d = Normal()
+d + 1.0
+```
+
+```{julia}
+@show mean(d)
+@show rand(d, 3)
+```
+
+```{julia}
+x = [0, 0.4, -0.4] 
+fit(Normal, x)
+```
+
+
+Ver también [MeasureTheory.jl](https://juliamath.github.io/MeasureTheory.jl/stable/)
+
+
+## [Turing.jl](https://turinglang.org/)
+
+> Turing is a general-purpose probabilistic programming language for robust, efficient Bayesian inference and decision making. Current features include:
+>
+>   * General-purpose probabilistic programming with an intuitive modelling interface;
+>   * Robust, efficient Hamiltonian Monte Carlo (HMC) sampling for differentiable posterior distributions;
+>   * Particle MCMC sampling for complex posterior distributions involving discrete variables and stochastic control flow; and
+>   * Compositional inference via Gibbs sampling that combines particle MCMC, HMC and random-walk MH (RWMH).
+
+[Un ejemplo sencillo](https://turinglang.org/dev/docs/using-turing/quick-start)
+
+
+

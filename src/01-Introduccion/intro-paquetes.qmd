@@ -1,0 +1,117 @@
+# Paquetes
+
+## ¿Qué son?
+
+Las funcionalidades avanzadas se cargan con paquetes (Plots, ...)
+
+. . .
+
+Los paquetes están alojados en GitHub, donde suelen contar con amplia documentación: ejemplo [Plots.jl](https://github.com/JuliaPlots/Plots.jl)
+
+. . .
+
+Para usar un paquete debemos cargarlo, por ejemplo,
+```{julia}
+using Plots
+```
+
+. . .
+
+Los paquetes deben añadidos en el entorno actual. Para añadirlos basta utilizamos el paquete `Pkg.jl` de la siguiente forma
+
+```{julia}
+#| eval: false
+using Pkg;
+Pkg.add("Plots");
+```
+
+---
+
+```{julia}
+using Plots
+plot(x -> exp(x))
+```
+
+---
+
+```{julia}
+x = [0, 0.1, 1, 2]
+y = exp.(x)
+
+using Plots
+plot(x, y)
+```
+
+## La magia de los macros
+
+```{julia}
+
+@gif for n = 1:20
+    plot(x -> sin(n * x))
+end
+```
+
+## La magia del código genérico
+
+Para resolver una EDO podemos usar sintaxis similar a `ode45`
+
+```{julia}
+#| echo: true
+g = 9.79 # Gravitational constant
+L = 1.00 # Length of pendulum
+
+u₀ = [0, π / 60] # Initial speed and angle
+tspan = (0.0, 6.3) # Time span
+
+# Define the problem
+function pendulum(du, u, p, t)
+    θ = u[1]
+    dθ = u[2]
+    du[1] = dθ
+    du[2] = -(g / L) * θ
+end
+
+# Pass to solver
+using DifferentialEquations
+prob = ODEProblem(pendulum, u₀, tspan)
+sol = solve(prob, Tsit5(), reltol=1e-6)
+
+# Plot
+using Plots
+plot(sol.t, first.(sol.u), label="\\theta")
+```
+
+Tomado de *[The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)*
+
+---
+
+Sin modificar la librería `DifferentialEquations` podemos extenderla a otros "tipos de datos"
+
+```{julia}
+#| echo: true
+using Measurements
+g = 9.79 ± 0.02 # Gravitational constant
+L = 1.00 ± 0.01 # Length of pendulum
+
+u₀ = [0 ± 0.0, π / 60 ± 0.01] # Initial speed and angle
+tspan = (0.0, 6.3) # Time span
+
+# Define the problem
+function pendulum(du, u, p, t)
+    θ = u[1]
+    dθ = u[2]
+    du[1] = dθ
+    du[2] = -(g / L) * θ
+end
+
+# Pass to solver
+using DifferentialEquations
+prob = ODEProblem(pendulum, u₀, tspan)
+sol = solve(prob, Tsit5(), reltol=1e-6)
+
+# Plot
+using Plots
+plot(sol.t, first.(sol.u), label="\\theta")
+```
+
+Tomado de *[The Unreasonable Effectiveness of Multiple Dispatch](https://www.youtube.com/watch?v=kc9HwsxE1OY)*

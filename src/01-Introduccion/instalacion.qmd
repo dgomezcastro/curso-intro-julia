@@ -1,0 +1,19 @@
+# Instalación
+
+En Linux/MacOS ejecute en una terminal
+```{bash}
+curl -fsSL https://install.julialang.org | sh
+``` 
+
+En Windows ejecute en una terminal
+```{powershell}
+winget install --name Julia --id 9NJNWW8PVKMN -e -s msstore
+```
+
+Más información e instaladores convencionales en la [web de `julia`](https://julialang.org/downloads/)
+
+**Primera ejecución**
+
+Al lanzar julia por primera vez veremos algo así:
+
+![](Material/first-run.png)

@@ -1,0 +1,188 @@
+# Iteradores 
+
+## Generadores {.scrollable}
+
+Recordamos que en `julia` podemos utilizar *list comprehension* 
+```{julia}
+[i for i=1:5]
+```
+
+esto es útil, por ejemplo, dentro de `sum`.
+
+. . .
+
+Pensando qué hace `sum`, realmente no necesitamos ocupar todo el espacio de memoria y podemos hacer evaluación `lazy`. Para esto `julia` *generadores*. En términos de sintaxis basta con decir
+```{julia}
+sum((i for i=1:5))
+```
+
+. . .
+
+¿Qué objeto es este?
+```{julia}
+gen = (i for i=1:5)
+```
+
+. . .
+
+Podemos convertirlo en vector
+```{julia}
+collect(gen)
+```
+
+. . .
+
+El uso de generadores viene con enormes ganancias en rendimiento
+```{julia}
+using BenchmarkTools
+N = 1_000_000
+@btime sum([i for i=1:N])
+@btime sum((i for i=1:N))
+```
+
+Los generadores son un tipo de `iterator`
+
+## Iterators {.scrollable}
+
+Un `iterator` es una estructura`struct` y una implementación de
+
+Required method |	Brief  description
+----------------|---------------------:
+`iterate(iter)` |	Returns either a tuple of the first item and initial state or nothing if empty
+`iterate(iter, state)` |	Returns either a tuple of the next item and next state or nothing if no items remain
+
+. . .
+
+El código 
+```{julia}
+#| eval: false
+for item in iter   # or  "for item = iter"
+    # body
+end
+```
+
+se traduce por 
+
+```{julia}
+#| eval: false
+next = iterate(iter)
+while next !== nothing
+    (item, state) = next
+    # body
+    next = iterate(iter, state)
+end
+```
+
+## Ejemplo 
+
+Pongamos que queremos calcular $\sum_{n=0}^N n^2$ de manera eficiente. Podemos generar un iterador que genere $r^n$ iterativamente
+
+```{julia}
+mutable struct Cuadrados
+  # calcularemos cuadrados hasta que n > count
+  count::Int 
+end
+
+# caso base
+function Base.iterate(S::Cuadrados)  
+  n = 1
+  return n^2, n+1 # (resultado, siguiente estado)
+end
+
+# iteracion
+function Base.iterate(S::Cuadrados, state)
+  if state > S.count
+    return nothing 
+  else
+    n = state
+    return (n^2, n+1)
+  end
+end
+```
+
+```{julia}
+N = 5
+for m in Cuadrados(N)
+  print(m, " ")
+end
+```
+
+Esto está ya implementado
+
+```{julia}
+S = Cuadrados(6)
+25 in S
+```
+
+--- 
+
+Podemos simplicar el constructor, especificando el caso base como parámetro con valor por defecto
+```{julia}
+mutable struct Cuadrados
+  count::Int # último número
+end
+
+function Base.iterate(S::Cuadrados, state=1)
+  if state > S.count
+    return nothing 
+  else
+    n = state
+    return (n^2, n+1)
+  end
+end
+```
+
+---
+
+Se puede usar la implementación genérica
+
+```{julia}
+@show sum(S)
+```
+
+, pero a veces es interesante dar valores precisos aprovechando fórmulas cerradas
+```{julia}
+function Base.sum(S::Cuadrados) 
+  n = S.count 
+  return n*(n+1)*(2n+1)÷6
+end
+```
+. . . 
+
+---
+
+Hay que tener cuidado con algunas cuestiones. Por ejemplo
+```{julia}
+#| error: true
+[i for i in Cuadrados(5)]
+```
+
+Falla porque `julia` quiere reservar el espacio de memoria antes de llenarlo, y necesita saber `length`
+
+. . .
+
+```{julia}
+Base.length(S::Cuadrados) = S.count
+```
+
+ya podemos 
+```{julia}
+[i for i in Cuadrados(5)]
+```
+
+
+También podemos fijar
+```{julia} 
+Base.eltype(S::Type{Cuadrados}) = Int64
+```
+
+## Ganancia computacional
+
+```{julia}
+N = 100_000_000
+@btime sum([i^2 for i = 1:N])
+@btime sum((i^2 for i = 1:N))
+@btime sum(Cuadrados(N));
+```
+
+
