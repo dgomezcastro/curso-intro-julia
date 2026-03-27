@@ -98,9 +98,9 @@ $$
 
 Para calcular $\nabla J$ se emplea la regla de cadena. A este proceso lo llama back-progation.
 
-# [Un ejemplo detallado en Julia](https://www.freecodecamp.org/news/deep-learning-with-julia/)
+## [Un ejemplo detallado en Julia](https://www.freecodecamp.org/news/deep-learning-with-julia/)
 
-# [Flux.jl](https://fluxml.ai/Flux.jl/stable/)
+## [`Flux.jl`](https://fluxml.ai/Flux.jl/stable/)
 
 Flux es una de las mejores librerías de ML en Julia.
 
@@ -110,6 +110,6 @@ Flux es una de las mejores librerías de ML en Julia.
 
 ## [Un ejemplo no trivial](https://fluxml.ai/Flux.jl/stable/models/quickstart/)
 
-# Otros paquetes
+## Otros paquetes
 
 [MLJ.jl](https://juliapackages.com/p/mlj)

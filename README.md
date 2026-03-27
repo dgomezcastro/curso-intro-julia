@@ -8,7 +8,7 @@ Marzo 2025. Universidad Complutense de Madrid
 ## Estructura del curso:
 
 01. Introducción.
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-Introduccion-apuntes.html)
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-Intro-apuntes.html)
     
     - [Ejercicios 1a.](ejercicios/01a-PrimerContacto-ejercicios.ipynb)
 
@@ -27,7 +27,7 @@ Marzo 2025. Universidad Complutense de Madrid
 
 04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
-- [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
+    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
 
 
 ### Configuración para las aulas de informática UCM

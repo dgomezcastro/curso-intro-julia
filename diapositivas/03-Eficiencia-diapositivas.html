@@ -444,7 +444,7 @@
   <meta name="generator" content="quarto-1.9.31">
 
   <meta name="author" content="David Gómez-Castro">
-  <meta name="dcterms.date" content="2025-03-01">
+  <meta name="dcterms.date" content="2026-05-01">
   <title>Julia</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1124,7 +1124,7 @@ David Gómez-Castro
 </div>
 </div>
 
-  <p class="date">March 1, 2025</p>
+  <p class="date">May 1, 2026</p>
 </section><section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Contenido</h2>
@@ -1177,7 +1177,7 @@ David Gómez-Castro
 <span id="cb2-10"><a href></a><span class="pp">@btime</span> A <span class="op">*</span> x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  162.665 μs (3 allocations: 7.88 KiB)</code></pre>
+<pre><code>  160.040 μs (3 allocations: 7.88 KiB)</code></pre>
 </div>
 </div></div>
 <div id="6" class="cell columns column-output-location" data-execution_count="1">
@@ -1187,7 +1187,7 @@ David Gómez-Castro
 <span id="cb4-3"><a href></a><span class="pp">@btime</span> B<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  143.159 μs (3 allocations: 7.88 KiB)</code></pre>
+<pre><code>  69.028 μs (3 allocations: 7.88 KiB)</code></pre>
 </div>
 </div></div>
 </section>
@@ -1206,7 +1206,7 @@ David Gómez-Castro
 <span id="cb6-9"><a href></a><span class="pp">@btime</span> A<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  37.851 ms (3 allocations: 78.20 KiB)</code></pre>
+<pre><code>  32.036 ms (3 allocations: 78.20 KiB)</code></pre>
 </div>
 </div></div>
 <div id="10" class="cell columns column-output-location" data-execution_count="1">
@@ -1218,7 +1218,7 @@ David Gómez-Castro
 <span id="cb8-5"><a href></a><span class="pp">@btime</span> B<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  515.848 μs (17 allocations: 1016.19 KiB)</code></pre>
+<pre><code>  586.463 μs (17 allocations: 1016.19 KiB)</code></pre>
 </div>
 </div></div>
 </section>
@@ -1235,7 +1235,7 @@ David Gómez-Castro
 <span id="cb10-7"><a href></a><span class="pp">@btime</span> A <span class="op">\</span> b ;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  64.073 μs (7 allocations: 80.02 KiB)</code></pre>
+<pre><code>  67.972 μs (7 allocations: 80.02 KiB)</code></pre>
 </div>
 </div></div>
 <div id="14" class="cell columns column-output-location" data-execution_count="1">
@@ -1250,8 +1250,8 @@ David Gómez-Castro
 <span id="cb12-8"><a href></a><span class="pp">@show</span> <span class="fu">typeof</span>(B);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>Factorizar:  75.510 μs (6 allocations: 79.15 KiB)
-Resolver:  3.860 μs (2 allocations: 928 bytes)
+<pre><code>Factorizar:  64.370 μs (6 allocations: 79.15 KiB)
+Resolver:  3.847 μs (2 allocations: 928 bytes)
 typeof(B) = LinearAlgebra.LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pre>
 </div>
 </div></div>
@@ -1271,8 +1271,8 @@ typeof(B) = LinearAlgebra.LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pr
 <span id="cb14-7"><a href></a><span class="pp">@btime</span> B<span class="op">^</span><span class="fl">20</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  400.274 ns (10 allocations: 720 bytes)
-  72.806 ns (1 allocation: 80 bytes)</code></pre>
+<pre><code>  316.055 ns (10 allocations: 720 bytes)
+  58.031 ns (1 allocation: 80 bytes)</code></pre>
 </div>
 </div></div>
 <div id="18" class="cell columns column-output-location" data-execution_count="1">
@@ -1401,7 +1401,7 @@ Stacktrace:
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Running
-  3.004247 seconds (26 allocations: 121.062 KiB)</code></pre>
+  3.004668 seconds (26 allocations: 121.062 KiB)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>2</code></pre>
@@ -1412,7 +1412,7 @@ Stacktrace:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href></a><span class="pp">@time</span> <span class="fu">mifuncion</span>(<span class="fl">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.000003 seconds</code></pre>
+<pre><code>  0.000002 seconds</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>2</code></pre>
@@ -1494,7 +1494,7 @@ Stacktrace:
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>Could not create decoration from factory! Running with no decorations.
-<span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Saved animation to /tmp/jl_7MPQ1OlarS.gif
+<span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Saved animation to /tmp/jl_U3mFEdAFYd.gif
 </pre>
 </div>
 </div>
@@ -1544,12 +1544,12 @@ Stacktrace:
 <div class="cell-output cell-output-stdout">
 <pre><code>N = 25
 Recursivo
-  6.092289 seconds (134.77 M allocations: 17.021 GiB, 38.80% gc time, 0.60% compilation time)
-  6.007137 seconds (134.74 M allocations: 17.020 GiB, 23.68% gc time)
+  7.410796 seconds (134.77 M allocations: 17.021 GiB, 29.63% gc time, 0.23% compilation time)
+  6.333361 seconds (134.74 M allocations: 17.020 GiB, 22.93% gc time)
 ---
 Iterativo
-  0.998775 seconds (112 allocations: 1.000 GiB, 25.24% gc time)
-  0.979261 seconds (106 allocations: 1.000 GiB, 17.39% gc time)
+  1.031543 seconds (112 allocations: 1.000 GiB, 25.36% gc time)
+  0.785550 seconds (106 allocations: 1.000 GiB, 17.74% gc time)
 isequal(cantorRec, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1595,12 +1595,12 @@ isequal(cantorRec, cantorIter) = true</code></pre>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Recursivo con reserva de memoria prueba 1
-Reserva de memoria =   0.069890 seconds (108 allocations: 512.009 MiB, 82.11% gc time, 17.61% compilation time)
-Cálculo de los valores =   0.984207 seconds (93.56 k allocations: 4.391 MiB, 4.42% compilation time)
+Reserva de memoria =   0.052301 seconds (108 allocations: 512.009 MiB, 79.48% gc time, 20.12% compilation time)
+Cálculo de los valores =   0.981071 seconds (93.56 k allocations: 4.391 MiB, 3.96% compilation time)
 ----
 Recursivo con reserva de memoria prueba 2
-Reserva de memoria =   0.071395 seconds (16 allocations: 512.004 MiB, 99.69% gc time)
-Cálculo de los valores =   0.954894 seconds (1 allocation: 32 bytes)
+Reserva de memoria =   0.074861 seconds (16 allocations: 512.004 MiB, 99.61% gc time)
+Cálculo de los valores =   0.935253 seconds (1 allocation: 32 bytes)
 isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1675,8 +1675,8 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <span id="cb52-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  947.201 μs (6 allocations: 7.63 MiB)
-  254.142 ns (3 allocations: 80 bytes)</code></pre>
+<pre><code>  826.635 μs (6 allocations: 7.63 MiB)
+  254.365 ns (3 allocations: 80 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>500000500000</code></pre>
@@ -1905,9 +1905,9 @@ Stacktrace:
 <span id="cb72-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>(<span class="fu">Cuadrados</span>(N));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  299.444 ms (6 allocations: 762.94 MiB)
-  117.399 ns (3 allocations: 80 bytes)
-  4.473 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  494.640 ms (6 allocations: 762.94 MiB)
+  251.623 ns (3 allocations: 80 bytes)
+  3.057 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div></div>
 
