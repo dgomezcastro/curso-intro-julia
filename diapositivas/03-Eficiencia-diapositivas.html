@@ -1177,7 +1177,7 @@ David Gómez-Castro
 <span id="cb2-10"><a href></a><span class="pp">@btime</span> A <span class="op">*</span> x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  345.771 μs (3 allocations: 7.88 KiB)</code></pre>
+<pre><code>  162.665 μs (3 allocations: 7.88 KiB)</code></pre>
 </div>
 </div></div>
 <div id="6" class="cell columns column-output-location" data-execution_count="1">
@@ -1187,40 +1187,71 @@ David Gómez-Castro
 <span id="cb4-3"><a href></a><span class="pp">@btime</span> B<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  168.499 μs (3 allocations: 7.88 KiB)</code></pre>
+<pre><code>  143.159 μs (3 allocations: 7.88 KiB)</code></pre>
+</div>
+</div></div>
+</section>
+<section id="paquetes-con-tipos-adicionales" class="slide level2">
+<h2>Paquetes con tipos adicionales</h2>
+<div id="8" class="cell columns column-output-location" data-execution_count="1">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb6-2"><a href></a>N <span class="op">=</span> <span class="fl">10_000</span></span>
+<span id="cb6-3"><a href></a>A <span class="op">=</span> <span class="fu">zeros</span>(N,N)</span>
+<span id="cb6-4"><a href></a><span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb6-5"><a href></a>  A[i,i] <span class="op">=</span> <span class="fl">1</span>.</span>
+<span id="cb6-6"><a href></a>  A[i,[<span class="fl">1</span><span class="op">:</span>i<span class="op">-</span><span class="fl">1</span>;i<span class="op">+</span><span class="fl">1</span><span class="op">:</span>N]] <span class="op">.=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">/</span> (<span class="fl">3</span><span class="op">*</span>N)</span>
+<span id="cb6-7"><a href></a><span class="cf">end</span> </span>
+<span id="cb6-8"><a href></a>x <span class="op">=</span> <span class="fu">rand</span>(N)</span>
+<span id="cb6-9"><a href></a><span class="pp">@btime</span> A<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>  37.851 ms (3 allocations: 78.20 KiB)</code></pre>
+</div>
+</div></div>
+<div id="10" class="cell columns column-output-location" data-execution_count="1">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href></a><span class="im">using</span> <span class="bu">ToeplitzMatrices</span> <span class="co">#usa FFT para matrices banda</span></span>
+<span id="cb8-2"><a href></a></span>
+<span id="cb8-3"><a href></a>vc <span class="op">=</span> [ <span class="fl">1</span>.;  <span class="fu">-ones</span>(N<span class="op">-</span><span class="fl">1</span>) <span class="op">/</span> (<span class="fl">3</span><span class="op">*</span>N) ]</span>
+<span id="cb8-4"><a href></a>B <span class="op">=</span> <span class="fu">SymmetricToeplitz</span>(vc)</span>
+<span id="cb8-5"><a href></a><span class="pp">@btime</span> B<span class="op">*</span>x;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>  515.848 μs (17 allocations: 1016.19 KiB)</code></pre>
 </div>
 </div></div>
 </section>
 <section id="si-resuelves-muchas-veces-factoriza-tus-matrices" class="slide level2">
 <h2><em>si resuelves muchas veces, factoriza tus matrices</em></h2>
-<div id="8" class="cell columns column-output-location" data-execution_count="1">
+<div id="12" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
-<span id="cb6-2"><a href></a></span>
-<span id="cb6-3"><a href></a>N <span class="op">=</span> <span class="fl">100</span></span>
-<span id="cb6-4"><a href></a>A <span class="op">=</span> <span class="fu">rand</span>(N,N)</span>
-<span id="cb6-5"><a href></a>b <span class="op">=</span> <span class="fu">ones</span>(N)</span>
-<span id="cb6-6"><a href></a></span>
-<span id="cb6-7"><a href></a><span class="pp">@btime</span> A <span class="op">\</span> b ;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb10-2"><a href></a></span>
+<span id="cb10-3"><a href></a>N <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb10-4"><a href></a>A <span class="op">=</span> <span class="fu">rand</span>(N,N)</span>
+<span id="cb10-5"><a href></a>b <span class="op">=</span> <span class="fu">ones</span>(N)</span>
+<span id="cb10-6"><a href></a></span>
+<span id="cb10-7"><a href></a><span class="pp">@btime</span> A <span class="op">\</span> b ;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  70.367 μs (7 allocations: 80.02 KiB)</code></pre>
+<pre><code>  64.073 μs (7 allocations: 80.02 KiB)</code></pre>
 </div>
 </div></div>
-<div id="10" class="cell columns column-output-location" data-execution_count="1">
+<div id="14" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
-<span id="cb8-2"><a href></a></span>
-<span id="cb8-3"><a href></a><span class="fu">print</span>(<span class="st">&quot;Factorizar:&quot;</span>)</span>
-<span id="cb8-4"><a href></a><span class="pp">@btime</span> <span class="fu">factorize</span>(A)</span>
-<span id="cb8-5"><a href></a>B <span class="op">=</span> <span class="fu">factorize</span>(A)</span>
-<span id="cb8-6"><a href></a><span class="fu">print</span>(<span class="st">&quot;Resolver:&quot;</span>)</span>
-<span id="cb8-7"><a href></a><span class="pp">@btime</span> B <span class="op">\</span> b</span>
-<span id="cb8-8"><a href></a><span class="pp">@show</span> <span class="fu">typeof</span>(B);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb12-2"><a href></a></span>
+<span id="cb12-3"><a href></a><span class="fu">print</span>(<span class="st">&quot;Factorizar:&quot;</span>)</span>
+<span id="cb12-4"><a href></a><span class="pp">@btime</span> <span class="fu">factorize</span>(A)</span>
+<span id="cb12-5"><a href></a>B <span class="op">=</span> <span class="fu">factorize</span>(A)</span>
+<span id="cb12-6"><a href></a><span class="fu">print</span>(<span class="st">&quot;Resolver:&quot;</span>)</span>
+<span id="cb12-7"><a href></a><span class="pp">@btime</span> B <span class="op">\</span> b</span>
+<span id="cb12-8"><a href></a><span class="pp">@show</span> <span class="fu">typeof</span>(B);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>Factorizar:  66.395 μs (6 allocations: 79.15 KiB)
-Resolver:  3.862 μs (2 allocations: 928 bytes)
+<pre><code>Factorizar:  75.510 μs (6 allocations: 79.15 KiB)
+Resolver:  3.860 μs (2 allocations: 928 bytes)
 typeof(B) = LinearAlgebra.LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pre>
 </div>
 </div></div>
@@ -1229,24 +1260,24 @@ typeof(B) = LinearAlgebra.LU{Float64, Matrix{Float64}, Vector{Int64}}</code></pr
 <section id="para-vectores-pequeños-y-cuyos-valores-no-cambian-usa-static-array" class="slide level2">
 <h2>Para vectores pequeños y cuyos valores no cambian usa <code>static array</code></h2>
 <p><a href="https://github.com/JuliaArrays/StaticArrays.jl"><code>StaticArrays.jl</code></a></p>
-<div id="12" class="cell columns column-output-location" data-execution_count="1">
+<div id="16" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href></a><span class="im">using</span> <span class="bu">StaticArrays</span>, <span class="bu">BenchmarkTools</span></span>
-<span id="cb10-2"><a href></a></span>
-<span id="cb10-3"><a href></a>A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span>; <span class="fl">4</span> <span class="fl">5</span> <span class="fl">6</span>; <span class="fl">7</span> <span class="fl">8</span> <span class="fl">9</span>]</span>
-<span id="cb10-4"><a href></a>B <span class="op">=</span> <span class="pp">@SMatrix</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span>; <span class="fl">4</span> <span class="fl">5</span> <span class="fl">6</span>; <span class="fl">7</span> <span class="fl">8</span> <span class="fl">9</span>]</span>
-<span id="cb10-5"><a href></a></span>
-<span id="cb10-6"><a href></a><span class="pp">@btime</span> A<span class="op">^</span><span class="fl">20</span> </span>
-<span id="cb10-7"><a href></a><span class="pp">@btime</span> B<span class="op">^</span><span class="fl">20</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href></a><span class="im">using</span> <span class="bu">StaticArrays</span>, <span class="bu">BenchmarkTools</span></span>
+<span id="cb14-2"><a href></a></span>
+<span id="cb14-3"><a href></a>A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span>; <span class="fl">4</span> <span class="fl">5</span> <span class="fl">6</span>; <span class="fl">7</span> <span class="fl">8</span> <span class="fl">9</span>]</span>
+<span id="cb14-4"><a href></a>B <span class="op">=</span> <span class="pp">@SMatrix</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span>; <span class="fl">4</span> <span class="fl">5</span> <span class="fl">6</span>; <span class="fl">7</span> <span class="fl">8</span> <span class="fl">9</span>]</span>
+<span id="cb14-5"><a href></a></span>
+<span id="cb14-6"><a href></a><span class="pp">@btime</span> A<span class="op">^</span><span class="fl">20</span> </span>
+<span id="cb14-7"><a href></a><span class="pp">@btime</span> B<span class="op">^</span><span class="fl">20</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  319.351 ns (10 allocations: 720 bytes)
-  60.879 ns (1 allocation: 80 bytes)</code></pre>
+<pre><code>  400.274 ns (10 allocations: 720 bytes)
+  72.806 ns (1 allocation: 80 bytes)</code></pre>
 </div>
 </div></div>
-<div id="14" class="cell columns column-output-location" data-execution_count="1">
+<div id="18" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href></a>B[<span class="fl">3</span>,<span class="fl">3</span>] <span class="op">=</span> <span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href></a>B[<span class="fl">3</span>,<span class="fl">3</span>] <span class="op">=</span> <span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -1264,7 +1295,7 @@ Stacktrace:
  [5] <span class="ansi-bold">setindex!</span><span class="ansi-bold">(</span>::SMatrix<span class="ansi-bright-black-fg">{3, 3, Int64, 9}</span>, ::Int64, ::Int64, ::Int64<span class="ansi-bold">)</span>
 <span class="ansi-bright-black-fg">   @</span> <span class="ansi-magenta-fg">StaticArrays</span> <span class="ansi-bright-black-fg">~/.julia/packages/StaticArrays/0cEwi/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">indexing.jl:42</span>
  [6] top-level scope
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">~/Github/curso-intro-julia/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">03-Eficiencia.qmd:85</span></pre>
+<span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">~/Github/curso-intro-julia/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">03-Eficiencia.qmd:107</span></pre>
 </div>
 </div>
 </div></div>
@@ -1279,9 +1310,9 @@ Stacktrace:
 </section>
 <section id="threads" class="slide level2">
 <h2>Threads</h2>
-<div id="16" class="cell columns column-output-location" data-execution_count="1">
+<div id="20" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href></a><span class="pp">@show</span> <span class="bu">Threads</span>.<span class="fu">nthreads</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href></a><span class="pp">@show</span> <span class="bu">Threads</span>.<span class="fu">nthreads</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Threads.nthreads() = 10</code></pre>
@@ -1291,19 +1322,19 @@ Stacktrace:
 </div>
 </div></div>
 <p>Si queremos fijar 20 hilo, podemos iniciar julia especificando</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href></a>julia --threads 4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a href></a>julia --threads 4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En Linux/MacOS podemos fijar el número de threads en .bashrc/.zshrc fijando</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a href></a>export JULIA_NUM_THREADS=4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href></a>export JULIA_NUM_THREADS=4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="fragment">
 <p>Hecho esto podemos ejecutar bucles en paralelo</p>
-<div id="18" class="cell columns column-output-location" data-execution_count="1">
+<div id="22" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
-<span id="cb18-2"><a href></a>N <span class="op">=</span> <span class="fl">20</span></span>
-<span id="cb18-3"><a href></a>a <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, N)</span>
-<span id="cb18-4"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb18-5"><a href></a>  a[i] <span class="op">=</span> i<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb18-6"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
+<span id="cb22-2"><a href></a>N <span class="op">=</span> <span class="fl">20</span></span>
+<span id="cb22-3"><a href></a>a <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, N)</span>
+<span id="cb22-4"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb22-5"><a href></a>  a[i] <span class="op">=</span> i<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb22-6"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1312,17 +1343,17 @@ Stacktrace:
 <section class="slide level2">
 
 <p>Hay que tener cuidado con los cálculos inseguros. Si tenemos más de un thread activo el siguiente código dará resultados inesperados:</p>
-<div id="20" class="cell columns column-output-location" data-execution_count="0">
+<div id="24" class="cell columns column-output-location" data-execution_count="0">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
-<span id="cb19-2"><a href></a>N <span class="op">=</span> <span class="fl">1000</span></span>
-<span id="cb19-3"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>([ i for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N ])</span>
-<span id="cb19-4"><a href></a></span>
-<span id="cb19-5"><a href></a>s <span class="op">=</span> <span class="fl">0</span></span>
-<span id="cb19-6"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb19-7"><a href></a>  <span class="kw">global</span> s <span class="op">+=</span> i  </span>
-<span id="cb19-8"><a href></a><span class="cf">end</span> </span>
-<span id="cb19-9"><a href></a><span class="pp">@show</span> s;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href></a><span class="im">using</span> <span class="bu">Base.Threads</span></span>
+<span id="cb23-2"><a href></a>N <span class="op">=</span> <span class="fl">1000</span></span>
+<span id="cb23-3"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>([ i for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N ])</span>
+<span id="cb23-4"><a href></a></span>
+<span id="cb23-5"><a href></a>s <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb23-6"><a href></a><span class="pp">@threads</span> <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb23-7"><a href></a>  <span class="kw">global</span> s <span class="op">+=</span> i  </span>
+<span id="cb23-8"><a href></a><span class="cf">end</span> </span>
+<span id="cb23-9"><a href></a><span class="pp">@show</span> s;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1332,17 +1363,17 @@ Stacktrace:
 </section></section>
 <section id="uso-de-gpus" class="title-slide slide level1 center">
 <h1>Uso de GPUs</h1>
-<div id="22" class="cell columns column-output-location" data-execution_count="0">
+<div id="26" class="cell columns column-output-location" data-execution_count="0">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href></a><span class="im">using</span> <span class="bu">CUDA</span>, <span class="bu">BenchmarkTools</span></span>
-<span id="cb20-2"><a href></a>N <span class="op">=</span> <span class="fl">10_000</span></span>
-<span id="cb20-3"><a href></a>A <span class="op">=</span> <span class="fu">rand</span>(N, N);</span>
-<span id="cb20-4"><a href></a>B <span class="op">=</span> <span class="fu">CuArray</span>(A);</span>
-<span id="cb20-5"><a href></a></span>
-<span id="cb20-6"><a href></a><span class="pp">@btime</span> A <span class="op">*</span> A; <span class="co"># 1.875 s (3 allocations: 762.94 MiB)</span></span>
-<span id="cb20-7"><a href></a></span>
-<span id="cb20-8"><a href></a><span class="pp">@time</span> B <span class="op">*</span> B; <span class="co">#  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) </span></span>
-<span id="cb20-9"><a href></a><span class="pp">@time</span> B <span class="op">*</span> B; <span class="co"># 0.000114 seconds (55 allocations: 1.250 KiB</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href></a><span class="im">using</span> <span class="bu">CUDA</span>, <span class="bu">BenchmarkTools</span></span>
+<span id="cb24-2"><a href></a>N <span class="op">=</span> <span class="fl">10_000</span></span>
+<span id="cb24-3"><a href></a>A <span class="op">=</span> <span class="fu">rand</span>(N, N);</span>
+<span id="cb24-4"><a href></a>B <span class="op">=</span> <span class="fu">CuArray</span>(A);</span>
+<span id="cb24-5"><a href></a></span>
+<span id="cb24-6"><a href></a><span class="pp">@btime</span> A <span class="op">*</span> A; <span class="co"># 1.875 s (3 allocations: 762.94 MiB)</span></span>
+<span id="cb24-7"><a href></a></span>
+<span id="cb24-8"><a href></a><span class="pp">@time</span> B <span class="op">*</span> B; <span class="co">#  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) </span></span>
+<span id="cb24-9"><a href></a><span class="pp">@time</span> B <span class="op">*</span> B; <span class="co"># 0.000114 seconds (55 allocations: 1.250 KiB</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1351,45 +1382,45 @@ Stacktrace:
 <section id="memoization" class="title-slide slide level1 center">
 <h1><a href="https://github.com/JuliaCollections/Memoize.jl">Memoization</a></h1>
 <p>Permite que funciones costosas no se recalculen en el mismo punto</p>
-<div id="24" class="cell columns column-output-location" data-execution_count="1">
+<div id="28" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href></a><span class="im">using</span> <span class="bu">Memoize</span></span>
-<span id="cb21-2"><a href></a><span class="pp">@memoize</span> <span class="kw">function</span> <span class="fu">mifuncion</span>(a)</span>
-<span id="cb21-3"><a href></a>    <span class="fu">println</span>(<span class="st">&quot;Running&quot;</span>)</span>
-<span id="cb21-4"><a href></a>    <span class="fu">sleep</span>(<span class="fl">3</span>)</span>
-<span id="cb21-5"><a href></a>    <span class="cf">return</span> <span class="fl">2</span>a</span>
-<span id="cb21-6"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href></a><span class="im">using</span> <span class="bu">Memoize</span></span>
+<span id="cb25-2"><a href></a><span class="pp">@memoize</span> <span class="kw">function</span> <span class="fu">mifuncion</span>(a)</span>
+<span id="cb25-3"><a href></a>    <span class="fu">println</span>(<span class="st">&quot;Running&quot;</span>)</span>
+<span id="cb25-4"><a href></a>    <span class="fu">sleep</span>(<span class="fl">3</span>)</span>
+<span id="cb25-5"><a href></a>    <span class="cf">return</span> <span class="fl">2</span>a</span>
+<span id="cb25-6"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>mifuncion (generic function with 1 method)</code></pre>
 </div>
 </div></div>
-<div id="26" class="cell columns column-output-location" data-execution_count="1">
+<div id="30" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href></a><span class="pp">@time</span> <span class="fu">mifuncion</span>(<span class="fl">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href></a><span class="pp">@time</span> <span class="fu">mifuncion</span>(<span class="fl">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Running
-  3.004410 seconds (27 allocations: 121.344 KiB)</code></pre>
+  3.004247 seconds (26 allocations: 121.062 KiB)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>2</code></pre>
 </div>
 </div></div>
-<div id="28" class="cell columns column-output-location" data-execution_count="1">
+<div id="32" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href></a><span class="pp">@time</span> <span class="fu">mifuncion</span>(<span class="fl">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href></a><span class="pp">@time</span> <span class="fu">mifuncion</span>(<span class="fl">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.000006 seconds</code></pre>
+<pre><code>  0.000003 seconds</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>2</code></pre>
 </div>
 </div></div>
-<div id="30" class="cell columns column-output-location" data-execution_count="1">
+<div id="34" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href></a><span class="fu">memoize_cache</span>(mifuncion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href></a><span class="fu">memoize_cache</span>(mifuncion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>IdDict{Any, Any} with 1 entry:
@@ -1407,63 +1438,63 @@ Stacktrace:
 <h2>Conjunto de Cantor</h2>
 <p>El conjunto de Cantor se obtiene iterativamente partiendo del intervalo <span class="math inline">\((0,1)\)</span> y, en cada iteración, dividiendo pasando del intervalo <span class="math inline">\((a,b)\)</span> a <span class="math inline">\((a,\frac{a+b}{3}) \cup (2 \frab{a+b}{3} , b)\)</span>.</p>
 <p>Si representamos el segmento <span class="math inline">\((a,b)\)</span> por la tupla <code>(a,b)</code>, una iteración del cojunto de Cantor es un vector de tuplas. Una implementación posible es</p>
-<div id="32" class="cell columns column-output-location" data-execution_count="1">
+<div id="36" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href></a><span class="kw">function</span> <span class="fu">CantorIter</span>(cantor)</span>
-<span id="cb31-2"><a href></a>    N <span class="op">=</span> <span class="fu">length</span>(cantor)</span>
-<span id="cb31-3"><a href></a>    new_cantor <span class="op">=</span> <span class="fu">Array</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span> <span class="op">*</span> N)</span>
-<span id="cb31-4"><a href></a></span>
-<span id="cb31-5"><a href></a>    <span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb31-6"><a href></a>        (a₁, a₂) <span class="op">=</span> cantor[i]</span>
-<span id="cb31-7"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb31-8"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb31-9"><a href></a></span>
-<span id="cb31-10"><a href></a>        new_cantor[<span class="fl">2</span><span class="op">*</span>i<span class="op">-</span><span class="fl">1</span>] <span class="op">=</span> (a₁, b₁)</span>
-<span id="cb31-11"><a href></a>        new_cantor[<span class="fl">2</span><span class="op">*</span>i] <span class="op">=</span> (b₂, a₂)</span>
-<span id="cb31-12"><a href></a>    <span class="cf">end</span></span>
-<span id="cb31-13"><a href></a>    <span class="cf">return</span> new_cantor</span>
-<span id="cb31-14"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href></a><span class="kw">function</span> <span class="fu">CantorIter</span>(cantor)</span>
+<span id="cb35-2"><a href></a>    N <span class="op">=</span> <span class="fu">length</span>(cantor)</span>
+<span id="cb35-3"><a href></a>    new_cantor <span class="op">=</span> <span class="fu">Array</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span> <span class="op">*</span> N)</span>
+<span id="cb35-4"><a href></a></span>
+<span id="cb35-5"><a href></a>    <span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb35-6"><a href></a>        (a₁, a₂) <span class="op">=</span> cantor[i]</span>
+<span id="cb35-7"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb35-8"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb35-9"><a href></a></span>
+<span id="cb35-10"><a href></a>        new_cantor[<span class="fl">2</span><span class="op">*</span>i<span class="op">-</span><span class="fl">1</span>] <span class="op">=</span> (a₁, b₁)</span>
+<span id="cb35-11"><a href></a>        new_cantor[<span class="fl">2</span><span class="op">*</span>i] <span class="op">=</span> (b₂, a₂)</span>
+<span id="cb35-12"><a href></a>    <span class="cf">end</span></span>
+<span id="cb35-13"><a href></a>    <span class="cf">return</span> new_cantor</span>
+<span id="cb35-14"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 </section>
 <section id="representando-el-conjunto-de-datos" class="slide level2 scrollable">
 <h2>Representando el conjunto de datos</h2>
-<div id="34" class="cell columns column-output-location" data-execution_count="1">
+<div id="38" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb32-2"><a href></a><span class="kw">function</span> <span class="fu">plotCantor</span>(cantor<span class="op">::</span><span class="dt">Array</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb32-3"><a href></a>    p <span class="op">=</span> <span class="fu">plot</span>(</span>
-<span id="cb32-4"><a href></a>        title<span class="op">=</span><span class="st">&quot;Conjunto de Cantor n = </span><span class="sc">$</span>n<span class="st">&quot;</span>,</span>
-<span id="cb32-5"><a href></a>        xticks<span class="op">=</span>([<span class="fl">0</span>, <span class="fl">1</span>]), yticks<span class="op">=</span>[],</span>
-<span id="cb32-6"><a href></a>        ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>))</span>
-<span id="cb32-7"><a href></a>    <span class="cf">for</span> j <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cantor)</span>
-<span id="cb32-8"><a href></a>        p <span class="op">=</span> <span class="fu">plot!</span>(</span>
-<span id="cb32-9"><a href></a>            [<span class="fu">first</span>(cantor[j]), <span class="fu">last</span>(cantor[j])],</span>
-<span id="cb32-10"><a href></a>            [<span class="fl">0</span>, <span class="fl">0</span>],</span>
-<span id="cb32-11"><a href></a>            linewidth<span class="op">=</span><span class="fl">2</span>,</span>
-<span id="cb32-12"><a href></a>            axis<span class="op">=</span>([], <span class="cn">false</span>),</span>
-<span id="cb32-13"><a href></a>            color<span class="op">=:</span>black,</span>
-<span id="cb32-14"><a href></a>            label<span class="op">=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb32-15"><a href></a>    <span class="cf">end</span></span>
-<span id="cb32-16"><a href></a>    <span class="cf">return</span> p</span>
-<span id="cb32-17"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb36-2"><a href></a><span class="kw">function</span> <span class="fu">plotCantor</span>(cantor<span class="op">::</span><span class="dt">Array</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb36-3"><a href></a>    p <span class="op">=</span> <span class="fu">plot</span>(</span>
+<span id="cb36-4"><a href></a>        title<span class="op">=</span><span class="st">&quot;Conjunto de Cantor n = </span><span class="sc">$</span>n<span class="st">&quot;</span>,</span>
+<span id="cb36-5"><a href></a>        xticks<span class="op">=</span>([<span class="fl">0</span>, <span class="fl">1</span>]), yticks<span class="op">=</span>[],</span>
+<span id="cb36-6"><a href></a>        ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>))</span>
+<span id="cb36-7"><a href></a>    <span class="cf">for</span> j <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(cantor)</span>
+<span id="cb36-8"><a href></a>        p <span class="op">=</span> <span class="fu">plot!</span>(</span>
+<span id="cb36-9"><a href></a>            [<span class="fu">first</span>(cantor[j]), <span class="fu">last</span>(cantor[j])],</span>
+<span id="cb36-10"><a href></a>            [<span class="fl">0</span>, <span class="fl">0</span>],</span>
+<span id="cb36-11"><a href></a>            linewidth<span class="op">=</span><span class="fl">2</span>,</span>
+<span id="cb36-12"><a href></a>            axis<span class="op">=</span>([], <span class="cn">false</span>),</span>
+<span id="cb36-13"><a href></a>            color<span class="op">=:</span>black,</span>
+<span id="cb36-14"><a href></a>            label<span class="op">=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb36-15"><a href></a>    <span class="cf">end</span></span>
+<span id="cb36-16"><a href></a>    <span class="cf">return</span> p</span>
+<span id="cb36-17"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 <p>Para representar <span class="math inline">\(n\)</span> pasos, aplicamos la fórmula iterativa</p>
-<div id="36" class="cell columns column-output-location" data-execution_count="1">
+<div id="40" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href></a>cantor <span class="op">=</span> [(<span class="fl">0</span>, <span class="fl">1</span>)]</span>
-<span id="cb33-2"><a href></a><span class="pp">@gif</span> <span class="cf">for</span> n <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">5</span></span>
-<span id="cb33-3"><a href></a>    <span class="fu">plotCantor</span>(cantor, n)</span>
-<span id="cb33-4"><a href></a>    <span class="kw">global</span> cantor <span class="op">=</span> <span class="fu">CantorIter</span>(cantor)</span>
-<span id="cb33-5"><a href></a><span class="cf">end</span> fps <span class="op">=</span> <span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href></a>cantor <span class="op">=</span> [(<span class="fl">0</span>, <span class="fl">1</span>)]</span>
+<span id="cb37-2"><a href></a><span class="pp">@gif</span> <span class="cf">for</span> n <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">5</span></span>
+<span id="cb37-3"><a href></a>    <span class="fu">plotCantor</span>(cantor, n)</span>
+<span id="cb37-4"><a href></a>    <span class="kw">global</span> cantor <span class="op">=</span> <span class="fu">CantorIter</span>(cantor)</span>
+<span id="cb37-5"><a href></a><span class="cf">end</span> fps <span class="op">=</span> <span class="fl">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>Could not create decoration from factory! Running with no decorations.
-<span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Saved animation to /tmp/jl_gdI1wr6r8r.gif
+<span class="ansi-cyan-fg ansi-bold">[ </span><span class="ansi-cyan-fg ansi-bold">Info: </span>Saved animation to /tmp/jl_7MPQ1OlarS.gif
 </pre>
 </div>
 </div>
@@ -1475,50 +1506,50 @@ Stacktrace:
 <section id="implementación-recursiva" class="slide level2 scrollable">
 <h2>Implementación recursiva</h2>
 <p>La siguiente implementación recursiva devuelve directamente el paso <span class="math inline">\(n\)</span>-ésimo</p>
-<div id="38" class="cell columns column-output-location" data-execution_count="1">
+<div id="42" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRec</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb34-2"><a href></a>    <span class="cf">if</span> n <span class="op">&gt;</span> <span class="fl">0</span></span>
-<span id="cb34-3"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb34-4"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb34-5"><a href></a>        <span class="cf">return</span> [<span class="fu">CantorRec</span>(a₁, b₁, n <span class="op">-</span> <span class="fl">1</span>); <span class="fu">CantorRec</span>(b₂, a₂, n <span class="op">-</span> <span class="fl">1</span>)]</span>
-<span id="cb34-6"><a href></a>    <span class="cf">else</span></span>
-<span id="cb34-7"><a href></a>        <span class="cf">return</span> [(a₁, a₂)]</span>
-<span id="cb34-8"><a href></a>    <span class="cf">end</span></span>
-<span id="cb34-9"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRec</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb38-2"><a href></a>    <span class="cf">if</span> n <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span id="cb38-3"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb38-4"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb38-5"><a href></a>        <span class="cf">return</span> [<span class="fu">CantorRec</span>(a₁, b₁, n <span class="op">-</span> <span class="fl">1</span>); <span class="fu">CantorRec</span>(b₂, a₂, n <span class="op">-</span> <span class="fl">1</span>)]</span>
+<span id="cb38-6"><a href></a>    <span class="cf">else</span></span>
+<span id="cb38-7"><a href></a>        <span class="cf">return</span> [(a₁, a₂)]</span>
+<span id="cb38-8"><a href></a>    <span class="cf">end</span></span>
+<span id="cb38-9"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 <p>Comprobamos el timpo de computación</p>
-<div id="40" class="cell columns column-output-location" data-execution_count="1">
+<div id="44" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href></a>N <span class="op">=</span> <span class="fl">25</span></span>
-<span id="cb35-2"><a href></a><span class="pp">@show</span> N</span>
-<span id="cb35-3"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo&quot;</span>)</span>
-<span id="cb35-4"><a href></a><span class="pp">@time</span> <span class="fu">CantorRec</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, N)</span>
-<span id="cb35-5"><a href></a><span class="pp">@time</span> cantorRec <span class="op">=</span> <span class="fu">CantorRec</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, N)</span>
-<span id="cb35-6"><a href></a><span class="fu">println</span>(<span class="st">&quot;---&quot;</span>)</span>
-<span id="cb35-7"><a href></a><span class="fu">println</span>(<span class="st">&quot;Iterativo&quot;</span>)</span>
-<span id="cb35-8"><a href></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span>
-<span id="cb35-9"><a href></a>    <span class="pp">@time</span> <span class="cf">begin</span></span>
-<span id="cb35-10"><a href></a>        <span class="kw">global</span> cantorIter <span class="op">=</span> [(<span class="fl">0</span>, <span class="fl">1</span>)]</span>
-<span id="cb35-11"><a href></a>        <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
-<span id="cb35-12"><a href></a>            cantorIter <span class="op">=</span> <span class="fu">CantorIter</span>(cantorIter)</span>
-<span id="cb35-13"><a href></a>        <span class="cf">end</span></span>
-<span id="cb35-14"><a href></a>    <span class="cf">end</span></span>
-<span id="cb35-15"><a href></a><span class="cf">end</span></span>
-<span id="cb35-16"><a href></a></span>
-<span id="cb35-17"><a href></a><span class="pp">@show</span> <span class="fu">isequal</span>(cantorRec, cantorIter);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href></a>N <span class="op">=</span> <span class="fl">25</span></span>
+<span id="cb39-2"><a href></a><span class="pp">@show</span> N</span>
+<span id="cb39-3"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo&quot;</span>)</span>
+<span id="cb39-4"><a href></a><span class="pp">@time</span> <span class="fu">CantorRec</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, N)</span>
+<span id="cb39-5"><a href></a><span class="pp">@time</span> cantorRec <span class="op">=</span> <span class="fu">CantorRec</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, N)</span>
+<span id="cb39-6"><a href></a><span class="fu">println</span>(<span class="st">&quot;---&quot;</span>)</span>
+<span id="cb39-7"><a href></a><span class="fu">println</span>(<span class="st">&quot;Iterativo&quot;</span>)</span>
+<span id="cb39-8"><a href></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span>
+<span id="cb39-9"><a href></a>    <span class="pp">@time</span> <span class="cf">begin</span></span>
+<span id="cb39-10"><a href></a>        <span class="kw">global</span> cantorIter <span class="op">=</span> [(<span class="fl">0</span>, <span class="fl">1</span>)]</span>
+<span id="cb39-11"><a href></a>        <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb39-12"><a href></a>            cantorIter <span class="op">=</span> <span class="fu">CantorIter</span>(cantorIter)</span>
+<span id="cb39-13"><a href></a>        <span class="cf">end</span></span>
+<span id="cb39-14"><a href></a>    <span class="cf">end</span></span>
+<span id="cb39-15"><a href></a><span class="cf">end</span></span>
+<span id="cb39-16"><a href></a></span>
+<span id="cb39-17"><a href></a><span class="pp">@show</span> <span class="fu">isequal</span>(cantorRec, cantorIter);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>N = 25
 Recursivo
-  9.628398 seconds (134.77 M allocations: 17.021 GiB, 34.06% gc time, 0.39% compilation time)
-  7.897504 seconds (134.74 M allocations: 17.020 GiB, 26.47% gc time)
+  6.092289 seconds (134.77 M allocations: 17.021 GiB, 38.80% gc time, 0.60% compilation time)
+  6.007137 seconds (134.74 M allocations: 17.020 GiB, 23.68% gc time)
 ---
 Iterativo
-  1.061547 seconds (112 allocations: 1.000 GiB, 29.03% gc time)
-  0.886803 seconds (106 allocations: 1.000 GiB, 9.67% gc time)
+  0.998775 seconds (112 allocations: 1.000 GiB, 25.24% gc time)
+  0.979261 seconds (106 allocations: 1.000 GiB, 17.39% gc time)
 isequal(cantorRec, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1527,49 +1558,49 @@ isequal(cantorRec, cantorIter) = true</code></pre>
 <h2>Utilizando <code>@view</code></h2>
 <p>En <code>julia</code> los vectores se pasan a la funciones por <em>sharing</em>, lo que ahorra memoria.</p>
 <p>Sin embargo, si pasamos un rango de un vector (por ejemplo <code>v[2:3]</code>) entonces se pasa una copia. Para que se pasa por <em>sharing</em>, y poder cambiarlo, se puede utilizar el macro <code>@view</code>.</p>
-<div id="42" class="cell columns column-output-location" data-execution_count="1">
+<div id="46" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRecAllocated!</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, cantor)</span>
-<span id="cb37-2"><a href></a>    <span class="cf">if</span> <span class="fu">length</span>(cantor) <span class="op">==</span> <span class="fl">1</span></span>
-<span id="cb37-3"><a href></a>        cantor[<span class="fl">1</span>] <span class="op">=</span> (a₁, a₂)</span>
-<span id="cb37-4"><a href></a>    <span class="cf">else</span></span>
-<span id="cb37-5"><a href></a>        L <span class="op">=</span> <span class="fu">div</span>(<span class="fu">length</span>(cantor), <span class="fl">2</span>)</span>
-<span id="cb37-6"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb37-7"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
-<span id="cb37-8"><a href></a>        <span class="fu">CantorRecAllocated!</span>(a₁, b₁, <span class="pp">@view</span> cantor[<span class="fl">1</span><span class="op">:</span>L])</span>
-<span id="cb37-9"><a href></a>        <span class="fu">CantorRecAllocated!</span>(b₂, a₂, <span class="pp">@view</span> cantor[L<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>])</span>
-<span id="cb37-10"><a href></a>    <span class="cf">end</span></span>
-<span id="cb37-11"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href></a><span class="kw">function</span> <span class="fu">CantorRecAllocated!</span>(a₁<span class="op">::</span><span class="dt">Real</span>, a₂<span class="op">::</span><span class="dt">Real</span>, cantor)</span>
+<span id="cb41-2"><a href></a>    <span class="cf">if</span> <span class="fu">length</span>(cantor) <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb41-3"><a href></a>        cantor[<span class="fl">1</span>] <span class="op">=</span> (a₁, a₂)</span>
+<span id="cb41-4"><a href></a>    <span class="cf">else</span></span>
+<span id="cb41-5"><a href></a>        L <span class="op">=</span> <span class="fu">div</span>(<span class="fu">length</span>(cantor), <span class="fl">2</span>)</span>
+<span id="cb41-6"><a href></a>        b₁ <span class="op">=</span> (<span class="fl">2</span> <span class="op">*</span> a₁ <span class="op">+</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb41-7"><a href></a>        b₂ <span class="op">=</span> (a₁ <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> a₂) <span class="op">/</span> <span class="fl">3</span></span>
+<span id="cb41-8"><a href></a>        <span class="fu">CantorRecAllocated!</span>(a₁, b₁, <span class="pp">@view</span> cantor[<span class="fl">1</span><span class="op">:</span>L])</span>
+<span id="cb41-9"><a href></a>        <span class="fu">CantorRecAllocated!</span>(b₂, a₂, <span class="pp">@view</span> cantor[L<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>])</span>
+<span id="cb41-10"><a href></a>    <span class="cf">end</span></span>
+<span id="cb41-11"><a href></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 </section>
 <section id="eficiencia-computacional" class="slide level2 scrollable">
 <h2>Eficiencia computacional</h2>
-<div id="44" class="cell columns column-output-location" data-execution_count="1">
+<div id="48" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo con reserva de memoria prueba 1&quot;</span>)</span>
-<span id="cb38-2"><a href></a><span class="fu">print</span>(<span class="st">&quot;Reserva de memoria = &quot;</span>)</span>
-<span id="cb38-3"><a href></a><span class="pp">@time</span> cantorRecAllocated <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span><span class="op">^</span>N)</span>
-<span id="cb38-4"><a href></a><span class="fu">print</span>(<span class="st">&quot;Cálculo de los valores = &quot;</span>)</span>
-<span id="cb38-5"><a href></a><span class="pp">@time</span> <span class="fu">CantorRecAllocated!</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, cantorRecAllocated)</span>
-<span id="cb38-6"><a href></a><span class="fu">println</span>(<span class="st">&quot;----&quot;</span>)</span>
-<span id="cb38-7"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo con reserva de memoria prueba 2&quot;</span>)</span>
-<span id="cb38-8"><a href></a><span class="fu">print</span>(<span class="st">&quot;Reserva de memoria = &quot;</span>)</span>
-<span id="cb38-9"><a href></a><span class="pp">@time</span> cantorRecAllocated2 <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span><span class="op">^</span>N)</span>
-<span id="cb38-10"><a href></a><span class="fu">print</span>(<span class="st">&quot;Cálculo de los valores = &quot;</span>)</span>
-<span id="cb38-11"><a href></a><span class="pp">@time</span> <span class="fu">CantorRecAllocated!</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, cantorRecAllocated2)</span>
-<span id="cb38-12"><a href></a></span>
-<span id="cb38-13"><a href></a><span class="pp">@show</span> <span class="fu">isequal</span>(cantorRecAllocated, cantorIter);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo con reserva de memoria prueba 1&quot;</span>)</span>
+<span id="cb42-2"><a href></a><span class="fu">print</span>(<span class="st">&quot;Reserva de memoria = &quot;</span>)</span>
+<span id="cb42-3"><a href></a><span class="pp">@time</span> cantorRecAllocated <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span><span class="op">^</span>N)</span>
+<span id="cb42-4"><a href></a><span class="fu">print</span>(<span class="st">&quot;Cálculo de los valores = &quot;</span>)</span>
+<span id="cb42-5"><a href></a><span class="pp">@time</span> <span class="fu">CantorRecAllocated!</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, cantorRecAllocated)</span>
+<span id="cb42-6"><a href></a><span class="fu">println</span>(<span class="st">&quot;----&quot;</span>)</span>
+<span id="cb42-7"><a href></a><span class="fu">println</span>(<span class="st">&quot;Recursivo con reserva de memoria prueba 2&quot;</span>)</span>
+<span id="cb42-8"><a href></a><span class="fu">print</span>(<span class="st">&quot;Reserva de memoria = &quot;</span>)</span>
+<span id="cb42-9"><a href></a><span class="pp">@time</span> cantorRecAllocated2 <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Tuple{Float64,Float64}}</span>(<span class="cn">undef</span>, <span class="fl">2</span><span class="op">^</span>N)</span>
+<span id="cb42-10"><a href></a><span class="fu">print</span>(<span class="st">&quot;Cálculo de los valores = &quot;</span>)</span>
+<span id="cb42-11"><a href></a><span class="pp">@time</span> <span class="fu">CantorRecAllocated!</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, cantorRecAllocated2)</span>
+<span id="cb42-12"><a href></a></span>
+<span id="cb42-13"><a href></a><span class="pp">@show</span> <span class="fu">isequal</span>(cantorRecAllocated, cantorIter);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>Recursivo con reserva de memoria prueba 1
-Reserva de memoria =   0.133258 seconds (108 allocations: 512.009 MiB, 90.81% gc time, 9.00% compilation time)
-Cálculo de los valores =   0.973035 seconds (93.54 k allocations: 4.393 MiB, 4.17% compilation time)
+Reserva de memoria =   0.069890 seconds (108 allocations: 512.009 MiB, 82.11% gc time, 17.61% compilation time)
+Cálculo de los valores =   0.984207 seconds (93.56 k allocations: 4.391 MiB, 4.42% compilation time)
 ----
 Recursivo con reserva de memoria prueba 2
-Reserva de memoria =   0.041764 seconds (16 allocations: 512.004 MiB, 98.21% gc time)
-Cálculo de los valores =   0.923099 seconds (1 allocation: 32 bytes)
+Reserva de memoria =   0.071395 seconds (16 allocations: 512.004 MiB, 99.69% gc time)
+Cálculo de los valores =   0.954894 seconds (1 allocation: 32 bytes)
 isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 </div></div>
@@ -1582,9 +1613,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section id="generadores" class="slide level2 scrollable">
 <h2>Generadores</h2>
 <p>Recordamos que en <code>julia</code> podemos utilizar <em>list comprehension</em></p>
-<div id="46" class="cell columns column-output-location" data-execution_count="1">
+<div id="50" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href></a>[i for i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href></a>[i for i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>5-element Vector{Int64}:
@@ -1598,9 +1629,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <p>esto es útil, por ejemplo, dentro de <code>sum</code>.</p>
 <div class="fragment">
 <p>Pensando qué hace <code>sum</code>, realmente no necesitamos ocupar todo el espacio de memoria y podemos hacer evaluación <code>lazy</code>. Para esto <code>julia</code> <em>generadores</em>. En términos de sintaxis basta con decir</p>
-<div id="48" class="cell columns column-output-location" data-execution_count="1">
+<div id="52" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href></a><span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href></a><span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>15</code></pre>
@@ -1609,9 +1640,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 <div class="fragment">
 <p>¿Qué objeto es este?</p>
-<div id="50" class="cell columns column-output-location" data-execution_count="1">
+<div id="54" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href></a>gen <span class="op">=</span> (i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href></a>gen <span class="op">=</span> (i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:5)</code></pre>
@@ -1620,9 +1651,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 <div class="fragment">
 <p>Podemos convertirlo en vector</p>
-<div id="52" class="cell columns column-output-location" data-execution_count="1">
+<div id="56" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href></a><span class="fu">collect</span>(gen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href></a><span class="fu">collect</span>(gen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>5-element Vector{Int64}:
@@ -1636,16 +1667,16 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 <div class="fragment">
 <p>El uso de generadores viene con enormes ganancias en rendimiento</p>
-<div id="54" class="cell columns column-output-location" data-execution_count="1">
+<div id="58" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
-<span id="cb48-2"><a href></a>N <span class="op">=</span> <span class="fl">1_000_000</span></span>
-<span id="cb48-3"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>([i for i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N])</span>
-<span id="cb48-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb52-2"><a href></a>N <span class="op">=</span> <span class="fl">1_000_000</span></span>
+<span id="cb52-3"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>([i for i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N])</span>
+<span id="cb52-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>N))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  1.158 ms (6 allocations: 7.63 MiB)
-  255.465 ns (3 allocations: 80 bytes)</code></pre>
+<pre><code>  947.201 μs (6 allocations: 7.63 MiB)
+  254.142 ns (3 allocations: 80 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>500000500000</code></pre>
@@ -1681,23 +1712,23 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </table>
 <div class="fragment">
 <p>El código</p>
-<div id="56" class="cell columns column-output-location" data-execution_count="0">
+<div id="60" class="cell columns column-output-location" data-execution_count="0">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href></a><span class="cf">for</span> item <span class="kw">in</span> iter   <span class="co"># or  &quot;for item = iter&quot;</span></span>
-<span id="cb51-2"><a href></a>    <span class="co"># body</span></span>
-<span id="cb51-3"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb55-1"><a href></a><span class="cf">for</span> item <span class="kw">in</span> iter   <span class="co"># or  &quot;for item = iter&quot;</span></span>
+<span id="cb55-2"><a href></a>    <span class="co"># body</span></span>
+<span id="cb55-3"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 <p>se traduce por</p>
-<div id="58" class="cell columns column-output-location" data-execution_count="0">
+<div id="62" class="cell columns column-output-location" data-execution_count="0">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href></a>next <span class="op">=</span> <span class="fu">iterate</span>(iter)</span>
-<span id="cb52-2"><a href></a><span class="cf">while</span> next <span class="op">!==</span> <span class="cn">nothing</span></span>
-<span id="cb52-3"><a href></a>    (item, state) <span class="op">=</span> next</span>
-<span id="cb52-4"><a href></a>    <span class="co"># body</span></span>
-<span id="cb52-5"><a href></a>    next <span class="op">=</span> <span class="fu">iterate</span>(iter, state)</span>
-<span id="cb52-6"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href></a>next <span class="op">=</span> <span class="fu">iterate</span>(iter)</span>
+<span id="cb56-2"><a href></a><span class="cf">while</span> next <span class="op">!==</span> <span class="cn">nothing</span></span>
+<span id="cb56-3"><a href></a>    (item, state) <span class="op">=</span> next</span>
+<span id="cb56-4"><a href></a>    <span class="co"># body</span></span>
+<span id="cb56-5"><a href></a>    next <span class="op">=</span> <span class="fu">iterate</span>(iter, state)</span>
+<span id="cb56-6"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1706,47 +1737,47 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section id="ejemplo" class="slide level2">
 <h2>Ejemplo</h2>
 <p>Pongamos que queremos calcular <span class="math inline">\(\sum_{n=0}^N n^2\)</span> de manera eficiente. Podemos generar un iterador que genere <span class="math inline">\(r^n\)</span> iterativamente</p>
-<div id="60" class="cell columns column-output-location" data-execution_count="1">
+<div id="64" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
-<span id="cb53-2"><a href></a>  <span class="co"># calcularemos cuadrados hasta que n &gt; count</span></span>
-<span id="cb53-3"><a href></a>  count<span class="op">::</span><span class="dt">Int </span></span>
-<span id="cb53-4"><a href></a><span class="kw">end</span></span>
-<span id="cb53-5"><a href></a></span>
-<span id="cb53-6"><a href></a><span class="co"># caso base</span></span>
-<span id="cb53-7"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>)  </span>
-<span id="cb53-8"><a href></a>  n <span class="op">=</span> <span class="fl">1</span></span>
-<span id="cb53-9"><a href></a>  <span class="cf">return</span> n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span> <span class="co"># (resultado, siguiente estado)</span></span>
-<span id="cb53-10"><a href></a><span class="kw">end</span></span>
-<span id="cb53-11"><a href></a></span>
-<span id="cb53-12"><a href></a><span class="co"># iteracion</span></span>
-<span id="cb53-13"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>, state)</span>
-<span id="cb53-14"><a href></a>  <span class="cf">if</span> state <span class="op">&gt;</span> S.count</span>
-<span id="cb53-15"><a href></a>    <span class="cf">return</span> <span class="cn">nothing</span> </span>
-<span id="cb53-16"><a href></a>  <span class="cf">else</span></span>
-<span id="cb53-17"><a href></a>    n <span class="op">=</span> state</span>
-<span id="cb53-18"><a href></a>    <span class="cf">return</span> (n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb53-19"><a href></a>  <span class="cf">end</span></span>
-<span id="cb53-20"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb57-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
+<span id="cb57-2"><a href></a>  <span class="co"># calcularemos cuadrados hasta que n &gt; count</span></span>
+<span id="cb57-3"><a href></a>  count<span class="op">::</span><span class="dt">Int </span></span>
+<span id="cb57-4"><a href></a><span class="kw">end</span></span>
+<span id="cb57-5"><a href></a></span>
+<span id="cb57-6"><a href></a><span class="co"># caso base</span></span>
+<span id="cb57-7"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>)  </span>
+<span id="cb57-8"><a href></a>  n <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb57-9"><a href></a>  <span class="cf">return</span> n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span> <span class="co"># (resultado, siguiente estado)</span></span>
+<span id="cb57-10"><a href></a><span class="kw">end</span></span>
+<span id="cb57-11"><a href></a></span>
+<span id="cb57-12"><a href></a><span class="co"># iteracion</span></span>
+<span id="cb57-13"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>, state)</span>
+<span id="cb57-14"><a href></a>  <span class="cf">if</span> state <span class="op">&gt;</span> S.count</span>
+<span id="cb57-15"><a href></a>    <span class="cf">return</span> <span class="cn">nothing</span> </span>
+<span id="cb57-16"><a href></a>  <span class="cf">else</span></span>
+<span id="cb57-17"><a href></a>    n <span class="op">=</span> state</span>
+<span id="cb57-18"><a href></a>    <span class="cf">return</span> (n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb57-19"><a href></a>  <span class="cf">end</span></span>
+<span id="cb57-20"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
-<div id="62" class="cell columns column-output-location" data-execution_count="1">
+<div id="66" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href></a>N <span class="op">=</span> <span class="fl">5</span></span>
-<span id="cb54-2"><a href></a><span class="cf">for</span> m <span class="kw">in</span> <span class="fu">Cuadrados</span>(N)</span>
-<span id="cb54-3"><a href></a>  <span class="fu">print</span>(m, <span class="st">&quot; &quot;</span>)</span>
-<span id="cb54-4"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb58-1"><a href></a>N <span class="op">=</span> <span class="fl">5</span></span>
+<span id="cb58-2"><a href></a><span class="cf">for</span> m <span class="kw">in</span> <span class="fu">Cuadrados</span>(N)</span>
+<span id="cb58-3"><a href></a>  <span class="fu">print</span>(m, <span class="st">&quot; &quot;</span>)</span>
+<span id="cb58-4"><a href></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>1 4 9 16 25 </code></pre>
 </div>
 </div></div>
 <p>Esto está ya implementado</p>
-<div id="64" class="cell columns column-output-location" data-execution_count="1">
+<div id="68" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href></a>S <span class="op">=</span> <span class="fu">Cuadrados</span>(<span class="fl">6</span>)</span>
-<span id="cb56-2"><a href></a><span class="fl">25</span> <span class="kw">in</span> S</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb60-1"><a href></a>S <span class="op">=</span> <span class="fu">Cuadrados</span>(<span class="fl">6</span>)</span>
+<span id="cb60-2"><a href></a><span class="fl">25</span> <span class="kw">in</span> S</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>true</code></pre>
@@ -1756,20 +1787,20 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Podemos simplicar el constructor, especificando el caso base como parámetro con valor por defecto</p>
-<div id="66" class="cell columns column-output-location" data-execution_count="1">
+<div id="70" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb58-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
-<span id="cb58-2"><a href></a>  count<span class="op">::</span><span class="dt">Int </span><span class="co"># último número</span></span>
-<span id="cb58-3"><a href></a><span class="kw">end</span></span>
-<span id="cb58-4"><a href></a></span>
-<span id="cb58-5"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>, state<span class="op">=</span><span class="fl">1</span>)</span>
-<span id="cb58-6"><a href></a>  <span class="cf">if</span> state <span class="op">&gt;</span> S.count</span>
-<span id="cb58-7"><a href></a>    <span class="cf">return</span> <span class="cn">nothing</span> </span>
-<span id="cb58-8"><a href></a>  <span class="cf">else</span></span>
-<span id="cb58-9"><a href></a>    n <span class="op">=</span> state</span>
-<span id="cb58-10"><a href></a>    <span class="cf">return</span> (n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb58-11"><a href></a>  <span class="cf">end</span></span>
-<span id="cb58-12"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb62-1"><a href></a><span class="kw">mutable struct</span> Cuadrados</span>
+<span id="cb62-2"><a href></a>  count<span class="op">::</span><span class="dt">Int </span><span class="co"># último número</span></span>
+<span id="cb62-3"><a href></a><span class="kw">end</span></span>
+<span id="cb62-4"><a href></a></span>
+<span id="cb62-5"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">iterate</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>, state<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb62-6"><a href></a>  <span class="cf">if</span> state <span class="op">&gt;</span> S.count</span>
+<span id="cb62-7"><a href></a>    <span class="cf">return</span> <span class="cn">nothing</span> </span>
+<span id="cb62-8"><a href></a>  <span class="cf">else</span></span>
+<span id="cb62-9"><a href></a>    n <span class="op">=</span> state</span>
+<span id="cb62-10"><a href></a>    <span class="cf">return</span> (n<span class="op">^</span><span class="fl">2</span>, n<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb62-11"><a href></a>  <span class="cf">end</span></span>
+<span id="cb62-12"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1777,9 +1808,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Se puede usar la implementación genérica</p>
-<div id="68" class="cell columns column-output-location" data-execution_count="1">
+<div id="72" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb59-1"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>(S)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb63-1"><a href></a><span class="pp">@show</span> <span class="fu">sum</span>(S)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>sum(S) = 91</code></pre>
@@ -1789,12 +1820,12 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 </div>
 </div></div>
 <p>, pero a veces es interesante dar valores precisos aprovechando fórmulas cerradas</p>
-<div id="70" class="cell columns column-output-location" data-execution_count="1">
+<div id="74" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb62-1"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">sum</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) </span>
-<span id="cb62-2"><a href></a>  n <span class="op">=</span> S.count </span>
-<span id="cb62-3"><a href></a>  <span class="cf">return</span> <span class="fu">n*</span>(n<span class="op">+</span><span class="fl">1</span>)<span class="fu">*</span>(<span class="fl">2</span>n<span class="op">+</span><span class="fl">1</span>)<span class="op">÷</span><span class="fl">6</span></span>
-<span id="cb62-4"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb66-1"><a href></a><span class="kw">function</span> <span class="bu">Base</span>.<span class="fu">sum</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) </span>
+<span id="cb66-2"><a href></a>  n <span class="op">=</span> S.count </span>
+<span id="cb66-3"><a href></a>  <span class="cf">return</span> <span class="fu">n*</span>(n<span class="op">+</span><span class="fl">1</span>)<span class="fu">*</span>(<span class="fl">2</span>n<span class="op">+</span><span class="fl">1</span>)<span class="op">÷</span><span class="fl">6</span></span>
+<span id="cb66-4"><a href></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1802,9 +1833,9 @@ isequal(cantorRecAllocated, cantorIter) = true</code></pre>
 <section class="slide level2">
 
 <p>Hay que tener cuidado con algunas cuestiones. Por ejemplo</p>
-<div id="72" class="cell columns column-output-location" data-execution_count="1">
+<div id="76" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb63-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb67-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -1813,12 +1844,12 @@ The function `length` exists, but no method is defined for this combination of a
 You may need to implement the `length` method or define `IteratorSize` for this type to be `SizeUnknown`.
 
 Closest candidates are:
-  length(<span class="ansi-bright-red-fg">::Plots.PlotText</span>)
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-cyan-fg">Plots</span> <span class="ansi-bright-black-fg">~/.julia/packages/Plots/GIume/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">components.jl:380</span>
   length(<span class="ansi-bright-red-fg">::Markdown.MD</span>)
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-green-fg">Markdown</span> <span class="ansi-bright-black-fg">~/.julia/juliaup/julia-1.12.5+0.x64.linux.gnu/share/julia/stdlib/v1.12/Markdown/src/parse/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">parse.jl:35</span>
+<span class="ansi-bright-black-fg">   @</span> <span class="ansi-cyan-fg">Markdown</span> <span class="ansi-bright-black-fg">~/.julia/juliaup/julia-1.12.5+0.x64.linux.gnu/share/julia/stdlib/v1.12/Markdown/src/parse/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">parse.jl:35</span>
   length(<span class="ansi-bright-red-fg">::DataStructures.SparseIntSet</span>)
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-yellow-fg">DataStructures</span> <span class="ansi-bright-black-fg">~/.julia/packages/DataStructures/qUuAY/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">sparse_int_set.jl:61</span>
+<span class="ansi-bright-black-fg">   @</span> <span class="ansi-green-fg">DataStructures</span> <span class="ansi-bright-black-fg">~/.julia/packages/DataStructures/qUuAY/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">sparse_int_set.jl:61</span>
+  length(<span class="ansi-bright-red-fg">::DataStructures.EnumerateAll</span>)
+<span class="ansi-bright-black-fg">   @</span> <span class="ansi-green-fg">DataStructures</span> <span class="ansi-bright-black-fg">~/.julia/packages/DataStructures/qUuAY/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">multi_dict.jl:96</span>
   ...
 
 Stacktrace:
@@ -1829,22 +1860,22 @@ Stacktrace:
  [3] <span class="ansi-bold">collect</span><span class="ansi-bold">(</span><span class="ansi-bright-black-fg">itr</span>::Base.Generator<span class="ansi-bright-black-fg">{Cuadrados, typeof(identity)}</span><span class="ansi-bold">)</span>
 <span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">Base</span> <span class="ansi-bright-black-fg">./</span><span style="text-decoration:underline" class="ansi-bright-black-fg">array.jl:789</span>
  [4] top-level scope
-<span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">~/Github/curso-intro-julia/src/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">03-Eficiencia.qmd:474</span></pre>
+<span class="ansi-bright-black-fg">   @</span> <span class="ansi-bright-black-fg">~/Github/curso-intro-julia/src/03-Eficiencia/</span><span style="text-decoration:underline" class="ansi-bright-black-fg">iterators.qmd:157</span></pre>
 </div>
 </div>
 </div></div>
 <p>Falla porque <code>julia</code> quiere reservar el espacio de memoria antes de llenarlo, y necesita saber <code>length</code></p>
 <div class="fragment">
-<div id="74" class="cell columns column-output-location" data-execution_count="1">
+<div id="78" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb64-1"><a href></a><span class="bu">Base</span>.<span class="fu">length</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) <span class="op">=</span> S.count</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb68-1"><a href></a><span class="bu">Base</span>.<span class="fu">length</span>(S<span class="op">::</span><span class="dt">Cuadrados</span>) <span class="op">=</span> S.count</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
 <p>ya podemos</p>
-<div id="76" class="cell columns column-output-location" data-execution_count="1">
+<div id="80" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb65-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb69-1"><a href></a>[i for i <span class="kw">in</span> <span class="fu">Cuadrados</span>(<span class="fl">5</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>5-element Vector{Int64}:
@@ -1856,9 +1887,9 @@ Stacktrace:
 </div>
 </div></div>
 <p>También podemos fijar</p>
-<div id="78" class="cell columns column-output-location" data-execution_count="1">
+<div id="82" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb67-1"><a href></a><span class="bu">Base</span>.<span class="fu">eltype</span>(S<span class="op">::</span><span class="dt">Type{Cuadrados}</span>) <span class="op">=</span> <span class="dt">Int64</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb71-1"><a href></a><span class="bu">Base</span>.<span class="fu">eltype</span>(S<span class="op">::</span><span class="dt">Type{Cuadrados}</span>) <span class="op">=</span> <span class="dt">Int64</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 
 </div></div>
@@ -1866,17 +1897,17 @@ Stacktrace:
 </section>
 <section id="ganancia-computacional" class="slide level2">
 <h2>Ganancia computacional</h2>
-<div id="80" class="cell columns column-output-location" data-execution_count="1">
+<div id="84" class="cell columns column-output-location" data-execution_count="1">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb68-1"><a href></a>N <span class="op">=</span> <span class="fl">100_000_000</span></span>
-<span id="cb68-2"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>([i<span class="op">^</span><span class="fl">2</span> for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N])</span>
-<span id="cb68-3"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i<span class="op">^</span><span class="fl">2</span> <span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N))</span>
-<span id="cb68-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>(<span class="fu">Cuadrados</span>(N));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb72-1"><a href></a>N <span class="op">=</span> <span class="fl">100_000_000</span></span>
+<span id="cb72-2"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>([i<span class="op">^</span><span class="fl">2</span> for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N])</span>
+<span id="cb72-3"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>((i<span class="op">^</span><span class="fl">2</span> <span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N))</span>
+<span id="cb72-4"><a href></a><span class="pp">@btime</span> <span class="fu">sum</span>(<span class="fu">Cuadrados</span>(N));</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>  548.230 ms (6 allocations: 762.94 MiB)
-  256.292 ns (3 allocations: 80 bytes)
-  3.058 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  299.444 ms (6 allocations: 762.94 MiB)
+  117.399 ns (3 allocations: 80 bytes)
+  4.473 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div></div>
 

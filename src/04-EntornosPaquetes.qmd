@@ -76,6 +76,14 @@ La descripción de estos archivos en la [documentación](https://pkgdocs.juliala
 
 Si alguien nos comparte un repositorio con un entorno, entonces podemos activarlo, e instalar las depencias con `instantiate`
 
+## Usar un paquete no registrado
+
+Podemos cargar un paquete cualquier url, aunque no esté en el registro principal
+```
+(@v1.10) pkg> add https://github.com/fredrikekre/ImportMacros.jl
+```
+Si el paquete está en un repositorio privado es necesario tener acceso.
+
 ## Crear un paquete
 
 En `julia` es fácil crear nuevos paquetes utilizando `pkg`. 
@@ -123,6 +131,32 @@ julia> HelloWorld.greet()
 ```
 
 Si queremos que `greet()` se pueda utilizar sin `HelloWorld.`, debemos exportarlo añadiendo `export greet` al archivo `HelloWorld/HelloWorld.jl`.
+
+## Publicar paquetes
+
+El registro de `julia` permite añadir nuestro paquetes los use de forma sencilla.
+
+[Instrucciones de `Registrator.jl`](https://github.com/JuliaRegistries/Registrator.jl)
+
+## Usando librerías de `C` y `Fortran`
+
+Es fácil adaptar código `C` para julia.
+
+Si tenemos la librería compilada podemos llamarla con [`ccall`](https://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/)
+
+. . .
+
+Esto complica colaborar, especialmente entre diferentes sistemas operativos y arquitecturas.
+
+Julia permite gestionar estas dependencias, automatizando la compilación mediante [`BinaryBuilder.jl`](https://docs.binarybuilder.org/stable/)
+
+Si el código de la librería está disponible en `Github` podemos automatizar la creación de un paquete de julia que contenga los binarios adecuados. Por ejemplo:
+
+Por ejemplo: [`Epsteinlib_jll`](https://github.com/JuliaBinaryWrappers/Epsteinlib_jll.jl)
+
+. . .
+
+Luego podemos crear una paquete de `julia` que lo use: [`EpsteinLib.jll`](https://github.com/epsteinlib/EpsteinLib.jl).
 
 # Algunos paquetes útiles para programación general
 

@@ -4,9 +4,9 @@ subtitle: "Eficiencia computacional"
 author: "David Gómez-Castro"
 format:
   html:
-    output-file: 06-Eficiencia-apuntes.html
+    output-file: 03-Eficiencia-apuntes.html
   clean-revealjs:
-    output-file: 06-Eficiencia-diapositivas.html
+    output-file: 03-Eficiencia-diapositivas.html
 ---
 
 :::{.hidden}
@@ -37,6 +37,28 @@ x = rand(N)
 ```{julia}
 using LinearAlgebra
 B = UpperTriangular(A) 
+@btime B*x;
+```
+
+## Paquetes con tipos adicionales
+
+```{julia}
+using BenchmarkTools
+N = 10_000
+A = zeros(N,N)
+for i=1:N
+  A[i,i] = 1.
+  A[i,[1:i-1;i+1:N]] .= -1 / (3*N)
+end 
+x = rand(N)
+@btime A*x;
+```
+
+```{julia}
+using ToeplitzMatrices #usa FFT para matrices banda
+
+vc = [ 1.;  -ones(N-1) / (3*N) ]
+B = SymmetricToeplitz(vc)
 @btime B*x;
 ```
 
@@ -183,324 +205,7 @@ end
 memoize_cache(mifuncion)
 ```
 
-# Reserva de memoria - Ejemplo en el conjunto de Cantor 
-
-## Conjunto de Cantor {.scrollable}
-
-El conjunto de Cantor se obtiene iterativamente partiendo del intervalo $(0,1)$ y, en cada iteración, dividiendo pasando del intervalo $(a,b)$ a $(a,\frac{a+b}{3}) \cup (2 \frab{a+b}{3} , b)$.
-
-Si representamos el segmento $(a,b)$ por la tupla `(a,b)`, una iteración del cojunto de Cantor es un vector de tuplas. Una implementación posible es
-
-```{julia}
-function CantorIter(cantor)
-    N = length(cantor)
-    new_cantor = Array{Tuple{Float64,Float64}}(undef, 2 * N)
-
-    for i = 1:N
-        (a₁, a₂) = cantor[i]
-        b₁ = (2 * a₁ + a₂) / 3
-        b₂ = (a₁ + 2 * a₂) / 3
-
-        new_cantor[2*i-1] = (a₁, b₁)
-        new_cantor[2*i] = (b₂, a₂)
-    end
-    return new_cantor
-end;
-```
-
-## Representando el conjunto de datos {.scrollable}
-
-```{julia}
-using Plots
-function plotCantor(cantor::Array, n::Integer)
-    p = plot(
-        title="Conjunto de Cantor n = $n",
-        xticks=([0, 1]), yticks=[],
-        ylim=(-1, 1))
-    for j = 1:length(cantor)
-        p = plot!(
-            [first(cantor[j]), last(cantor[j])],
-            [0, 0],
-            linewidth=2,
-            axis=([], false),
-            color=:black,
-            label="")
-    end
-    return p
-end;
-```
-
-Para representar $n$ pasos, aplicamos la fórmula iterativa
-
-```{julia}
-cantor = [(0, 1)]
-@gif for n = 0:5
-    plotCantor(cantor, n)
-    global cantor = CantorIter(cantor)
-end fps = 1
-```
-
-## Implementación recursiva {.scrollable}
-
-La siguiente implementación recursiva devuelve directamente el paso $n$-ésimo
-```{julia}
-function CantorRec(a₁::Real, a₂::Real, n::Integer)
-    if n > 0
-        b₁ = (2 * a₁ + a₂) / 3
-        b₂ = (a₁ + 2 * a₂) / 3
-        return [CantorRec(a₁, b₁, n - 1); CantorRec(b₂, a₂, n - 1)]
-    else
-        return [(a₁, a₂)]
-    end
-end;
-```
-
-Comprobamos el timpo de computación
-
-```{julia}
-N = 25
-@show N
-println("Recursivo")
-@time CantorRec(0.0, 1.0, N)
-@time cantorRec = CantorRec(0.0, 1.0, N)
-println("---")
-println("Iterativo")
-for i = 1:2
-    @time begin
-        global cantorIter = [(0, 1)]
-        for n = 1:N
-            cantorIter = CantorIter(cantorIter)
-        end
-    end
-end
-
-@show isequal(cantorRec, cantorIter);
-```
-
-## Utilizando `@view` {.scrollable}
-
-En `julia` los vectores se pasan a la funciones por *sharing*, lo que ahorra memoria. 
-
-Sin embargo, si pasamos un rango de un vector (por ejemplo `v[2:3]`) entonces se pasa una copia. Para que se pasa por *sharing*, y poder cambiarlo, se puede utilizar el macro `@view`.
-
-```{julia}
-function CantorRecAllocated!(a₁::Real, a₂::Real, cantor)
-    if length(cantor) == 1
-        cantor[1] = (a₁, a₂)
-    else
-        L = div(length(cantor), 2)
-        b₁ = (2 * a₁ + a₂) / 3
-        b₂ = (a₁ + 2 * a₂) / 3
-        CantorRecAllocated!(a₁, b₁, @view cantor[1:L])
-        CantorRecAllocated!(b₂, a₂, @view cantor[L+1:end])
-    end
-end;
-```
-
-## Eficiencia computacional {.scrollable}
-
-```{julia}
-println("Recursivo con reserva de memoria prueba 1")
-print("Reserva de memoria = ")
-@time cantorRecAllocated = Vector{Tuple{Float64,Float64}}(undef, 2^N)
-print("Cálculo de los valores = ")
-@time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated)
-println("----")
-println("Recursivo con reserva de memoria prueba 2")
-print("Reserva de memoria = ")
-@time cantorRecAllocated2 = Vector{Tuple{Float64,Float64}}(undef, 2^N)
-print("Cálculo de los valores = ")
-@time CantorRecAllocated!(0.0, 1.0, cantorRecAllocated2)
-
-@show isequal(cantorRecAllocated, cantorIter);
-```
-
-# Iteradores 
-
-## Generadores {.scrollable}
-
-Recordamos que en `julia` podemos utilizar *list comprehension* 
-```{julia}
-[i for i=1:5]
-```
-
-esto es útil, por ejemplo, dentro de `sum`.
-
-. . .
-
-Pensando qué hace `sum`, realmente no necesitamos ocupar todo el espacio de memoria y podemos hacer evaluación `lazy`. Para esto `julia` *generadores*. En términos de sintaxis basta con decir
-```{julia}
-sum((i for i=1:5))
-```
-
-. . .
-
-¿Qué objeto es este?
-```{julia}
-gen = (i for i=1:5)
-```
-
-. . .
-
-Podemos convertirlo en vector
-```{julia}
-collect(gen)
-```
-
-. . .
-
-El uso de generadores viene con enormes ganancias en rendimiento
-```{julia}
-using BenchmarkTools
-N = 1_000_000
-@btime sum([i for i=1:N])
-@btime sum((i for i=1:N))
-```
-
-Los generadores son un tipo de `iterator`
-
-## Iterators {.scrollable}
-
-Un `iterator` es una estructura`struct` y una implementación de
-
-Required method |	Brief  description
-----------------|---------------------:
-`iterate(iter)` |	Returns either a tuple of the first item and initial state or nothing if empty
-`iterate(iter, state)` |	Returns either a tuple of the next item and next state or nothing if no items remain
-
-. . .
-
-El código 
-```{julia}
-#| eval: false
-for item in iter   # or  "for item = iter"
-    # body
-end
-```
-
-se traduce por 
-
-```{julia}
-#| eval: false
-next = iterate(iter)
-while next !== nothing
-    (item, state) = next
-    # body
-    next = iterate(iter, state)
-end
-```
-
-## Ejemplo 
-
-Pongamos que queremos calcular $\sum_{n=0}^N n^2$ de manera eficiente. Podemos generar un iterador que genere $r^n$ iterativamente
-
-```{julia}
-mutable struct Cuadrados
-  # calcularemos cuadrados hasta que n > count
-  count::Int 
-end
-
-# caso base
-function Base.iterate(S::Cuadrados)  
-  n = 1
-  return n^2, n+1 # (resultado, siguiente estado)
-end
-
-# iteracion
-function Base.iterate(S::Cuadrados, state)
-  if state > S.count
-    return nothing 
-  else
-    n = state
-    return (n^2, n+1)
-  end
-end
-```
-
-```{julia}
-N = 5
-for m in Cuadrados(N)
-  print(m, " ")
-end
-```
-
-Esto está ya implementado
-
-```{julia}
-S = Cuadrados(6)
-25 in S
-```
-
---- 
-
-Podemos simplicar el constructor, especificando el caso base como parámetro con valor por defecto
-```{julia}
-mutable struct Cuadrados
-  count::Int # último número
-end
-
-function Base.iterate(S::Cuadrados, state=1)
-  if state > S.count
-    return nothing 
-  else
-    n = state
-    return (n^2, n+1)
-  end
-end
-```
-
----
-
-Se puede usar la implementación genérica
-
-```{julia}
-@show sum(S)
-```
-
-, pero a veces es interesante dar valores precisos aprovechando fórmulas cerradas
-```{julia}
-function Base.sum(S::Cuadrados) 
-  n = S.count 
-  return n*(n+1)*(2n+1)÷6
-end
-```
-. . . 
-
----
-
-Hay que tener cuidado con algunas cuestiones. Por ejemplo
-```{julia}
-#| error: true
-[i for i in Cuadrados(5)]
-```
-
-Falla porque `julia` quiere reservar el espacio de memoria antes de llenarlo, y necesita saber `length`
-
-. . .
-
-```{julia}
-Base.length(S::Cuadrados) = S.count
-```
-
-ya podemos 
-```{julia}
-[i for i in Cuadrados(5)]
-```
-
-
-También podemos fijar
-```{julia} 
-Base.eltype(S::Type{Cuadrados}) = Int64
-```
-
-## Ganancia computacional
-
-```{julia}
-N = 100_000_000
-@btime sum([i^2 for i = 1:N])
-@btime sum((i^2 for i = 1:N))
-@btime sum(Cuadrados(N));
-```
-
+{{< include 03-Eficiencia/cantor.qmd >}}
+{{< include 03-Eficiencia/iterators.qmd >}}
 
 
