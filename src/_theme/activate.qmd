@@ -2,6 +2,9 @@
 #| echo: false
 #| warning: false
 #| output: false
+ENV["GR_DISPLAY"] = "off"
+ENV["QT_QPA_PLATFORM"] = "offscreen"
+
 using Pkg
 Pkg.activate(".")
 using Revise

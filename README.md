@@ -21,6 +21,8 @@ Marzo 2025. Universidad Complutense de Madrid
 
     - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-Matematicas-apuntes.html)
 
+    - [Ejercicios](ejercicios/02-Matematicas-ejercicios.ipynb)
+
 03. Programación eficiente con `julia`
 
     - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/03-Eficiencia-apuntes.html)

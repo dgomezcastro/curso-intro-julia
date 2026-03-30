@@ -6,6 +6,39 @@
 
 ![](Material/sciml.svg)
 
+## [`NonlinearSolve.jl`](https://docs.sciml.ai/NonlinearSolve/stable/)
+
+```{julia} 
+import NonlinearSolve as NLS
+
+f(u, p) = u .* u .- p
+u0 = [1.0, 1.0]
+p = 2.0
+prob = NLS.NonlinearProblem(f, u0, p)
+sol = NLS.solve(prob)
+```
+
+## [`Optimization.jl`](https://docs.sciml.ai/Optimization/stable/)
+
+```{julia}
+using OptimizationBase, OptimizationLBFGSB, ADTypes, Zygote
+rosenbrock(u, p) = (p[1] - u[1])^2 + p[2] * (u[2] - u[1]^2)^2
+u0 = zeros(2)
+p = [1.0, 100.0]
+
+optf = OptimizationFunction(rosenbrock, ADTypes.AutoZygote())
+prob = OptimizationProblem(optf, u0, p)
+
+sol = solve(prob, OptimizationLBFGSB.LBFGSB())
+```
+
+```{julia} 
+sol.u
+```
+
+```{julia} 
+sol.u
+```
 
 ## [Ecuaciones Diferenciales](https://docs.sciml.ai/DiffEqDocs/stable/)
 
@@ -55,6 +88,20 @@ plot(sol)
 --- 
 
 [Vídeo con un ejemplo industrial](https://www.youtube.com/watch?v=ChwKqrH8OQU)
+
+## Algunas funcionalidades de `ModelingToolkit.jl`
+
+- [Problemas de optimización](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/optimization/)
+
+- [Modelización con términos estocásticos](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/stochastic_diffeq/)
+
+- [Problemas de control dinámicos](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/dynamic_optimization/)
+
+- [Estimación de parámetros](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/dynamic_optimization/#Parameter-estimation)
+
+- [Identificabilidad de parámetros](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/parameter_identifiability/)
+
+- [Diagramas de bifurcación](https://docs.sciml.ai/ModelingToolkit/stable/tutorials/bifurcation_diagram_computation/)
 
 ## [`JumpProcesses.jl`](https://docs.sciml.ai/JumpProcesses/stable/)
 

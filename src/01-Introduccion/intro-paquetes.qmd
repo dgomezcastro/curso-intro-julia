@@ -46,9 +46,10 @@ plot(x, y)
 
 ```{julia}
 
-@gif for n = 1:20
+p = @gif for n = 1:20
     plot(x -> sin(n * x))
 end
+p
 ```
 
 ## La magia del código genérico

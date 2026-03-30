@@ -7,35 +7,36 @@
 ```{julia}
 #| eval: false
 
-using Plots 
-anim = @animate for n=1:20
-    plot( x-> sin(n*x) , label="")
+using Plots
+anim = @animate for n = 1:20
+    plot(x -> sin(n * x), label="")
 end;
 
-gif(anim, "animation.gif",  fps = 30)
+gif(anim, "animation.gif", fps=30)
 
-mp4(anim, "video.mp4",  fps = 30)
+mp4(anim, "video.mp4", fps=30)
 ```
 
 --- 
 
 En un notebook se puede hacer
 ```{julia}
+#| eval: false
 using Plots
-@gif for n=1:20
-    plot( x-> sin(n*x) , label="" )
+@gif for n = 1:20
+    plot(x -> sin(n * x), label="")
 end
 ```
 
 ## Pintando polígonos
 
 ```{julia}
-x,y =  [0.0, 0.5, 1.0],  [0.0, 1.0, 0.0]
-plot(x[[1:end;1]] , y[[1:end; 1]], fill = 0)
+x, y = [0.0, 0.5, 1.0], [0.0, 1.0, 0.0]
+plot(x[[1:end; 1]], y[[1:end; 1]], fill=0)
 ```
 
 ## Otras librerías de representación
 
+- [Makie.jl](https://github.com/MakieOrg/Makie.jl). 
+    Para hacer figuras para publicaciones usar el backend `CairoMakie.jl`
 - [PyPlot.jl](https://github.com/JuliaPy/PyPlot.jl)
-
-- [Makie.jl](https://github.com/MakieOrg/Makie.jl)
