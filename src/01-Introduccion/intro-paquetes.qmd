@@ -45,11 +45,9 @@ plot(x, y)
 ## La magia de los macros
 
 ```{julia}
-
-p = @gif for n = 1:20
+@gif for n = 1:20
     plot(x -> sin(n * x))
 end
-p
 ```
 
 ## La magia del código genérico

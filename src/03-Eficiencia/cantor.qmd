@@ -2,7 +2,7 @@
 
 ## Conjunto de Cantor {.scrollable}
 
-El conjunto de Cantor se obtiene iterativamente partiendo del intervalo $(0,1)$ y, en cada iteración, dividiendo pasando del intervalo $(a,b)$ a $(a,\frac{a+b}{3}) \cup (2 \frab{a+b}{3} , b)$.
+El conjunto de Cantor se obtiene iterativamente partiendo del intervalo $(0,1)$ y, en cada iteración, dividiendo pasando del intervalo $(a,b)$ a $(a,\frac{a+b}{3}) \cup (2 \frac{a+b}{3} , b)$.
 
 Si representamos el segmento $(a,b)$ por la tupla `(a,b)`, una iteración del cojunto de Cantor es un vector de tuplas. Una implementación posible es
 

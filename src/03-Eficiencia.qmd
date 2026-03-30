@@ -9,10 +9,11 @@ format:
     output-file: 03-Eficiencia-diapositivas.html
 ---
 
+{{< include _theme/activate.qmd >}}
+
 :::{.hidden}
 ```{julia}
-using Pkg
-Pkg.activate(".")
+ENV["GKS_WSTYPE"] = "png"
 using BenchmarkTools
 ```
 :::

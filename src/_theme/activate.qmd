@@ -9,7 +9,9 @@ using Pkg
 Pkg.activate(".")
 using Revise
 using Plots
-default(size=(600, 400),
+gr(show=false)
+default(
+    size=(500, 400),
     leg=true,
     linewidth=2,
     xlegendfont=font(14),
@@ -18,6 +20,10 @@ default(size=(600, 400),
     guidefont=font(14),
     legendfont=font(14),
     titlefont=font(18),
+    # top_margin=5mm,
+    # bottom_margin=5mm,
+    # left_margin=5mm,
+    # right_margin=5mm,
     fmt="svg", # https://github.com/quarto-dev/quarto-cli/issues/6806
 )
 ```

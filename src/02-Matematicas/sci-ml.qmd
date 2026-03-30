@@ -53,7 +53,7 @@ prob = ODEProblem(f, u0, tspan)
 sol = solve(prob, Tsit5(), reltol=1e-8, abstol=1e-8)
 
 using Plots
-plot(sol, linewidth=5, title="Solution to the linear ODE with a thick line",
+plot(sol, linewidth=5, title="Soution to linear ODE",
     xaxis="Time (t)", yaxis="u(t) (in μm)", label="My Thick Line!") # legend=false
 plot!(sol.t, t -> 0.5 * exp(1.01t), lw=3, ls=:dash, label="True Solution!")
 ```
@@ -164,7 +164,7 @@ Pkg.add("HiGHS")
 
 # Cálculo simbólico
 
-## [Symbolics.jl](https://symbolics.juliasymbolics.org/dev/)
+## [Symbolics.jl](https://symbolics.juliasymbolics.org/dev/) {.scrollable}
 
 ```{julia}
 using Symbolics
@@ -183,7 +183,9 @@ z = x^2 + y
 simplify(2x + 2y)
 ```
 
-### Derivadas
+. . .
+
+**Derivadas**
 
 ```{julia}
 @variables x g(x)
@@ -208,7 +210,7 @@ expr2 = substitute(expression, Dict([g => x]))
 expand_derivatives(expr2)
 ```
 
-### Limitaciones
+**Limitaciones**
 
 There is a list available of [known missing features](https://github.com/JuliaSymbolics/Symbolics.jl/issues/59).
 
