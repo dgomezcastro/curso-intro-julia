@@ -21,11 +21,13 @@ Julia permite trabajar, de manera nativa, crear entornos de trabajo con una sele
 
 Para crear un nuevo entorno en el directorio actual, entramos en modo `pkg`
 ```{bash}
+#| eval: false
 (@v1.11) pkg> activate MiProyecto
 ```
 
 hecho esto, el proyecto actual se verá reflejado en `pkg` mediante
 ```{bash}
+#| eval: false
 (MiProyecto) pkg>
 ```
 
@@ -93,6 +95,7 @@ Para crear un paquete llamado `HelloWorld` basta con indicar en modo `pkg`
 
 Si ahora pasamos a modo shell podemos ver qué se ha generado
 ```{bash}
+#| eval: false
 shell> tree
 .
 └── HelloWorld
@@ -120,6 +123,7 @@ end # module HelloWorld
 
 Para usar el paquete `HelloWorld` debemos estar en la carpeta y activar el entorno generado
 ```{bash}
+#| eval: false
 shell> cd HelloWorld
 (@v1.11) pkg> activate .
 julia> using HelloWorld 

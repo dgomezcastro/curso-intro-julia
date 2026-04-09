@@ -126,12 +126,14 @@ Para cálculo paralelo en GPU hay un conjunto de paquetes llamados [JuliaGPU](ht
 
 Si queremos fijar 20 hilo, podemos iniciar julia especificando
 ```{bash}
+#| eval: false
 julia --threads 4
 ```
 
 En Linux/MacOS podemos fijar el número de threads en .bashrc/.zshrc fijando 
 
 ```{bash}
+#| eval: false
 export JULIA_NUM_THREADS=4
 ```
 

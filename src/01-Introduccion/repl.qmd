@@ -3,6 +3,7 @@
 Cuando lanzamos `julia` en terminal nos encontramos en el REPL (read-eval-print loop)
 
 ```{bash}
+#| eval: false
 julia>
 ```
 
@@ -68,6 +69,7 @@ println("a=$a")
 Ejecutamos en terminal de Unix (si julia está bien en el path)
 
 ```{bash}
+#| eval: false
 $ julia micodigo.jl
 "a=2"
 ```
@@ -77,6 +79,7 @@ $ julia micodigo.jl
 O desde dentro de julia
 
 ```{bash}
+#| eval: false
 julia> include("micodigo.jl")
 "a=2"
 ```

@@ -2,11 +2,13 @@
 
 En Linux/MacOS ejecute en una terminal
 ```{bash}
+#| eval: false
 curl -fsSL https://install.julialang.org | sh
 ``` 
 
 En Windows ejecute en una terminal
 ```{powershell}
+#| eval: false
 winget install --name Julia --id 9NJNWW8PVKMN -e -s msstore
 ```
 
