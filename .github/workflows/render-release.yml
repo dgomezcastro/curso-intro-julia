@@ -17,7 +17,7 @@ jobs:
       - name: Setup Julia
         uses: julia-actions/setup-julia@v2
         with:
-          version: '1.12'
+          version: "1.12"
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -27,6 +27,9 @@ jobs:
 
       - name: Instantiate Julia project
         run: julia --project=src -e 'using Pkg; Pkg.instantiate()'
+
+      - name: Install Python dependencies
+        run: python3 -m pip install jupyter nbformat
 
       - name: Render Quarto documents
         working-directory: src
