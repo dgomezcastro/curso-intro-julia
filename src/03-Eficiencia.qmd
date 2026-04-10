@@ -173,15 +173,17 @@ end
 ```{julia} 
 #| eval: false 
 using CUDA, BenchmarkTools
-N = 10_000
-A = rand(N, N);
-B = CuArray(A);
 
-@btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
+if CUDA.functional() # true if a CUDA-capable GPU is available
+  N = 10_000
+  A = rand(N, N);
+  B = CuArray(A);
 
-@time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
-@time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
+  @btime A * A; # 1.875 s (3 allocations: 762.94 MiB)
 
+  @time B * B; #  0.686287 seconds (1.75 M allocations: 87.821 MiB, 93.91% compilation time) 
+  @time B * B; # 0.000114 seconds (55 allocations: 1.250 KiB
+end
 ```
 
 # [Memoization](https://github.com/JuliaCollections/Memoize.jl)
