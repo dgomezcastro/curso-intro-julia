@@ -3,6 +3,11 @@ import shutil
 
 src_folder = "."
 
+# Remove temporary GKS PNG files
+for f in os.listdir(src_folder):
+    if f.startswith("gks") and f.endswith(".png"):
+        os.remove(os.path.join(src_folder, f))
+
 types = ["diapositivas", "apuntes"]
 
 for type in types:
