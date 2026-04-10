@@ -1,12 +1,12 @@
 # Redes neuronales
 
-![https://commons.wikimedia.org/wiki/File:Colored_neural_network.svg](Material/Colored_neural_network.svg)
+![https://commons.wikimedia.org/wiki/File:Colored_neural_network.svg](../Material/Colored_neural_network.svg)
 
 
 ## Una capa
 		
 ::: {.column width="50%"}
-![https://commons.wikimedia.org/wiki/File:Single_layer_ann.svg](Material/Single_layer_ann.svg)
+![https://commons.wikimedia.org/wiki/File:Single_layer_ann.svg](../Material/Single_layer_ann.svg)
 :::
 
 
