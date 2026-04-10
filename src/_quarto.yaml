@@ -74,7 +74,6 @@ format:
         });
       </script>
 
-
 execute:
   echo: true
   daemon: false # causes a non-fatal error between html and revealjs
@@ -84,5 +83,8 @@ csl: _theme/harvard-imperial-college-london-david.csl
 
 project:
   render:
-    - "*.qmd"
+    - 01-Introduccion.qmd
+    - 02-Matematicas.qmd
+    - 03-Eficiencia.qmd
+    - 04-EntornosPaquetes.qmd
   post-render: _post-render.py
