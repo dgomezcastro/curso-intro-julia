@@ -8,7 +8,7 @@ Marzo 2025. Universidad Complutense de Madrid
 ## Estructura del curso:
 
 01. Introducción.
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/01-Intro-apuntes.html)
+    - [Apuntes](https://www.github.com/dgomezcastro/curso-intro-julia/releases/latest/download/01-Intro-apuntes.html)
     
     - [Ejercicios 1a.](ejercicios/01a-PrimerContacto-ejercicios.ipynb)
 
@@ -19,17 +19,17 @@ Marzo 2025. Universidad Complutense de Madrid
 
 02. Paquetes de `julia` para matemáticas
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/02-Matematicas-apuntes.html)
+    - [Apuntes](https://www.github.com/dgomezcastro/curso-intro-julia/releases/latest/download/02-Matematicas-apuntes.html)
 
     - [Ejercicios](ejercicios/02-Matematicas-ejercicios.ipynb)
 
 03. Programación eficiente con `julia`
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/03-Eficiencia-apuntes.html)
+    - [Apuntes](https://www.github.com/dgomezcastro/curso-intro-julia/releases/latest/download/03-Eficiencia-apuntes.html)
 
 04. Entornos y paquetes: qué es un paquete de julia, cómo crearlos, y algunos paquetes útiles
 
-    - [Apuntes](https://html-preview.github.io/?url=https://raw.githubusercontent.com/dgomezcastro/curso-intro-julia/refs/heads/main/apuntes/04-EntornosPaquetes-apuntes.html)
+    - [Apuntes](https://www.github.com/dgomezcastro/curso-intro-julia/releases/latest/download/04-EntornosPaquetes-apuntes.html)
 
 
 ### Configuración para las aulas de informática UCM
